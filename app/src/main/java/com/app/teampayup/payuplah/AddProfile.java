@@ -1,9 +1,13 @@
 package com.app.teampayup.payuplah;
 
+import android.animation.TypeConverter;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
 
@@ -16,13 +20,43 @@ public class AddProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_profile);
+
+        final String[] profileList = MainActivity.getProfileList();
+
+        //find controls
         final LoadingButton lb = (LoadingButton)findViewById(R.id.loading_btn);
+        final EditText txtName = findViewById(R.id.txtName);
+        final EditText txtBudget = findViewById(R.id.txtBudget);
+
+        //set add button on click
         lb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 lb.startLoading(); //start loading
+                //check if Name and Budget is filled in
+                if(txtBudget.getText().toString().trim().length()>0 && txtName.getText().toString().trim().length()>0 ) {
 
-                lb.loadingSuccessful();//show success
+                    //Profile newProfile = new Profile (profileList.length, txtName.getText().toString(), Integer.parseInt(txtBudget.getText().toString()));
+                    lb.loadingSuccessful();//show success
+
+                    //show alert that profile is created
+                    final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddProfile.this);
+                    String message = String.format("%s's profile has been created with a budget of %s",txtName.getText().toString(), txtBudget.getText().toString());
+                    alertBuilder.setTitle("Profile Created!").setMessage(message)
+                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                    lb.reset();
+                                }
+                            });
+                    AlertDialog alert1 = alertBuilder.create();
+                    alert1.show();;
+                }
+                else{
+                    lb.loadingFailed(); //show fail
+                    lb.isResetAfterFailed(); //reset to try again
+                }
             }
         });
 

@@ -5,7 +5,7 @@ public class Profile {
     int id;
     int budget;
 
-    public Profile(String name, int id, int budget) {
+    public Profile(int id, String name, int budget) {
         this.name = name;
         this.id = id;
         this.budget = budget;
