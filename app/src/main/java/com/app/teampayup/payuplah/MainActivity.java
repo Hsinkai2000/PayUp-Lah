@@ -17,10 +17,10 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
-    public static String[] profileList = new String[]{};
+    public static ProfileList listOfProfiles = new ProfileList();
 
-    public static String[] getProfileList() {
-        return profileList;
+    public static ProfileList getProfileList() {
+        return listOfProfiles;
     }
 
 

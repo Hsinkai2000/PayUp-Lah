@@ -1,10 +1,17 @@
 package com.app.teampayup.payuplah;
 
-public class Profile {
+public class Profile extends ProfileList{
     String name;
     int id;
     int budget;
 
+    public Profile() {
+    }
+
+    public Profile(String name, int budget) {
+        this.name = name;
+        this.budget = budget;
+    }
     public Profile(int id, String name, int budget) {
         this.name = name;
         this.id = id;
