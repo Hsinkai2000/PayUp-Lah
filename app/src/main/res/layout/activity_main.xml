@@ -19,37 +19,26 @@
         android:layout_height="0dp"
         android:layout_weight="40"
         android:weightSum="100"
-        android:orientation="horizontal"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:background="@color/colorVariant">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/slideViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="80">
+        </android.support.v4.view.ViewPager>
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="33"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:weightSum="100">
-            <de.hdodenhof.circleimageview.CircleImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/btnAddProfile"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="60"
-                android:src="@drawable/addprofile"
-                app:civ_border_width="2dp"
-                app:civ_border_color="@android:color/black"
-                app:civ_circle_background_color="@android:color/darker_gray"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="10"
-                android:text="Add Profile"
-                android:textSize="16dp"
-                android:gravity="center_horizontal"/>
+            android:id="@+id/dotsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:weightSum="100"
+            android:orientation="horizontal"
+            android:gravity="center">
 
         </LinearLayout>
-
     </LinearLayout>
 
 

@@ -8,4 +8,5 @@
     <color name="colorSecondaryDark">#018786</color>
     <color name="error">#C51162</color>
     <color name="windowBackground">#FFFFFF</color>
+    <color name="colorTransparentWhite">#cccccc</color>
 </resources>
