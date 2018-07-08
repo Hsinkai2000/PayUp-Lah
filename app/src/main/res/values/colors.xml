@@ -6,6 +6,7 @@
     <color name="colorSecondary">#03DAC6</color>
     <color name="colorVariant">#a4c4c1</color>
     <color name="colorSecondaryDark">#018786</color>
+    <color name="colorSecondaryDarker">#045151</color>
     <color name="error">#C51162</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="colorTransparentWhite">#cccccc</color>

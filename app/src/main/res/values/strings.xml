@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PayUp Lah!</string>
     <string name="yes">Yes!</string>
+    <string name="title_activity_purchased">PurchasedActivity</string>
 </resources>

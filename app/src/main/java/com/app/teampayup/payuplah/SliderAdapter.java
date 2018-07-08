@@ -80,12 +80,12 @@ public class SliderAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if (cPos == 0){
-                    Intent gotoAddProfile = new Intent(context, AddProfile.class);
-                    context.startActivity(gotoAddProfile);
+                    Intent gotoPurchased = new Intent(context, PurchasedActivity.class);
+                    context.startActivity(gotoPurchased);
                 }
                 else if (cPos == 1){
-                    Intent gotoAddProfile = new Intent(context, AddProfile.class);
-                    context.startActivity(gotoAddProfile);
+                Intent gotoPurchased = new Intent(context, PurchasedActivity.class);
+                    context.startActivity(gotoPurchased);
                 }
             }
         });

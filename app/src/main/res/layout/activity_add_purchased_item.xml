@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddPurchasedItem"
+    android:weightSum="100"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:weightSum="100"
+        android:background="@drawable/additem_header_gradient"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="100"
+            android:text="Add Income or Expenses to today's expenditure!"
+            android:fontFamily="sans-serif"
+            android:textSize="25dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="80"
+        android:weightSum="100"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:text="Price:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:inputType="numberDecimal"
+            android:background="@drawable/textbox_roundedcorners" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:text="Date:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_weight="60"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:id="@+id/in_date"
+                 />
+
+            <Button
+                android:layout_weight="40"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="SELECT DATE"
+                android:id="@+id/btn_date"
+                android:layout_alignBottom="@+id/in_date"
+                android:layout_toRightOf="@+id/in_date"
+                android:layout_toEndOf="@+id/in_date"
+                android:background="@drawable/squareishbutton"/>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:text="Description:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            />
+
+        <EditText
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:background="@drawable/textbox_roundedcorners"
+            android:inputType="textMultiLine"
+            android:gravity="top|left"
+            android:scrollbars="vertical"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:text="Category:"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
+            />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:id="@+id/spinnerCat"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:entries="@array/spinnerItems"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:weightSum="100"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="50"
+                android:background="@drawable/squareishbutton"
+                android:text="Save!"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
