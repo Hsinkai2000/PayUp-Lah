@@ -25,7 +25,10 @@
             android:textSize="25dp"
             android:gravity="center"
             android:textColor="@android:color/white"/>
+
     </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,105 +36,143 @@
         android:weightSum="100"
         android:orientation="vertical"
         android:padding="20dp">
-        <TextView
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
-            android:text="Price:"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20dp"
-            android:gravity="center_vertical"
-            />
+            android:layout_weight="85"
+            android:scrollbars="vertical">
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:inputType="numberDecimal"
-            android:background="@drawable/textbox_roundedcorners" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:text="Date:"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20dp"
-            android:gravity="center_vertical"
-            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Name:"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <EditText
+                    android:id="@+id/txtName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_roundedcorners"
+                    android:inputType="text"
+                    android:paddingBottom="20dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Price:"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <EditText
+                    android:id="@+id/txtPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_roundedcorners"
+                    android:inputType="numberDecimal"
+                    android:paddingBottom="20dp" /> />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Date:"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="100"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:layout_width="220dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/in_date"
+                        android:paddingBottom="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/textbox_roundedcorners"/>
+                        />
+
+                    <Button
+                        android:layout_width="95dp"
+                        android:layout_height="30dp"
+                        android:text="SELECT DATE"
+                        android:id="@+id/btn_date"
+                        android:layout_alignBottom="@+id/in_date"
+                        android:layout_toRightOf="@+id/in_date"
+                        android:gravity="center_vertical"
+                        android:layout_toEndOf="@+id/in_date"
+                        android:background="@drawable/squareishbutton"/>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description:"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <EditText
+
+                    android:id="@+id/txtDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/textbox_roundedcorners"
+                    android:gravity="top|left"
+                    android:inputType="textMultiLine"
+                    android:paddingBottom="20dp"
+                    android:scrollbars="vertical" />/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Category:"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="20dp"
+                    android:gravity="center_vertical"
+                    />
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:id="@+id/spinnerCat"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/spinnerItems"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/colorTransparentWhite"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"/>
+            </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
-            android:weightSum="100"
-            android:orientation="horizontal">
-            <EditText
-                android:layout_weight="60"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:id="@+id/in_date"
-                 />
-
-            <Button
-                android:layout_weight="40"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:text="SELECT DATE"
-                android:id="@+id/btn_date"
-                android:layout_alignBottom="@+id/in_date"
-                android:layout_toRightOf="@+id/in_date"
-                android:layout_toEndOf="@+id/in_date"
-                android:background="@drawable/squareishbutton"/>
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:text="Description:"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20dp"
-            android:gravity="center_vertical"
-            />
-
-        <EditText
-
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="20"
-            android:background="@drawable/textbox_roundedcorners"
-            android:inputType="textMultiLine"
-            android:gravity="top|left"
-            android:scrollbars="vertical"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:text="Category:"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20dp"
-            android:gravity="center_vertical"
-            />
-
-        <Spinner
-            android:layout_width="match_parent"
-            android:id="@+id/spinnerCat"
-            android:layout_height="0dp"
-            android:layout_weight="10"
-            android:entries="@array/spinnerItems"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="15"
             android:weightSum="100"
             android:orientation="horizontal"
             android:gravity="center_horizontal">
             <Button
+                android:layout_marginTop="10dp"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:layout_weight="50"
                 android:background="@drawable/squareishbutton"
-                android:text="Save!"/>
+                android:text="Save!"
+                android:onClick="onSaveClick"/>
         </LinearLayout>
 
     </LinearLayout>

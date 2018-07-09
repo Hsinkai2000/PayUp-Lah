@@ -38,7 +38,7 @@ public class AddProfile extends AppCompatActivity {
                 if(txtBudget.getText().toString().trim().length()>0 && txtName.getText().toString().trim().length()>0 ) {
                     Profile newProfile = new Profile(txtName.getText().toString(),Integer.parseInt(txtBudget.getText().toString()));
                     lb.loadingSuccessful();//show success
-                    newProfile(view ,txtName.getText().toString(),Integer.parseInt(txtBudget.getText().toString()));
+                    //newProfile(view ,txtName.getText().toString(),Integer.parseInt(txtBudget.getText().toString()));
                     //show alert that profile is created
                     final AlertDialog.Builder alertBuilder = new AlertDialog.Builder(AddProfile.this);
                     String message = String.format("%s's profile has been created with a budget of %s",txtName.getText().toString(), txtBudget.getText().toString());
@@ -61,7 +61,7 @@ public class AddProfile extends AppCompatActivity {
         });
 
     }
-
+/*
     public void newProfile (View view, String name, int budget){
         //create a new profile and add into sqllite
         DatabaseHelper dbHelper = new DatabaseHelper(this);
@@ -74,5 +74,5 @@ public class AddProfile extends AppCompatActivity {
             Log.d("DEBUG", "newProfile: created");
         }
     }
-
+*/
 }
