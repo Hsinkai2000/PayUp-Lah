@@ -39,6 +39,8 @@ dependencies {
     //button
     implementation 'com.github.StevenDXC:DxLoadingButton:2.0'
     //pie
-    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+
+
 
 }
