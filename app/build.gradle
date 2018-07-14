@@ -19,6 +19,7 @@ android {
 }
 repositories {
     mavenCentral()
+
     google()
 }
 dependencies {
@@ -42,4 +43,7 @@ dependencies {
 
     //button
     implementation 'com.github.StevenDXC:DxLoadingButton:2.0'
+
+    //For calendar
+    implementation "com.github.prolificinteractive:material-calendarview:1.5.0"
 }
