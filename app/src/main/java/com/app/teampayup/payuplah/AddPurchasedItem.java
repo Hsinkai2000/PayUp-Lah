@@ -22,7 +22,7 @@ public class AddPurchasedItem extends AppCompatActivity {
     Button btnDatePicker;
     EditText txtDate, txtName, txtPrice, txtDescription;
     private int mYear, mMonth, mDay;
-    Spinner spinnerCat;
+    Spinner spinnerCat, spinnerType;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +35,7 @@ public class AddPurchasedItem extends AppCompatActivity {
         txtName=(EditText)findViewById(R.id.txtName);
         txtPrice=(EditText)findViewById(R.id.txtPrice);
         txtDescription=(EditText)findViewById(R.id.txtDescription);
+        spinnerType= (Spinner)findViewById(R.id.spinnerType);
 
         //get current date
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
@@ -79,6 +80,7 @@ public class AddPurchasedItem extends AppCompatActivity {
         String datePurchased = txtDate.getText().toString();
         String itemDesc = txtDescription.getText().toString();
         String itemCat = spinnerCat.getSelectedItem().toString();
+        String itemType = spinnerType.getSelectedItem().toString();
 
         //add all data into a product object
         Product product = new Product();
@@ -87,6 +89,7 @@ public class AddPurchasedItem extends AppCompatActivity {
         product.setDate(datePurchased);
         product.setDescription(itemDesc);
         product.setCategory(itemCat);
+        product.setType(itemType);
 
         //insert new data into sqlite Item table
         DatabaseHelper dbhelper = new DatabaseHelper(AddPurchasedItem.this);
