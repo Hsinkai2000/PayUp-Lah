@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_DATE = "date";
     public static final String COL_DESCRIPTION = "description";
     public static final String COL_CATEGORY = "category";
+    public static final String COL_TYPE = "type";
 
 
     public DatabaseHelper(Context context){
@@ -38,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Create Item Table
         String CREATE_ITEM_TABLE = "CREATE TABLE " + ITEM_TABLE_NAME + "(" + COL_ITEMID + " INTEGER PRIMARY KEY," + COL_ITEMNAME + " TEXT," + COL_PRICE + " REAL," + COL_DATE + " TEXT," + COL_DESCRIPTION + " TEXT," +
-                COL_CATEGORY + " TEXT)";
+                COL_CATEGORY + " TEXT," + COL_TYPE + " TEXT)";
         db.execSQL(CREATE_ITEM_TABLE);
     }
 
@@ -107,6 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_DATE, product.getDate());
         values.put(COL_DESCRIPTION, product.getDescription());
         values.put(COL_CATEGORY, product.getCategory());
+        values.put(COL_TYPE, product.getType());
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.insert(ITEM_TABLE_NAME, null, values);
@@ -127,6 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             product.setDate(cursor.getString(3));
             product.setDescription(cursor.getString(4));
             product.setCategory(cursor.getString(5));
+            product.setType(cursor.getString(6));
             cursor.close();
         }else{
             product = null;

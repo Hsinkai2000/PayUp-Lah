@@ -9,6 +9,7 @@ public class Product {
     String description;
     String category;
     String productName;
+    String type; //for differentiating if expense("e") or income("i")
 
     public String getProductName() {
         return productName;
@@ -58,24 +59,30 @@ public class Product {
         this.category = category;
     }
 
+    public String getType(){return type;}
+
+    public void setType(String type){this.type = type;}
+
     public Product() {
     }
 
-    public Product(double price, String date, String description, String category,String ProductName) {
+    public Product(double price, String date, String description, String category,String ProductName, String type) {
         this.price = price;
         this.date = date;
         this.description = description;
         this.category = category;
         this.productName = ProductName;
+        this.type = type;
     }
 
 
-    public Product(int itemID, double price, String date, String description, String category,String ProductName) {
+    public Product(int itemID, double price, String date, String description, String category,String ProductName, String type) {
         this.itemID = itemID;
         this.price = price;
         this.date = date;
         this.description = description;
         this.category = category;
         this.productName = ProductName;
+        this.type = type;
     }
 }
