@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewStub;
 
 public class PurchasedActivity extends AppCompatActivity {
 
@@ -23,8 +24,11 @@ public class PurchasedActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent goToAddPurchasedItem = new Intent(getApplicationContext(), AddPurchasedItem.class);
                 startActivity(goToAddPurchasedItem);
+
             }
         });
+        ViewStub stub = (ViewStub) findViewById(R.id.stub_Calendar);
+        View inflated = stub.inflate();
     }
 
 }

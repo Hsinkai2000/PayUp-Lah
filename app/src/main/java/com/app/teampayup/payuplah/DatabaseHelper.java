@@ -26,6 +26,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_CATEGORY = "category";
     public static final String COL_TYPE = "type";
 
+    //Owe Table
+    public static final String OWE_TABLE_NAME = "Owe_Table";
+    public static final String COL_OWEMONEYID = "OweMoneyID";
+    public static final String COL_PLACE = "place";
+    public static final String COL_BORROWERNAME = "borrowerName";
+    public static final String COL_BORROWAMOUNT = "borrowAmount";
+
 
     public DatabaseHelper(Context context){
         super(context, DATABASE_NAME, null, 1);
@@ -41,6 +48,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_ITEM_TABLE = "CREATE TABLE " + ITEM_TABLE_NAME + "(" + COL_ITEMID + " INTEGER PRIMARY KEY," + COL_ITEMNAME + " TEXT," + COL_PRICE + " REAL," + COL_DATE + " TEXT," + COL_DESCRIPTION + " TEXT," +
                 COL_CATEGORY + " TEXT," + COL_TYPE + " TEXT)";
         db.execSQL(CREATE_ITEM_TABLE);
+
+        //Create Owe Table
+        String CREATE_OWE_TABLE = "CREATE TABLE " + OWE_TABLE_NAME + "(" + COL_OWEMONEYID + " INTEGER PRIMARY KEY,"
+                + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_BORROWERNAME + " TEXT," + COL_BORROWAMOUNT + " REAL)";
+        db.execSQL(CREATE_OWE_TABLE);
     }
 
     @Override
@@ -48,8 +60,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         //DROP Profile Table
         /*db.execSQL("DROP TABLE IF EXISTS " + PROFILE_TABLE_NAME);
         onCreate(db);*/
+
         //DROP Item Table
         db.execSQL("DROP TABLE IF EXISTS " + ITEM_TABLE_NAME);
+        onCreate(db);
+
+        //DROP OWE TABLE
+        db.execSQL("DROP TABLE IF EXISTS " + OWE_TABLE_NAME);
         onCreate(db);
     }
 
@@ -154,4 +171,57 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }//delete profile
+
+
+    //Owe Table
+    public void addOwe(OweMoney owemoney){
+        ContentValues values = new ContentValues();
+        values.put(COL_OWEMONEYID,owemoney.getOweMoneyID());
+        values.put(COL_PLACE, owemoney.getPlace());
+        values.put(COL_DATE, owemoney.getDate());
+        values.put(COL_BORROWERNAME, owemoney.getBorrowerName());
+        values.put(COL_BORROWAMOUNT, owemoney.getBorrowAmount());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.insert(OWE_TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public OweMoney findOweByName(String name){
+        String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_BORROWERNAME + " = \"" + name + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        OweMoney oweMoney = new OweMoney();
+
+        if (cursor.moveToFirst()){
+            cursor.moveToFirst();
+            oweMoney.setOweMoneyID(Integer.parseInt(cursor.getString(0)));
+            oweMoney.setPlace(cursor.getString(1));
+            oweMoney.setDate(cursor.getString(2));
+            oweMoney.setBorrowerName(cursor.getString(3));
+            oweMoney.setBorrowAmount(Double.parseDouble(cursor.getString(4)));
+            cursor.close();
+        }else{
+            oweMoney = null;
+        }
+        db.close();
+        return  oweMoney;
+    }//find Owe
+
+    public boolean deleteOweByName(String name){
+        boolean result = false;
+        String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_BORROWERNAME + " = \"" + name + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        OweMoney oweMoney = new OweMoney();
+        if (cursor.moveToFirst()){
+            oweMoney.setOweMoneyID(Integer.parseInt(cursor.getString(0)));
+            db.delete(OWE_TABLE_NAME, COL_OWEMONEYID + " =?",
+                    new String[]{ String.valueOf(oweMoney.getOweMoneyID())});
+            cursor.close();
+            result=true;
+        }
+        db.close();
+        return result;
+    }//delete owe
 }

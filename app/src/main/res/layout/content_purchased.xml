@@ -21,5 +21,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/stub_Calendar"
         android:inflatedId="@+id/showlayout"
+        android:layout="@layout/activity_expense_planner"
         android:layout_marginTop="10dp"></ViewStub>
 </LinearLayout>

@@ -3,6 +3,7 @@
     package="com.app.teampayup.payuplah">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -34,7 +35,7 @@
         <activity
             android:name=".LoanActivity"
             android:label="@string/title_activity_loan"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
