@@ -3,4 +3,5 @@
     <string name="yes">Yes!</string>
     <string name="title_activity_purchased">PurchasedActivity</string>
     <string name="title_activity_loan">LoanActivity</string>
+    <string name="title_activity_date">DateActivity</string>
 </resources>
