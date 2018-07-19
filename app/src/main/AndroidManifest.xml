@@ -36,6 +36,7 @@
             android:name=".LoanActivity"
             android:label="@string/title_activity_loan"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".PieActivity"></activity>
     </application>
 
 </manifest>

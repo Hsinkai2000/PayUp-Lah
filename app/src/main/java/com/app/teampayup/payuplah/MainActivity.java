@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static ProfileList listOfProfiles = new ProfileList();
     LinearLayout mDotLayout;
     SliderAdapter sliderAdapter;
-    SliderPieAdapter sliderPieAdapter;
+
     private static String TAG ="MainActivity";
 
 
@@ -54,17 +54,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: starting to create chart");
-        //mSlidePieView = (ViewPager) findViewById(R.id.slideViewPie);
-        //pieChart = (PieChart)findViewById(R.id.idPieChart);
+
         ViewPager mSlideViewPager = findViewById(R.id.slideViewPager);
-        ViewPager mSlidePieView =findViewById(R.id.idPieChart);
+
         //PieChart pieChart = (PieChart) findViewById(R.id.idPieChart);
 
         mDotLayout = findViewById(R.id.dotsLayout);
         sliderAdapter = new SliderAdapter(this);
-        sliderPieAdapter = new SliderPieAdapter(this);
 
-        mSlidePieView.setAdapter(sliderPieAdapter);
 
         mSlideViewPager.setAdapter(sliderAdapter);
 
