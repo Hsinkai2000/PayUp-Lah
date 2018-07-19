@@ -18,6 +18,7 @@ public class PurchasedActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddPurchasedItem);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

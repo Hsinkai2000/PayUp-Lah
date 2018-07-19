@@ -73,7 +73,7 @@ public class SliderAdapter extends PagerAdapter {
                     context.startActivity(gotoAddProfile);
                 }
                 else if (cPos == 1){
-                    Intent gotoAddProfile = new Intent(context, AddProfile.class);
+                    Intent gotoAddProfile = new Intent(context, ExpensePlanner.class);
                     context.startActivity(gotoAddProfile);
                 }
             }

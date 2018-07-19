@@ -2,9 +2,13 @@ package com.app.teampayup.payuplah;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "PayUpLahDB.db";
@@ -224,4 +228,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }//delete owe
+
+    public ArrayList<String> RetrieveExpense(){
+        ArrayList<String>ExpenseDesc = new ArrayList<String>();
+        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+
+        if (cursor.moveToFirst()){
+            do{
+                Product product = new Product();
+                product.setDescription(String.valueOf(cursor.getColumnIndex(product.getDescription())));
+            }while (cursor.moveToNext());
+        }
+        db.close();
+        return ExpenseDesc;
+    } //retrieve expense description
+
+    public ArrayList<String> RetrieveIncome(){
+        Intent secondIntent = new Intent();
+        String date = secondIntent.getStringExtra("DateSelected");
+        ArrayList<String>IncomeDesc = new ArrayList<String>();
+        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Income" + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+
+        if (cursor.moveToFirst()){
+            do{
+                Product product = new Product();
+                product.setDescription(String.valueOf(cursor.getColumnIndex(product.getDescription())));
+            }while (cursor.moveToNext());
+        }
+        db.close();
+        return IncomeDesc;
+    } //retrieve expense description
+
+
 }
