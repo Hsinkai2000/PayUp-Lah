@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SinglePayActivity">
+    tools:context=".LoanInActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="100"
-                android:text="Add people that owe you money!"
+                android:text="Add people that you have borrowed money from!"
                 android:fontFamily="sans-serif"
                 android:textSize="25dp"
                 android:gravity="center"
@@ -48,13 +48,30 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Place:"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20dp"
-                    android:gravity="center_vertical"
-                    android:id="@+id/txtType"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Reason:"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical"
+                        android:id="@+id/tvReason"/>
+
+                    <EditText
+                        android:id="@+id/txtReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/textbox_roundedcorners"
+                        android:inputType="text"
+                        android:paddingBottom="20dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Place:"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical"
+                        android:id="@+id/tvPlace"/>
 
                     <EditText
                         android:id="@+id/txtPlace"

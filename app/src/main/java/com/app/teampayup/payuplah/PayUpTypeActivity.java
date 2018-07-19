@@ -8,25 +8,25 @@ import android.view.View;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PayUpTypeActivity extends AppCompatActivity {
-    CircleImageView groupPayment, singlePayment;
+    CircleImageView LoanInPayment, LoanOutPayment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay_up_type);
-        groupPayment = findViewById(R.id.groupPayment);
-        singlePayment = findViewById(R.id.singlePayment);
+        LoanInPayment = findViewById(R.id.btnLoanIn);
+        LoanOutPayment = findViewById(R.id.btnLoanOut);
 
     }
 
     public void onClickGroupPay(View view) {
-        Intent gotoGroupPay = new Intent(getApplicationContext(), GroupPayActivity.class);
-        startActivity(gotoGroupPay);
+        Intent gotoLoanIn = new Intent(getApplicationContext(), LoanInActivity.class);
+        startActivity(gotoLoanIn);
     }
 
     public void onClickSinglePay(View view) {
-        Intent gotoSinglePay = new Intent(getApplicationContext(), SinglePayActivity.class);
-        startActivity(gotoSinglePay);
+        Intent gotoLoanOut = new Intent(getApplicationContext(), LoanOutActivity.class);
+        startActivity(gotoLoanOut);
     }
 
 }

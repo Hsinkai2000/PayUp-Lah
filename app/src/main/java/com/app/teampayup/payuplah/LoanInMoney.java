@@ -1,7 +1,7 @@
 package com.app.teampayup.payuplah;
 
-public class OweMoney {
-    int OweMoneyID;
+public class LoanInMoney {
+    int LoanInMoneyID;
     String place;
     String date;
     String borrowerName;
@@ -16,12 +16,12 @@ public class OweMoney {
         this.reason = reason;
     }
 
-    public int getOweMoneyID() {
-        return OweMoneyID;
+    public int getLoanInMoneyID() {
+        return LoanInMoneyID;
     }
 
     public void setOweMoneyID(int oweMoneyID) {
-        OweMoneyID = oweMoneyID;
+        LoanInMoneyID = oweMoneyID;
     }
 
     public String getPlace() {
@@ -56,10 +56,10 @@ public class OweMoney {
         this.borrowAmount = borrowAmount;
     }
 
-    public OweMoney() {
+    public LoanInMoney() {
     }
 
-    public OweMoney(String reason, String place, String date, String borrowerName, double borrowAmount) {
+    public LoanInMoney(String reason, String place, String date, String borrowerName, double borrowAmount) {
         this.place = place;
         this.date = date;
         this.borrowerName = borrowerName;
@@ -67,8 +67,8 @@ public class OweMoney {
         this.reason = reason;
     }
 
-    public OweMoney(String reason, int oweMoneyID, String place, String date, String borrowerName, double borrowAmount) {
-        OweMoneyID = oweMoneyID;
+    public LoanInMoney(String reason, int LoanInMoneyID, String place, String date, String borrowerName, double borrowAmount) {
+        this.LoanInMoneyID = LoanInMoneyID;
         this.place = place;
         this.date = date;
         this.borrowerName = borrowerName;
