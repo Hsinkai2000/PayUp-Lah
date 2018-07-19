@@ -35,7 +35,7 @@ dependencies {
     //circle images
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //MPAndroidChart
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    //implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     //button
     implementation 'com.github.StevenDXC:DxLoadingButton:2.0'
     //pie
