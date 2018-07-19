@@ -191,7 +191,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="50"
                 android:background="@drawable/squareishbutton"
-                android:text="Save!"
+                android:text="@string/done"
                 android:onClick="onSaveClick"/>
         </LinearLayout>
 

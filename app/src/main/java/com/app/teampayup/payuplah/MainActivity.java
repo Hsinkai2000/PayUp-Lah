@@ -34,10 +34,12 @@ public class MainActivity extends AppCompatActivity {
     public static ProfileList listOfProfiles = new ProfileList();
     LinearLayout mDotLayout;
     SliderAdapter sliderAdapter;
+    SliderPieAdapter sliderPieAdapter;
     private static String TAG ="MainActivity";
-    private ViewPager mSlidePieView;
-    private float[] yData={25.3f, 10.6f, 66.76f, 44.43f, 46.01f, 16.89f, 23.9f};
-    private String[] xData= {"Mitch", "Jessica","Mohammad","Kelsey","Sam","Robert","Ashley"};
+
+
+   // private float[] yData={25.3f, 10.6f, 66.76f, 44.43f, 46.01f, 16.89f, 23.9f};
+   // private String[] xData= {"Mitch", "Jessica","Mohammad","Kelsey","Sam","Robert","Ashley"};
     PieChart pieChart;
 
     TextView[] mDots;
@@ -53,13 +55,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: starting to create chart");
         //mSlidePieView = (ViewPager) findViewById(R.id.slideViewPie);
-        pieChart = (PieChart)findViewById(R.id.idPieChart);
+        //pieChart = (PieChart)findViewById(R.id.idPieChart);
         ViewPager mSlideViewPager = findViewById(R.id.slideViewPager);
+        ViewPager mSlidePieView =findViewById(R.id.idPieChart);
+        //PieChart pieChart = (PieChart) findViewById(R.id.idPieChart);
+
         mDotLayout = findViewById(R.id.dotsLayout);
         sliderAdapter = new SliderAdapter(this);
+        sliderPieAdapter = new SliderPieAdapter(this);
+
+        mSlidePieView.setAdapter(sliderPieAdapter);
+
         mSlideViewPager.setAdapter(sliderAdapter);
+
         addDotsIndicator(0);
         mSlideViewPager.addOnPageChangeListener(viewListener);
+        /*
         pieChart.setRotationEnabled(true);
         //pieChart.setDescription("People own me money");
         pieChart.setHoleRadius(25f);
@@ -69,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setDrawCenterText(true);
 
         addDataSet(pieChart);
+        */
 
 
         /*
@@ -83,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /*
     private void addDataSet(PieChart pieChart) {
 
         Log.d(TAG,"addDataSet started");
@@ -126,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         pieChart.setData(pieData);
         pieChart.invalidate();
     }
+    */
 
 
 

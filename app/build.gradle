@@ -42,6 +42,10 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     //Calendar
     implementation 'com.github.prolificinteractive:material-calendarview:1.5.0'
+    //contacts
+    implementation 'com.github.broakenmedia:MultiContactPicker:1.7'
+}
+
 
 
 }

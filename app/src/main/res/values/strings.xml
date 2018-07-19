@@ -3,5 +3,8 @@
     <string name="yes">Yes!</string>
     <string name="title_activity_purchased">PurchasedActivity</string>
     <string name="title_activity_loan">LoanActivity</string>
+    <string name="search">Search...</string>
+    <string name="loading">Loading...</string>
+    <string name="done">Done!</string>
     <string name="title_activity_date">DateActivity</string>
 </resources>
