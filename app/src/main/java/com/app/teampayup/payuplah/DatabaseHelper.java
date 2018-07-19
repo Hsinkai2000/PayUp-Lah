@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "PayUpLahDB.db";
@@ -32,6 +31,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Owe Table
     public static final String OWE_TABLE_NAME = "Owe_Table";
+    public static final String LOANIN_TABLE_NAME = "LoanIN_Table";
+    public static final String COL_LOANINID = "LoanInMoneyID";
+    public static final String COL_REASON = "Reason";
     public static final String COL_OWEMONEYID = "OweMoneyID";
     public static final String COL_PLACE = "place";
     public static final String COL_BORROWERNAME = "borrowerName";
@@ -54,9 +56,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_ITEM_TABLE);
 
         //Create Owe Table
-        String CREATE_OWE_TABLE = "CREATE TABLE " + OWE_TABLE_NAME + "(" + COL_OWEMONEYID + " INTEGER PRIMARY KEY,"
+        String CREATE_OWE_TABLE = "CREATE TABLE " + OWE_TABLE_NAME + "(" + COL_OWEMONEYID + " INTEGER PRIMARY KEY," + COL_REASON + " TEXT,"
                 + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_BORROWERNAME + " TEXT," + COL_BORROWAMOUNT + " REAL)";
         db.execSQL(CREATE_OWE_TABLE);
+
+        //Create LoanIn Table
+        String CREATE_LOANIN_TABLE = "CREATE TABLE " + LOANIN_TABLE_NAME + "(" + COL_LOANINID + " INTEGER PRIMARY KEY," + COL_REASON + " TEXT,"
+                + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_BORROWERNAME + " TEXT," + COL_BORROWAMOUNT + " REAL)";
+        db.execSQL(CREATE_LOANIN_TABLE);
     }
 
     @Override
@@ -71,6 +78,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //DROP OWE TABLE
         db.execSQL("DROP TABLE IF EXISTS " + OWE_TABLE_NAME);
+        onCreate(db);
+
+        //DROP LOAN TABLE
+        db.execSQL("DROP TABLE IF EXISTS " + LOANIN_TABLE_NAME);
         onCreate(db);
     }
 
@@ -264,4 +275,59 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     } //retrieve expense description
 
 
+
+
+    //LoanIN Table
+    public void addLoanIn(LoanInMoney loanInMoney){
+        ContentValues values = new ContentValues();
+        values.put(COL_LOANINID,loanInMoney.getLoanInMoneyID());
+        values.put(COL_REASON, loanInMoney.getReason());
+        values.put(COL_PLACE, loanInMoney.getPlace());
+        values.put(COL_DATE, loanInMoney.getDate());
+        values.put(COL_BORROWERNAME, loanInMoney.getBorrowerName());
+        values.put(COL_BORROWAMOUNT, loanInMoney.getBorrowAmount());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.insert(OWE_TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public OweMoney findLoanInByName(String name){
+        String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_BORROWERNAME + " = \"" + name + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        OweMoney oweMoney = new OweMoney();
+
+        if (cursor.moveToFirst()){
+            cursor.moveToFirst();
+            oweMoney.setOweMoneyID(Integer.parseInt(cursor.getString(0)));
+            oweMoney.setReason(cursor.getString(1));
+            oweMoney.setPlace(cursor.getString(2));
+            oweMoney.setDate(cursor.getString(3));
+            oweMoney.setBorrowerName(cursor.getString(4));
+            oweMoney.setBorrowAmount(Double.parseDouble(cursor.getString(5)));
+            cursor.close();
+        }else{
+            oweMoney = null;
+        }
+        db.close();
+        return  oweMoney;
+    }//find Owe
+
+    public boolean deleteLoanInByName(String name){
+        boolean result = false;
+        String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_BORROWERNAME + " = \"" + name + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        OweMoney oweMoney = new OweMoney();
+        if (cursor.moveToFirst()){
+            oweMoney.setOweMoneyID(Integer.parseInt(cursor.getString(0)));
+            db.delete(OWE_TABLE_NAME, COL_OWEMONEYID + " =?",
+                    new String[]{ String.valueOf(oweMoney.getOweMoneyID())});
+            cursor.close();
+            result=true;
+        }
+        db.close();
+        return result;
+    }//delete owe
 }

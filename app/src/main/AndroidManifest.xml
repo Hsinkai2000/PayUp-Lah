@@ -30,12 +30,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddPurchasedItem" />
         <activity android:name=".PayUpTypeActivity" />
-        <activity android:name=".GroupPayActivity" />
-        <activity android:name=".SinglePayActivity" />
+        <activity android:name=".LoanInActivity" />
+        <activity android:name=".LoanOutActivity" />
         <activity
             android:name=".LoanActivity"
             android:label="@string/title_activity_loan"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".PieActivity"></activity>
     </application>
 
 </manifest>
