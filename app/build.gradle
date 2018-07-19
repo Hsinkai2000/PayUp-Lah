@@ -39,7 +39,7 @@ dependencies {
     //button
     implementation 'com.github.StevenDXC:DxLoadingButton:2.0'
     //pie
-    //implementation 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     //Calendar
     implementation 'com.github.prolificinteractive:material-calendarview:1.5.0'
     //contacts
