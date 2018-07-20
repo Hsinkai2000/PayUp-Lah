@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -21,41 +22,44 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class ExpensePlanner extends AppCompatActivity {
-    private static final String TAG = "MainActivity";
-    private ArrayList<String> mNames = new ArrayList<String>();
+    private static final String TAG = "ExpensePlanner";
     private ArrayList<String> Income = new ArrayList<String>();
     private ArrayList<String> Expense = new ArrayList<String>();
     private DatabaseHelper dbHelper;
     MaterialCalendarView calendar;
+    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("onCreate", "onCreate: Activity Started");
         setContentView(R.layout.activity_expense_planner);
+        Log.d(TAG, "onCreate: Activity Started");
         calendar = (MaterialCalendarView)findViewById(R.id.calendarView);
+        recyclerView = findViewById(R.id.recyclerView);
         CheckDate();
         initImage();
+        initRecyclerView();
     }
     private void initImage(){
         Log.d(TAG, "initImage: preparing images");
         Income = dbHelper.RetrieveIncome();
         Expense = dbHelper.RetrieveExpense();
-        initRecyclerView();
     }
     private void initRecyclerView(){
-        Log.d(TAG, "initRecyclerView: init recyclerview.");
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        Log.d(TAG, "initRecyclerView: showing recyclerview");
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, Income, Expense);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
     }
 
     private void CheckDate(){
-        //Log.d(TAG, "initBitmaps: preparing bitmaps");
+        Log.d(TAG, "Check date: checking date from calendar");
         Product objProd = new Product();
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                Log.d(TAG, "onDateSelected: DateMarked");
+                Toast.makeText(ExpensePlanner.this, "" + date, Toast.LENGTH_SHORT).show();
                 String selecteddate = String.valueOf(widget.getCurrentDate());
                 Intent i = new Intent(ExpensePlanner.this, DatabaseHelper.class);
                 i.putExtra("DateSelected", selecteddate);

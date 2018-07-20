@@ -18,11 +18,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
-    private ArrayList<String> Income;
-    private ArrayList<String> Expense;
+    private ArrayList<String> Income = new ArrayList<String>();
+    private ArrayList<String> Expense = new ArrayList<String>();
     private Context mContext;
     private DatabaseHelper dbHelp;
-    String SelectedDate;
+
+
 
 
     public RecyclerViewAdapter(Context mContext, ArrayList<String> Income, ArrayList<String> Expense) {
@@ -32,12 +33,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     }
 
-    /*public void insertDataList() {
-        Product objProduct = new Product();
-        if(objProduct.getDate() == SelectedDate){
-
-        }
-    }*/
 
     @NonNull
     @Override
@@ -51,10 +46,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: called."); //for debugging
-        /*Glide.with(mContext)
-                .asBitmap()
-                .load(mImages.get(position))
-                .into(holder.image);*/
         Income = dbHelp.RetrieveIncome();
         Expense = dbHelp.RetrieveExpense();
         for(int i=0; i< Income.size(); i++){

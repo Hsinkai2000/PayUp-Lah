@@ -19,7 +19,7 @@ import java.util.Locale;
 
 
 public class AddPurchasedItem extends AppCompatActivity {
-    Button btnDatePicker;
+    Button btnDatePicker, btnSave;
     EditText txtDate, txtName, txtPrice, txtDescription;
     private int mYear, mMonth, mDay;
     Spinner spinnerCat, spinnerType;
@@ -36,6 +36,7 @@ public class AddPurchasedItem extends AppCompatActivity {
         txtPrice=(EditText)findViewById(R.id.txtPrice);
         txtDescription=(EditText)findViewById(R.id.txtDescription);
         spinnerType= (Spinner)findViewById(R.id.spinnerType);
+        btnSave = (Button)findViewById(R.id.btnSave);
 
         //get current date
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
@@ -69,6 +70,7 @@ public class AddPurchasedItem extends AppCompatActivity {
 
             }
         });
+
     }
 
     //when save is clicked
@@ -104,5 +106,6 @@ public class AddPurchasedItem extends AppCompatActivity {
         }
 
     }
+
 }
 

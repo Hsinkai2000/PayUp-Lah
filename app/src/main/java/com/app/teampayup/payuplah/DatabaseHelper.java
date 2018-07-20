@@ -241,8 +241,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }//delete owe
 
     public ArrayList<String> RetrieveExpense(){
+        Intent secondIntent = new Intent();
+        String date = secondIntent.getStringExtra("DateSelected");
         ArrayList<String>ExpenseDesc = new ArrayList<String>();
-        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\"";
+        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\" AND " + COL_DATE + " = \"" + date + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query,null);
 
@@ -250,6 +252,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do{
                 Product product = new Product();
                 product.setDescription(String.valueOf(cursor.getColumnIndex(product.getDescription())));
+                ExpenseDesc.add(product.description);
             }while (cursor.moveToNext());
         }
         db.close();
@@ -260,7 +263,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Intent secondIntent = new Intent();
         String date = secondIntent.getStringExtra("DateSelected");
         ArrayList<String>IncomeDesc = new ArrayList<String>();
-        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Income" + "\"";
+        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Income" + "\" AND " + COL_DATE + " = \"" + date + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query,null);
 
@@ -268,6 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             do{
                 Product product = new Product();
                 product.setDescription(String.valueOf(cursor.getColumnIndex(product.getDescription())));
+                IncomeDesc.add(product.description);
             }while (cursor.moveToNext());
         }
         db.close();
