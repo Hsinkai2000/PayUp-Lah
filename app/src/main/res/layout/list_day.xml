@@ -7,16 +7,33 @@
     android:id="@+id/ImageView"
     android:layout_marginTop="10dp"
     android:src="@mipmap/ic_launcher_round"/>
+
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/txtitemName"
+        android:layout_width="171dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtMoney"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_toEndOf="@+id/ImageView"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="30dp"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/txtdesc"
+        android:layout_width="164dp"
+        android:layout_height="34dp"
+        android:layout_alignBottom="@+id/ImageView"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/txtPrice"
+        android:layout_width="85dp"
+        android:layout_height="79dp"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:textSize="17sp"/>
+        android:text="TextView" />
 
 
 </RelativeLayout>

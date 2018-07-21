@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.icu.text.SimpleDateFormat;
 import android.net.sip.SipAudioCall;
 import android.nfc.Tag;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,11 +23,13 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ExpensePlanner extends AppCompatActivity {
     private static final String TAG = "ExpensePlanner";
-    private ArrayList<String> Income = new ArrayList<String>();
-    private ArrayList<String> Expense = new ArrayList<String>();
+    private ArrayList<Product> Income = new ArrayList<Product>();
+    private ArrayList<Product> Expense = new ArrayList<Product>();
+    List<String> expenseString;
     private DatabaseHelper dbHelper;
     MaterialCalendarView calendar;
     RecyclerView recyclerView;
@@ -36,11 +40,35 @@ public class ExpensePlanner extends AppCompatActivity {
         Log.d(TAG, "onCreate: Activity Started");
         calendar = (MaterialCalendarView)findViewById(R.id.calendarView);
         recyclerView = findViewById(R.id.recyclerView);
-        CheckDate();
-        initImage();
+        DatabaseHelper db = new DatabaseHelper(this);
+        Cursor res = db.RetrieveExpense();
+        StringBuffer buffer = new StringBuffer();
+        int itemID = 0;
+        String itemName = null;
+        String itemDate = null;
+        String itemdesc= null;
+        String itemcat= null;
+        String itemType= null;
+        double itemPrice = 0;
+        while (res.moveToNext()){
+            itemID = res.getInt(0);
+            itemName = res.getString(1);
+            itemPrice = res.getDouble(2);
+            itemDate = res.getString(3);
+            itemdesc = res.getString(4);
+            itemcat = res.getString(5);
+            itemType = res.getString(6);
+            Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
+            Expense.add(product);
+        }
+        StringBuffer sBuffer = new StringBuffer("id: " + itemID + "\nName: " + itemName + "\nPrice: " + itemPrice
+                + "\ndate:  " + String.valueOf(itemDate) + "\ndesc: $" +itemdesc+ "\ncat: " + itemcat+ "\ntype: " + itemType );
+        showMessage("Details", sBuffer.toString());
+        //CheckDate();
+        //initImage();
         initRecyclerView();
     }
-    private void initImage(){
+    /*private void initImage(){
         Log.d(TAG, "initImage: preparing images");
         Cursor res = dbHelper.RetrieveExpense();
         while (res.moveToNext()){
@@ -48,7 +76,7 @@ public class ExpensePlanner extends AppCompatActivity {
         }
         //Income = dbHelper.RetrieveIncome();
         //Expense = dbHelper.RetrieveExpense();
-    }
+    }*/
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: showing recyclerview");
         RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, Income, Expense);
@@ -73,5 +101,13 @@ public class ExpensePlanner extends AppCompatActivity {
 
         });
 
+    }
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
     }
 }

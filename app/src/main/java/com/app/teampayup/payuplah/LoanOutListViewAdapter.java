@@ -20,8 +20,6 @@ public class LoanOutListViewAdapter extends BaseAdapter{
     TextView txtName, txtPrice, txtReason;
     Context mContext;
     List<OweMoney> loan = new ArrayList<OweMoney>();
-    Cursor res;
-    DatabaseHelper db = new DatabaseHelper(mContext);
 
     public LoanOutListViewAdapter(Context context, List<OweMoney>loan){
         this.mContext = context;

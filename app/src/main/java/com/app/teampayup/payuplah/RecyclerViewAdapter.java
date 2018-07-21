@@ -20,14 +20,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
-    private ArrayList<String> Income = new ArrayList<String>();
-    private ArrayList<String> Expense = new ArrayList<String>();
+    private ArrayList<Product> Income = new ArrayList<Product>();
+    private ArrayList<Product> Expense = new ArrayList<Product>();
     private Context mContext;
-    private DatabaseHelper dbHelp = new DatabaseHelper(mContext);
 
+    CircleImageView image;
+    TextView itemdesc, itemName, txtPrice;
+    RelativeLayout parentLayout;
 
-
-    public RecyclerViewAdapter(Context mContext, ArrayList<String> Income, ArrayList<String> Expense) {
+    public RecyclerViewAdapter(Context mContext, ArrayList<Product> Income, ArrayList<Product> Expense) {
         this.mContext = mContext;
         this.Income = Income;
         this.Expense = Expense;
@@ -38,22 +39,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_day, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.list_day, parent, false);
         ViewHolder holder = new ViewHolder(view);
+        image = view.findViewById(R.id.image);
+        txtPrice = view.findViewById(R.id.txtPrice);
+        itemdesc = view.findViewById(R.id.txtdesc);
+        itemName = view.findViewById(R.id.txtitemName);
+        parentLayout = view.findViewById(R.id.parent_layout);
         return holder;
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: called."); //for debugging
-        Cursor res = dbHelp.RetrieveExpense();
-        StringBuffer buffer = new StringBuffer();
-        while (res.moveToNext()){
-            buffer.append(res.getString(0));
-            holder.imageName.setText(res.getString(0));
-            holder.image.setImageResource(R.drawable.plus);
-        }
+        itemName.setText(Expense.get(position).productName);
+        itemdesc.setText(Expense.get(position).description);
+        txtPrice.setText(String.valueOf(Expense.get(position).price));
+
         //Income = dbHelp.RetrieveIncome();
         //Expense = dbHelp.RetrieveExpense();
         /*if(Income.size()!= 0 && Expense.size() != 0){
@@ -88,27 +90,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        Cursor res = dbHelp.RetrieveExpense();
-        if(res.getCount() == 0){
-            return 0;
-        }
-        else{
-            return res.getCount();
-        }
+        return Expense.size();
         //return Expense.size() + Income.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        CircleImageView image;
-        TextView imageName;
-        RelativeLayout parentLayout;
-
         public ViewHolder(View itemView) {
             super(itemView);
-            image = itemView.findViewById(R.id.image);
-            imageName = itemView.findViewById(R.id.txtMoney);
-            parentLayout = itemView.findViewById(R.id.parent_layout);
+
         }
 
     }

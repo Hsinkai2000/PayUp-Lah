@@ -246,11 +246,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }//delete owe
 
-    public Cursor RetrieveExpense(){
+    /*public Cursor RetrieveExpense(){
         Intent secondIntent = new Intent();
         String date = secondIntent.getStringExtra("DateSelected");
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\" AND " + COL_DATE + " = \"" + date + "\"", null);
+        return res;
+    }*/
+    public Cursor RetrieveExpense(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"Expense\"";
+        Cursor res = db.rawQuery( query, null);
         return res;
     }
     /*public ArrayList<String> RetrieveExpense(){
