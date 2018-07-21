@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -48,7 +49,10 @@ public class LoanActivity extends AppCompatActivity {
         //get data
         Cursor res = db.getAllOweData();
         int OweMoneyID;
-        String place, date, borrowerName, reason;
+        String place;
+        String date;
+        String borrowerName;
+        String reason;
         double borrowAmount;
 
         //if data count == 0
@@ -72,8 +76,17 @@ public class LoanActivity extends AppCompatActivity {
             //showMessage("Data", loan.get(0).toString());
             LoanOutListViewAdapter loanOutListViewAdapter = new LoanOutListViewAdapter(this, loan);
             lvLoanOut.setAdapter(loanOutListViewAdapter);
+            //final ArrayAdapter<OweMoney>oweArray = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1);
         }
 
+        lvLoanOut.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StringBuffer sBuffer = new StringBuffer("reason: " + loan.get(position).getReason() + "\nplace: " + loan.get(position).getPlace() + "\nDate: " + loan.get(position).getDate()
+                + "\nBorrower's Name: " + loan.get(position).getBorrowerName() + "\nBorrowed Amount: $" + loan.get(position).getBorrowAmount());
+                showMessage("Details", sBuffer.toString());
+            }
+        });
     }
 
     public void showMessage(String title, String message){
