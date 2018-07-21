@@ -246,7 +246,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }//delete owe
 
-    public ArrayList<String> RetrieveExpense(){
+    public Cursor RetrieveExpense(){
+        Intent secondIntent = new Intent();
+        String date = secondIntent.getStringExtra("DateSelected");
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\" AND " + COL_DATE + " = \"" + date + "\"", null);
+        return res;
+    }
+    /*public ArrayList<String> RetrieveExpense(){
         Intent secondIntent = new Intent();
         String date = secondIntent.getStringExtra("DateSelected");
         ArrayList<String>ExpenseDesc = new ArrayList<String>();
@@ -263,7 +270,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         db.close();
         return ExpenseDesc;
-    } //retrieve expense description
+    } //retrieve expense description*/
 
     public ArrayList<String> RetrieveIncome(){
         Intent secondIntent = new Intent();

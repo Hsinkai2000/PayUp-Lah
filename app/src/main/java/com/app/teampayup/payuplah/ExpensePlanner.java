@@ -1,6 +1,7 @@
 package com.app.teampayup.payuplah;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.icu.text.SimpleDateFormat;
 import android.net.sip.SipAudioCall;
 import android.nfc.Tag;
@@ -41,8 +42,12 @@ public class ExpensePlanner extends AppCompatActivity {
     }
     private void initImage(){
         Log.d(TAG, "initImage: preparing images");
-        Income = dbHelper.RetrieveIncome();
-        Expense = dbHelper.RetrieveExpense();
+        Cursor res = dbHelper.RetrieveExpense();
+        while (res.moveToNext()){
+            Expense.add(res.getString(0));
+        }
+        //Income = dbHelper.RetrieveIncome();
+        //Expense = dbHelper.RetrieveExpense();
     }
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: showing recyclerview");
