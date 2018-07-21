@@ -28,8 +28,6 @@ public class PurchasedActivity extends AppCompatActivity {
 
             }
         });
-        ViewStub stub = (ViewStub) findViewById(R.id.stub_Calendar);
-        View inflated = stub.inflate();
     }
 
 }

@@ -184,8 +184,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="15"
                 android:background="@drawable/squareishbutton"
-                android:text="@string/done"
-                android:onClick="onDoneOweClicked"/>
+                android:text="@string/done"/>
         </LinearLayout>
     </LinearLayout>
 

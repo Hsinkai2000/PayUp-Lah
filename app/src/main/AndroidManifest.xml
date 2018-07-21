@@ -29,6 +29,7 @@
             android:label="@string/title_activity_purchased"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AddPurchasedItem" />
+        <activity android:name=".ExpensePlanner" />
         <activity android:name=".PayUpTypeActivity" />
         <activity android:name=".LoanInActivity" />
         <activity android:name=".LoanOutActivity" />

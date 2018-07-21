@@ -67,7 +67,7 @@ public class OweMoney {
         this.reason = reason;
     }
 
-    public OweMoney(String reason, int oweMoneyID, String place, String date, String borrowerName, double borrowAmount) {
+    public OweMoney(int oweMoneyID, String reason, String place, String date, String borrowerName, double borrowAmount) {
         OweMoneyID = oweMoneyID;
         this.place = place;
         this.date = date;

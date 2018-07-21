@@ -10,17 +10,17 @@
     android:orientation="vertical"
     android:weightSum="100">
 
-    <ViewStub
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/stub_list"
-        android:inflatedId="@+id/showlayout"
-        android:layout_marginTop="10dp"></ViewStub>
-    <ViewStub
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        app:mcv_selectionColor="#00F"></com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/stub_Calendar"
-        android:inflatedId="@+id/showlayout"
-        android:layout="@layout/activity_expense_planner"
-        android:layout_marginTop="10dp"></ViewStub>
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:id="@+id/recyclerView"/>
+
 </LinearLayout>

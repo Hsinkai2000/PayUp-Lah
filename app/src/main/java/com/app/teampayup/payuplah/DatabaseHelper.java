@@ -51,17 +51,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PROFILE_TABLE);*/
 
         //Create Item Table
-        String CREATE_ITEM_TABLE = "CREATE TABLE " + ITEM_TABLE_NAME + "(" + COL_ITEMID + " INTEGER PRIMARY KEY," + COL_ITEMNAME + " TEXT," + COL_PRICE + " REAL," + COL_DATE + " TEXT," + COL_DESCRIPTION + " TEXT," +
-                COL_CATEGORY + " TEXT," + COL_TYPE + " TEXT)";
+        String CREATE_ITEM_TABLE = "CREATE TABLE " + ITEM_TABLE_NAME + "(" + COL_ITEMID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COL_ITEMNAME + " TEXT, " + COL_PRICE + " REAL, " + COL_DATE + " TEXT, " + COL_DESCRIPTION + " TEXT, " +
+                COL_CATEGORY + " TEXT, " + COL_TYPE + " TEXT)";
         db.execSQL(CREATE_ITEM_TABLE);
 
         //Create Owe Table
-        String CREATE_OWE_TABLE = "CREATE TABLE " + OWE_TABLE_NAME + "(" + COL_OWEMONEYID + " INTEGER PRIMARY KEY," + COL_REASON + " TEXT,"
+        String CREATE_OWE_TABLE = "CREATE TABLE " + OWE_TABLE_NAME + "(" + COL_OWEMONEYID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + COL_REASON + " TEXT,"
                 + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_BORROWERNAME + " TEXT," + COL_BORROWAMOUNT + " REAL)";
         db.execSQL(CREATE_OWE_TABLE);
 
         //Create LoanIn Table
-        String CREATE_LOANIN_TABLE = "CREATE TABLE " + LOANIN_TABLE_NAME + "(" + COL_LOANINID + " INTEGER PRIMARY KEY," + COL_REASON + " TEXT,"
+        String CREATE_LOANIN_TABLE = "CREATE TABLE " + LOANIN_TABLE_NAME + "(" + COL_LOANINID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + COL_REASON + " TEXT,"
                 + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_BORROWERNAME + " TEXT," + COL_BORROWAMOUNT + " REAL)";
         db.execSQL(CREATE_LOANIN_TABLE);
     }
@@ -191,7 +191,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Owe Table
     public void addOwe(OweMoney owemoney){
         ContentValues values = new ContentValues();
-        values.put(COL_OWEMONEYID,owemoney.getOweMoneyID());
         values.put(COL_PLACE, owemoney.getPlace());
         values.put(COL_DATE, owemoney.getDate());
         values.put(COL_BORROWERNAME, owemoney.getBorrowerName());
@@ -222,6 +221,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return  oweMoney;
     }//find Owe
+
+    public Cursor getAllOweData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM "+ OWE_TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+        return res;
+    }
 
     public boolean deleteOweByName(String name){
         boolean result = false;
@@ -284,7 +290,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //LoanIN Table
     public void addLoanIn(LoanInMoney loanInMoney){
         ContentValues values = new ContentValues();
-        values.put(COL_LOANINID,loanInMoney.getLoanInMoneyID());
         values.put(COL_REASON, loanInMoney.getReason());
         values.put(COL_PLACE, loanInMoney.getPlace());
         values.put(COL_DATE, loanInMoney.getDate());

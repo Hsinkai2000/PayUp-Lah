@@ -68,6 +68,38 @@ public class LoanOutActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnDoneOwe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //create objects
+                DatabaseHelper dbHelper = new DatabaseHelper(LoanOutActivity.this);
+                String place = txtPlace.getText().toString();
+                String date = txtDate.getText().toString();
+                String reason = txtreason.getText().toString();
+                Double oweAmount = Double.parseDouble(txtAmountOwed.getText().toString());
+                // check if contact has been selected
+                if (results.isEmpty() == false){
+                    //save each name instance into the database
+                    for (int i = 0; i < results.size(); i++){
+                        //check if need to split total amount
+                        if (chkSplit.isChecked()){
+                            oweAmount = oweAmount/results.size();
+                        }
+                        //create new oweMoney object
+                        OweMoney objOweMoney = new OweMoney(reason,place, date, results.get(i).getDisplayName(), oweAmount);
+                        //add each peron instance into database
+                        dbHelper.addOwe(objOweMoney);
+                        Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
+                    }
+                }
+                else{
+                    Toast.makeText(LoanOutActivity.this, "Remember to select the person that has borrowed money from you.", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+        });
         //get current date
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -130,35 +162,4 @@ public class LoanOutActivity extends AppCompatActivity {
         }
     }
 
-    //on Done button clicked
-    public void onDoneOweClicked(View view) {
-        //create objects
-        DatabaseHelper dbHelper = new DatabaseHelper(LoanOutActivity.this);
-        String place = txtPlace.getText().toString();
-        String date = txtDate.getText().toString();
-        String reason = txtreason.getText().toString();
-        Double oweAmount = Double.parseDouble(txtAmountOwed.getText().toString());
-        // check if contact has been selected
-        if (results.isEmpty() == false){
-            //save each name instance into the database
-            for (int i = 0; i < results.size(); i++){
-                //check if need to split total amount
-                if (chkSplit.isChecked()){
-                    oweAmount = oweAmount/results.size();
-                }
-                //create new oweMoney object
-                OweMoney objOweMoney = new OweMoney(reason,place, date, results.get(i).getDisplayName(), oweAmount);
-                //add each peron instance into database
-                dbHelper.addOwe(objOweMoney);
-                Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
-            }
-        }
-        else{
-            Toast.makeText(LoanOutActivity.this, "Remember to select the person that has borrowed money from you.", Toast.LENGTH_LONG).show();
-        }
-
-
-
-
-    }
 }
