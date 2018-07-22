@@ -253,50 +253,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\" AND " + COL_DATE + " = \"" + date + "\"", null);
         return res;
     }*/
-    public Cursor RetrieveExpense(){
+    //" = \"Expense\""
+    public Cursor RetrieveProducts(){
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"Expense\"";
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME;// + " WHERE " + COL_DATE + " = \"" + date + "\"";
         Cursor res = db.rawQuery( query, null);
         return res;
     }
-    /*public ArrayList<String> RetrieveExpense(){
-        Intent secondIntent = new Intent();
-        String date = secondIntent.getStringExtra("DateSelected");
-        ArrayList<String>ExpenseDesc = new ArrayList<String>();
-        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\" AND " + COL_DATE + " = \"" + date + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
-
-        if (cursor.moveToFirst()){
-            do{
-                Product product = new Product();
-                product.setDescription(String.valueOf(cursor.getColumnIndex(product.getDescription())));
-                ExpenseDesc.add(product.description);
-            }while (cursor.moveToNext());
-        }
-        db.close();
-        return ExpenseDesc;
-    } //retrieve expense description*/
-
-    public ArrayList<String> RetrieveIncome(){
-        Intent secondIntent = new Intent();
-        String date = secondIntent.getStringExtra("DateSelected");
-        ArrayList<String>IncomeDesc = new ArrayList<String>();
-        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Income" + "\" AND " + COL_DATE + " = \"" + date + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
-
-        if (cursor.moveToFirst()){
-            do{
-                Product product = new Product();
-                product.setDescription(String.valueOf(cursor.getColumnIndex(product.getDescription())));
-                IncomeDesc.add(product.description);
-            }while (cursor.moveToNext());
-        }
-        db.close();
-        return IncomeDesc;
-    } //retrieve expense description
-
 
 
 

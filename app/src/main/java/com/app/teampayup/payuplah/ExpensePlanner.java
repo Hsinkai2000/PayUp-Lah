@@ -27,12 +27,12 @@ import java.util.List;
 
 public class ExpensePlanner extends AppCompatActivity {
     private static final String TAG = "ExpensePlanner";
-    private ArrayList<Product> Income = new ArrayList<Product>();
-    private ArrayList<Product> Expense = new ArrayList<Product>();
+    private ArrayList<Product> ProductList = new ArrayList<Product>();
     List<String> expenseString;
     private DatabaseHelper dbHelper;
     MaterialCalendarView calendar;
     RecyclerView recyclerView;
+    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,9 +40,15 @@ public class ExpensePlanner extends AppCompatActivity {
         Log.d(TAG, "onCreate: Activity Started");
         calendar = (MaterialCalendarView)findViewById(R.id.calendarView);
         recyclerView = findViewById(R.id.recyclerView);
-        DatabaseHelper db = new DatabaseHelper(this);
-        Cursor res = db.RetrieveExpense();
         StringBuffer buffer = new StringBuffer();
+        CheckDate();
+        AdditemList(ProductList);
+        initRecyclerView();
+    }
+
+    private void AdditemList(ArrayList List){
+        DatabaseHelper db = new DatabaseHelper(this);
+        Cursor res = db.RetrieveProducts();
         int itemID = 0;
         String itemName = null;
         String itemDate = null;
@@ -59,27 +65,16 @@ public class ExpensePlanner extends AppCompatActivity {
             itemcat = res.getString(5);
             itemType = res.getString(6);
             Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
-            Expense.add(product);
+            List.add(product);
         }
         StringBuffer sBuffer = new StringBuffer("id: " + itemID + "\nName: " + itemName + "\nPrice: " + itemPrice
-                + "\ndate:  " + String.valueOf(itemDate) + "\ndesc: $" +itemdesc+ "\ncat: " + itemcat+ "\ntype: " + itemType );
+                + "\ndate:  " + String.valueOf(itemDate) + "\ndesc: " +itemdesc+ "\ncat: " + itemcat+ "\ntype: " + itemType );
         showMessage("Details", sBuffer.toString());
-        //CheckDate();
-        //initImage();
-        initRecyclerView();
     }
-    /*private void initImage(){
-        Log.d(TAG, "initImage: preparing images");
-        Cursor res = dbHelper.RetrieveExpense();
-        while (res.moveToNext()){
-            Expense.add(res.getString(0));
-        }
-        //Income = dbHelper.RetrieveIncome();
-        //Expense = dbHelper.RetrieveExpense();
-    }*/
+
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: showing recyclerview");
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, Income, Expense);
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, ProductList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setHasFixedSize(true);
@@ -93,10 +88,7 @@ public class ExpensePlanner extends AppCompatActivity {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 Log.d(TAG, "onDateSelected: DateMarked");
                 Toast.makeText(ExpensePlanner.this, "" + date, Toast.LENGTH_SHORT).show();
-                String selecteddate = String.valueOf(widget.getCurrentDate());
-                Intent i = new Intent(ExpensePlanner.this, DatabaseHelper.class);
-                i.putExtra("DateSelected", selecteddate);
-                startActivity(i);
+                //String selecteddate = String.valueOf(widget.getCurrentDate());
             }
 
         });

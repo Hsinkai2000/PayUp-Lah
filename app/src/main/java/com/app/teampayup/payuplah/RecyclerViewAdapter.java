@@ -20,18 +20,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private static final String TAG = "RecyclerViewAdapter";
-    private ArrayList<Product> Income = new ArrayList<Product>();
-    private ArrayList<Product> Expense = new ArrayList<Product>();
+    private ArrayList<Product> ProductList = new ArrayList<Product>();
     private Context mContext;
 
     CircleImageView image;
     TextView itemdesc, itemName, txtPrice;
     RelativeLayout parentLayout;
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<Product> Income, ArrayList<Product> Expense) {
+    public RecyclerViewAdapter(Context mContext, ArrayList<Product> ProductList) {
         this.mContext = mContext;
-        this.Income = Income;
-        this.Expense = Expense;
+        this.ProductList = ProductList;
 
     }
 
@@ -41,7 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_day, parent, false);
         ViewHolder holder = new ViewHolder(view);
-        image = view.findViewById(R.id.image);
+        image = view.findViewById(R.id.ImageView);
         txtPrice = view.findViewById(R.id.txtPrice);
         itemdesc = view.findViewById(R.id.txtdesc);
         itemName = view.findViewById(R.id.txtitemName);
@@ -52,46 +50,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        itemName.setText(Expense.get(position).productName);
-        itemdesc.setText(Expense.get(position).description);
-        txtPrice.setText(String.valueOf(Expense.get(position).price));
 
-        //Income = dbHelp.RetrieveIncome();
-        //Expense = dbHelp.RetrieveExpense();
-        /*if(Income.size()!= 0 && Expense.size() != 0){
-            for(int i=0; i< Income.size(); i++){
-                holder.image.setImageResource(R.drawable.plus);
-                holder.imageName.setText(Income.get(position));
-            }
-            for(int i=0; i<Expense.size(); i++){
-                holder.image.setImageResource(R.drawable.minus);
-                holder.imageName.setText(Expense.get(position));
-            }
+        if(ProductList.get(position).type == "Expense"){ //for expense
+            Log.d(TAG, "onBindViewHolder: expense");
+            image.setImageResource(android.R.color.transparent);
+            itemName.setText(ProductList.get(position).productName);
+            itemdesc.setText(ProductList.get(position).description);
+            txtPrice.setText(String.valueOf(ProductList.get(position).price));
+            image.setImageResource(R.drawable.minus);
         }
-        else if(Income.size() >0 && Expense.size()== 0){
-            for(int i=0; i< Income.size(); i++){
-                holder.image.setImageResource(R.drawable.plus);
-                holder.imageName.setText(Income.get(position));
-            }
+        else{
+            //all goes through here thou some are expense
+            Log.d(TAG, "onBindViewHolder: income");
+            image.setImageResource(android.R.color.transparent);
+            itemName.setText(ProductList.get(position).productName);
+            itemdesc.setText(ProductList.get(position).description);
+            txtPrice.setText(String.valueOf(ProductList.get(position).price));
+            image.setImageResource(R.drawable.plus);
         }
-        else if(Income.size() == 0 && Expense.size()> 0){
-            for(int i=0; i<Expense.size(); i++){
-                holder.image.setImageResource(R.drawable.minus);
-                holder.imageName.setText(Expense.get(position));
-            }
-        }*/
-
-
-
-
-
 
     }
 
     @Override
     public int getItemCount() {
-        return Expense.size();
-        //return Expense.size() + Income.size();
+        return ProductList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
