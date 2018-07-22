@@ -12,9 +12,51 @@
         android:layout_height="0dp"
         android:weightSum="100"
         android:layout_weight="60"
-        android:orientation="vertical">
-
-
+        android:orientation="vertical"
+        android:paddingTop="50dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:text="Amount Spent This Month: "
+            android:textSize="20dp"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/txtAmtSpent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:text="$32.33"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:layout_marginTop="20dp"></RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="20"
+            android:text="Amount To Be Received From Loan:"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/txtAmtRecieve"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:gravity="center"
+            android:text="$32.33"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:layout_marginTop="20dp"></RelativeLayout>
     </LinearLayout>
 
 

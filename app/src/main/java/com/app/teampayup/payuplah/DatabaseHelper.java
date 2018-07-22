@@ -6,8 +6,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.format.DateFormat;
+import android.util.Log;
 
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "PayUpLahDB.db";
@@ -263,7 +268,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
+    public Cursor GetProducts(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+        String strMonth = "";
+        String strMonth2 = "";
+        if (month+1 < 10){
+            strMonth = "0" + (month+1);
+            strMonth2 = "0" + (month+2);
+        }
+        else{
+            strMonth= String.valueOf(month+1);
+            strMonth2 = String.valueOf(month+2);
+        }
+        int year = cal.get(Calendar.YEAR);
+        String strYear = String.valueOf(year);
 
+        String query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE " + COL_DATE + " BETWEEN '" + strYear + "-" + strMonth + "-00 00:00:00' AND '" + strYear + "-" + strMonth2 + "-00 00:00:00'";
+        Cursor res = db.rawQuery(query, null);
+        Log.d("QUERYTEST", query);
+        return res;
+    }
 
     //LoanIN Table
     public void addLoanIn(LoanInMoney loanInMoney){
