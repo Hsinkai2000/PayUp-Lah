@@ -50,8 +50,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        if(ProductList.get(position).type == "Expense"){ //for expense
+        String type = "Expense";
+        if(ProductList.get(position).type.contentEquals(type)){ //for expense
             Log.d(TAG, "onBindViewHolder: expense");
             image.setImageResource(android.R.color.transparent);
             itemName.setText(ProductList.get(position).productName);
