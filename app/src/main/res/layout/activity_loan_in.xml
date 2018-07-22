@@ -166,13 +166,6 @@
                         android:inputType="numberDecimal"
                         android:paddingBottom="20dp" />
 
-                    <CheckBox
-                        android:id="@+id/chkSplit"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Split Amount among number of people"
-                        android:textSize="10dp"/>
                 </LinearLayout>
             </ScrollView>
 

@@ -37,6 +37,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_OWEMONEYID = "OweMoneyID";
     public static final String COL_PLACE = "place";
     public static final String COL_BORROWERNAME = "borrowerName";
+    public static final String COL_LOANAMOUNT = "loanAmount";
+    public static final String COL_LOANERNAME = "loanerName";
     public static final String COL_BORROWAMOUNT = "borrowAmount";
 
 
@@ -62,7 +64,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Create LoanIn Table
         String CREATE_LOANIN_TABLE = "CREATE TABLE " + LOANIN_TABLE_NAME + "(" + COL_LOANINID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + COL_REASON + " TEXT,"
-                + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_BORROWERNAME + " TEXT," + COL_BORROWAMOUNT + " REAL)";
+                + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_LOANERNAME + " TEXT," + COL_LOANAMOUNT + " REAL)";
         db.execSQL(CREATE_LOANIN_TABLE);
     }
 
@@ -269,45 +271,52 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_REASON, loanInMoney.getReason());
         values.put(COL_PLACE, loanInMoney.getPlace());
         values.put(COL_DATE, loanInMoney.getDate());
-        values.put(COL_BORROWERNAME, loanInMoney.getBorrowerName());
-        values.put(COL_BORROWAMOUNT, loanInMoney.getBorrowAmount());
+        values.put(COL_LOANERNAME, loanInMoney.getLoanerName());
+        values.put(COL_LOANAMOUNT, loanInMoney.getLoanAmount());
         SQLiteDatabase db = this.getWritableDatabase();
 
-        db.insert(OWE_TABLE_NAME, null, values);
+        db.insert(LOANIN_TABLE_NAME, null, values);
         db.close();
     }
 
-    public OweMoney findLoanInByName(String name){
-        String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_BORROWERNAME + " = \"" + name + "\"";
+    public LoanInMoney findLoanInByName(String name){
+        String query = "SELECT * FROM " + LOANIN_TABLE_NAME + " WHERE " + COL_LOANERNAME + " = \"" + name + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        OweMoney oweMoney = new OweMoney();
+        LoanInMoney loanInMoney = new LoanInMoney();
 
         if (cursor.moveToFirst()){
             cursor.moveToFirst();
-            oweMoney.setOweMoneyID(Integer.parseInt(cursor.getString(0)));
-            oweMoney.setReason(cursor.getString(1));
-            oweMoney.setPlace(cursor.getString(2));
-            oweMoney.setDate(cursor.getString(3));
-            oweMoney.setBorrowerName(cursor.getString(4));
-            oweMoney.setBorrowAmount(Double.parseDouble(cursor.getString(5)));
+            loanInMoney.setLoanInMoneyID(Integer.parseInt(cursor.getString(0)));
+            loanInMoney.setReason(cursor.getString(1));
+            loanInMoney.setPlace(cursor.getString(2));
+            loanInMoney.setDate(cursor.getString(3));
+            loanInMoney.setLoanerName(cursor.getString(4));
+            loanInMoney.setLoanAmount(Double.parseDouble(cursor.getString(5)));
             cursor.close();
         }else{
-            oweMoney = null;
+            loanInMoney = null;
         }
         db.close();
-        return  oweMoney;
+        return  loanInMoney;
     }//find Owe
+
+    public Cursor getAllLoanInData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM "+ LOANIN_TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+        return res;
+    }//get all loan IN data
 
     public boolean deleteLoanInByName(String name){
         boolean result = false;
-        String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_BORROWERNAME + " = \"" + name + "\"";
+        String query = "SELECT * FROM " + LOANIN_TABLE_NAME + " WHERE " + COL_LOANERNAME + " = \"" + name + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         OweMoney oweMoney = new OweMoney();
         if (cursor.moveToFirst()){
             oweMoney.setOweMoneyID(Integer.parseInt(cursor.getString(0)));
-            db.delete(OWE_TABLE_NAME, COL_OWEMONEYID + " =?",
+            db.delete(LOANIN_TABLE_NAME, COL_LOANINID + " =?",
                     new String[]{ String.valueOf(oweMoney.getOweMoneyID())});
             cursor.close();
             result=true;
