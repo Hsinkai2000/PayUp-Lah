@@ -1,31 +1,24 @@
 package com.app.teampayup.payuplah;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class LoanOutListViewAdapter extends BaseAdapter{
-    TextView txtName, txtPrice, txtReason;
-    Context mContext;
-    List<OweMoney> loan = new ArrayList<OweMoney>();
+public class LoanInListViewAdapter extends BaseAdapter {
+    private final Context mContext;
+    private final List<LoanInMoney> loan;
 
-    public LoanOutListViewAdapter(Context context, List<OweMoney>loanout){
+
+    public LoanInListViewAdapter(Context context, List<LoanInMoney> loanIn){
         this.mContext = context;
-        this.loan = loanout;
+        this.loan = loanIn;
     }
-
 
     @Override
     public int getCount() {
@@ -54,9 +47,9 @@ public class LoanOutListViewAdapter extends BaseAdapter{
         txtReason = itemView.findViewById(R.id.txtReasons);
 
         //set Textviews
-        txtName.setText(loan.get(position).borrowerName);
-        Log.d("TEXTNAME_DEBUG", loan.get(position).borrowerName);
-        txtPrice.setText("$" + String.valueOf(loan.get(position).borrowAmount));
+        txtName.setText(loan.get(position).loanerName);
+        Log.d("TEXTNAME_DEBUG", loan.get(position).loanerName);
+        txtPrice.setText("$" + String.valueOf(loan.get(position).loanAmount));
         txtReason.setText(loan.get(position).reason);
 
 

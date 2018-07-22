@@ -4,24 +4,16 @@ public class LoanInMoney {
     int LoanInMoneyID;
     String place;
     String date;
-    String borrowerName;
-    double borrowAmount;
+    String loanerName;
+    double loanAmount;
     String reason;
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
 
     public int getLoanInMoneyID() {
         return LoanInMoneyID;
     }
 
-    public void setOweMoneyID(int oweMoneyID) {
-        LoanInMoneyID = oweMoneyID;
+    public void setLoanInMoneyID(int loanInMoneyID) {
+        LoanInMoneyID = loanInMoneyID;
     }
 
     public String getPlace() {
@@ -40,39 +32,47 @@ public class LoanInMoney {
         this.date = date;
     }
 
-    public String getBorrowerName() {
-        return borrowerName;
+    public String getLoanerName() {
+        return loanerName;
     }
 
-    public void setBorrowerName(String borrowerName) {
-        this.borrowerName = borrowerName;
+    public void setLoanerName(String loanerName) {
+        this.loanerName = loanerName;
     }
 
-    public double getBorrowAmount() {
-        return borrowAmount;
+    public double getLoanAmount() {
+        return loanAmount;
     }
 
-    public void setBorrowAmount(double borrowAmount) {
-        this.borrowAmount = borrowAmount;
+    public void setLoanAmount(double loanAmount) {
+        this.loanAmount = loanAmount;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public LoanInMoney() {
     }
 
-    public LoanInMoney(String reason, String place, String date, String borrowerName, double borrowAmount) {
+    public LoanInMoney(String place, String date, String loanerName, double loanAmount, String reason) {
         this.place = place;
         this.date = date;
-        this.borrowerName = borrowerName;
-        this.borrowAmount = borrowAmount;
+        this.loanerName = loanerName;
+        this.loanAmount = loanAmount;
         this.reason = reason;
     }
 
-    public LoanInMoney(String reason, int LoanInMoneyID, String place, String date, String borrowerName, double borrowAmount) {
-        this.LoanInMoneyID = LoanInMoneyID;
+    public LoanInMoney(int loanInMoneyID, String place, String date, String loanerName, double loanAmount, String reason) {
+        LoanInMoneyID = loanInMoneyID;
         this.place = place;
         this.date = date;
-        this.borrowerName = borrowerName;
-        this.borrowAmount = borrowAmount;
+        this.loanerName = loanerName;
+        this.loanAmount = loanAmount;
         this.reason = reason;
     }
 }

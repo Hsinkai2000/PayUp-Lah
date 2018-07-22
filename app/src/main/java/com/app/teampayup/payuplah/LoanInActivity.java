@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.wafflecopter.multicontactpicker.ContactResult;
@@ -68,6 +69,31 @@ public class LoanInActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(LoanInActivity.this, "Remember to go into settings and enable the contacts permission.", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+        btnDoneOwe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //create objects
+                DatabaseHelper dbHelper = new DatabaseHelper(LoanInActivity.this);
+                String place = txtPlace.getText().toString();
+                String date = txtDate.getText().toString();
+                String reason = txtreason.getText().toString();
+                Double loanAmount = Double.parseDouble(txtAmountOwed.getText().toString());
+                // check if contact has been selected
+                if (results.isEmpty() == false) {
+                    //save each name instance into the database
+                    for (int i = 0; i < results.size(); i++) {
+                        //create new oweMoney object
+                        LoanInMoney loanInMoney = new LoanInMoney(place, date, results.get(i).getDisplayName(), loanAmount, reason);
+                        //add each peron instance into database
+                        dbHelper.addLoanIn(loanInMoney);
+                        Log.d("DEBUG", "onDoneOweClicked: Loan Person Added :D");
+                    }
+                } else {
+                    Toast.makeText(LoanInActivity.this, "Remember to select the person that you have borrowed money from.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
         //get current date
@@ -132,31 +158,4 @@ public class LoanInActivity extends AppCompatActivity {
         }
     }
 
-    //on Done button clicked
-    public void onDoneOweClicked(View view) {
-        //create objects
-        DatabaseHelper dbHelper = new DatabaseHelper(LoanInActivity.this);
-        String place = txtPlace.getText().toString();
-        String date = txtDate.getText().toString();
-        String reason = txtreason.getText().toString();
-        Double oweAmount = Double.parseDouble(txtAmountOwed.getText().toString());
-        // check if contact has been selected
-        if (results.isEmpty() == false) {
-            //save each name instance into the database
-            for (int i = 0; i < results.size(); i++) {
-                //check if need to split total amount
-                if (chkSplit.isChecked()) {
-                    oweAmount = oweAmount / results.size();
-                }
-                //create new oweMoney object
-                OweMoney objOweMoney = new OweMoney(reason, place, date, results.get(i).getDisplayName(), oweAmount);
-                //add each peron instance into database
-                dbHelper.addOwe(objOweMoney);
-                Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
-            }
-        } else {
-            Toast.makeText(LoanInActivity.this, "Remember to select the person that has borrowed money from you.", Toast.LENGTH_LONG).show();
-        }
-
-    }
 }
