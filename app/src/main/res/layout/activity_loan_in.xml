@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SinglePayActivity">
+    tools:context=".LoanInActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +22,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="100"
-                android:text="Add people that owe you money!"
+                android:text="Add people that you have borrowed money from!"
                 android:fontFamily="sans-serif"
                 android:textSize="25dp"
                 android:gravity="center"
@@ -48,13 +48,30 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Place:"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="20dp"
-                    android:gravity="center_vertical"
-                    android:id="@+id/txtType"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Reason:"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical"
+                        android:id="@+id/tvReason"/>
+
+                    <EditText
+                        android:id="@+id/txtReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:background="@drawable/textbox_roundedcorners"
+                        android:inputType="text"
+                        android:paddingBottom="20dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Place:"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="20dp"
+                        android:gravity="center_vertical"
+                        android:id="@+id/tvPlace"/>
 
                     <EditText
                         android:id="@+id/txtPlace"
@@ -149,13 +166,6 @@
                         android:inputType="numberDecimal"
                         android:paddingBottom="20dp" />
 
-                    <CheckBox
-                        android:id="@+id/chkSplit"
-                        android:layout_gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Split Amount among number of people"
-                        android:textSize="10dp"/>
                 </LinearLayout>
             </ScrollView>
 
@@ -167,8 +177,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="15"
                 android:background="@drawable/squareishbutton"
-                android:text="@string/done"
-                android:onClick="onDoneOweClicked"/>
+                android:text="@string/done"/>
         </LinearLayout>
     </LinearLayout>
 

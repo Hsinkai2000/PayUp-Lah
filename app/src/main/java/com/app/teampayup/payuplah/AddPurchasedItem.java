@@ -19,7 +19,7 @@ import java.util.Locale;
 
 
 public class AddPurchasedItem extends AppCompatActivity {
-    Button btnDatePicker;
+    Button btnDatePicker, btnSave;
     EditText txtDate, txtName, txtPrice, txtDescription;
     private int mYear, mMonth, mDay;
     Spinner spinnerCat, spinnerType;
@@ -36,10 +36,11 @@ public class AddPurchasedItem extends AppCompatActivity {
         txtPrice=(EditText)findViewById(R.id.txtPrice);
         txtDescription=(EditText)findViewById(R.id.txtDescription);
         spinnerType= (Spinner)findViewById(R.id.spinnerType);
+        btnSave = (Button)findViewById(R.id.btnSave);
 
         //get current date
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String date = sdf.format(new Date());
         txtDate.setText(date);
 
@@ -60,15 +61,25 @@ public class AddPurchasedItem extends AppCompatActivity {
                             @Override
                             public void onDateSet(DatePicker view, int year,
                                                   int monthOfYear, int dayOfMonth) {
-
-                                txtDate.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-
+                                if (monthOfYear+1 < 10 && dayOfMonth <10){
+                                    txtDate.setText(year +  "-0" + (monthOfYear + 1) + "-0"+dayOfMonth);
+                                }
+                                else if (monthOfYear+1 < 10){
+                                    txtDate.setText(year+ "-0" + (monthOfYear + 1) + "-" + dayOfMonth);
+                                }
+                                else if (dayOfMonth < 10){
+                                    txtDate.setText(year + "-" + (monthOfYear + 1) + "-0"+dayOfMonth);
+                                }
+                                else {
+                                    txtDate.setText(year + "-" + (monthOfYear + 1) + "-" + dayOfMonth );
+                                }
                             }
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
 
             }
         });
+
     }
 
     //when save is clicked
@@ -77,7 +88,7 @@ public class AddPurchasedItem extends AppCompatActivity {
         //get text of all fields
         String itemName = txtName.getText().toString();
         Float itemPrice = Float.parseFloat(txtPrice.getText().toString());
-        String datePurchased = txtDate.getText().toString();
+        String datePurchased = txtDate.getText().toString() + " 00:00:00";
         String itemDesc = txtDescription.getText().toString();
         String itemCat = spinnerCat.getSelectedItem().toString();
         String itemType = spinnerType.getSelectedItem().toString();
@@ -104,5 +115,6 @@ public class AddPurchasedItem extends AppCompatActivity {
         }
 
     }
+
 }
 

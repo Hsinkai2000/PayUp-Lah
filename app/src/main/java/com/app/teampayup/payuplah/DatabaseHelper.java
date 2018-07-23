@@ -6,9 +6,23 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+import android.text.format.DateFormat;
+import android.util.Log;
+
+import java.time.Year;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.regex.Pattern;
+
+import static android.support.constraint.Constraints.TAG;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "PayUpLahDB.db";
@@ -32,9 +46,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Owe Table
     public static final String OWE_TABLE_NAME = "Owe_Table";
+    public static final String LOANIN_TABLE_NAME = "LoanIN_Table";
+    public static final String COL_LOANINID = "LoanInMoneyID";
+    public static final String COL_REASON = "Reason";
     public static final String COL_OWEMONEYID = "OweMoneyID";
     public static final String COL_PLACE = "place";
     public static final String COL_BORROWERNAME = "borrowerName";
+    public static final String COL_LOANAMOUNT = "loanAmount";
+    public static final String COL_LOANERNAME = "loanerName";
     public static final String COL_BORROWAMOUNT = "borrowAmount";
 
 
@@ -49,14 +68,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_PROFILE_TABLE);*/
 
         //Create Item Table
-        String CREATE_ITEM_TABLE = "CREATE TABLE " + ITEM_TABLE_NAME + "(" + COL_ITEMID + " INTEGER PRIMARY KEY," + COL_ITEMNAME + " TEXT," + COL_PRICE + " REAL," + COL_DATE + " TEXT," + COL_DESCRIPTION + " TEXT," +
-                COL_CATEGORY + " TEXT," + COL_TYPE + " TEXT)";
+        String CREATE_ITEM_TABLE = "CREATE TABLE " + ITEM_TABLE_NAME + "(" + COL_ITEMID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + COL_ITEMNAME + " TEXT, " + COL_PRICE + " REAL, " + COL_DATE + " TEXT, " + COL_DESCRIPTION + " TEXT, " +
+                COL_CATEGORY + " TEXT, " + COL_TYPE + " TEXT)";
         db.execSQL(CREATE_ITEM_TABLE);
 
         //Create Owe Table
-        String CREATE_OWE_TABLE = "CREATE TABLE " + OWE_TABLE_NAME + "(" + COL_OWEMONEYID + " INTEGER PRIMARY KEY,"
+        String CREATE_OWE_TABLE = "CREATE TABLE " + OWE_TABLE_NAME + "(" + COL_OWEMONEYID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + COL_REASON + " TEXT,"
                 + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_BORROWERNAME + " TEXT," + COL_BORROWAMOUNT + " REAL)";
         db.execSQL(CREATE_OWE_TABLE);
+
+        //Create LoanIn Table
+        String CREATE_LOANIN_TABLE = "CREATE TABLE " + LOANIN_TABLE_NAME + "(" + COL_LOANINID + " INTEGER PRIMARY KEY AUTOINCREMENT ," + COL_REASON + " TEXT,"
+                + COL_PLACE + " TEXT," + COL_DATE + " TEXT," + COL_LOANERNAME + " TEXT," + COL_LOANAMOUNT + " REAL)";
+        db.execSQL(CREATE_LOANIN_TABLE);
     }
 
     @Override
@@ -71,6 +95,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //DROP OWE TABLE
         db.execSQL("DROP TABLE IF EXISTS " + OWE_TABLE_NAME);
+        onCreate(db);
+
+        //DROP LOAN TABLE
+        db.execSQL("DROP TABLE IF EXISTS " + LOANIN_TABLE_NAME);
         onCreate(db);
     }
 
@@ -180,7 +208,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Owe Table
     public void addOwe(OweMoney owemoney){
         ContentValues values = new ContentValues();
-        values.put(COL_OWEMONEYID,owemoney.getOweMoneyID());
         values.put(COL_PLACE, owemoney.getPlace());
         values.put(COL_DATE, owemoney.getDate());
         values.put(COL_BORROWERNAME, owemoney.getBorrowerName());
@@ -212,6 +239,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return  oweMoney;
     }//find Owe
 
+    public Cursor getAllOweData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM "+ OWE_TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+        return res;
+    }
+
     public boolean deleteOweByName(String name){
         boolean result = false;
         String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_BORROWERNAME + " = \"" + name + "\"";
@@ -229,39 +263,104 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }//delete owe
 
-    public ArrayList<String> RetrieveExpense(){
-        ArrayList<String>ExpenseDesc = new ArrayList<String>();
-        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
-
-        if (cursor.moveToFirst()){
-            do{
-                Product product = new Product();
-                product.setDescription(String.valueOf(cursor.getColumnIndex(product.getDescription())));
-            }while (cursor.moveToNext());
-        }
-        db.close();
-        return ExpenseDesc;
-    } //retrieve expense description
-
-    public ArrayList<String> RetrieveIncome(){
+    /*public Cursor RetrieveExpense(){
         Intent secondIntent = new Intent();
         String date = secondIntent.getStringExtra("DateSelected");
-        ArrayList<String>IncomeDesc = new ArrayList<String>();
-        String query = "SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Income" + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query,null);
+        Cursor res = db.rawQuery("SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\" AND " + COL_DATE + " = \"" + date + "\"", null);
+        return res;
+    }*/
+    //" = \"Expense\""
+    public Cursor RetrieveProducts(String date){
+        Log.d(TAG, "RetrieveProducts: date SQL");
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_DATE + " = \"" + date + "\"";
+        Cursor res = db.rawQuery( query, null);
+        return res;
+    }
+
+    public Cursor GetProducts(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+        String strMonth = "";
+        String strMonth2 = "";
+        if (month+1 < 10){
+            strMonth = "0" + (month+1);
+            strMonth2 = "0" + (month+2);
+        }
+        else{
+            strMonth= String.valueOf(month+1);
+            strMonth2 = String.valueOf(month+2);
+        }
+        int year = cal.get(Calendar.YEAR);
+        String strYear = String.valueOf(year);
+
+        String query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE " + COL_DATE + " BETWEEN '" + strYear + "-" + strMonth + "-00 00:00:00' AND '" + strYear + "-" + strMonth2 + "-00 00:00:00'";
+        Cursor res = db.rawQuery(query, null);
+        Log.d("QUERYTEST", query);
+        return res;
+    }
+
+    //LoanIN Table
+    public void addLoanIn(LoanInMoney loanInMoney){
+        ContentValues values = new ContentValues();
+        values.put(COL_REASON, loanInMoney.getReason());
+        values.put(COL_PLACE, loanInMoney.getPlace());
+        values.put(COL_DATE, loanInMoney.getDate());
+        values.put(COL_LOANERNAME, loanInMoney.getLoanerName());
+        values.put(COL_LOANAMOUNT, loanInMoney.getLoanAmount());
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.insert(LOANIN_TABLE_NAME, null, values);
+        db.close();
+    }
+
+    public LoanInMoney findLoanInByName(String name){
+        String query = "SELECT * FROM " + LOANIN_TABLE_NAME + " WHERE " + COL_LOANERNAME + " = \"" + name + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+        LoanInMoney loanInMoney = new LoanInMoney();
 
         if (cursor.moveToFirst()){
-            do{
-                Product product = new Product();
-                product.setDescription(String.valueOf(cursor.getColumnIndex(product.getDescription())));
-            }while (cursor.moveToNext());
+            cursor.moveToFirst();
+            loanInMoney.setLoanInMoneyID(Integer.parseInt(cursor.getString(0)));
+            loanInMoney.setReason(cursor.getString(1));
+            loanInMoney.setPlace(cursor.getString(2));
+            loanInMoney.setDate(cursor.getString(3));
+            loanInMoney.setLoanerName(cursor.getString(4));
+            loanInMoney.setLoanAmount(Double.parseDouble(cursor.getString(5)));
+            cursor.close();
+        }else{
+            loanInMoney = null;
         }
         db.close();
-        return IncomeDesc;
-    } //retrieve expense description
+        return  loanInMoney;
+    }//find Owe
 
+    public Cursor getAllLoanInData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM "+ LOANIN_TABLE_NAME;
+        Cursor res = db.rawQuery(query, null);
+        return res;
+    }//get all loan IN data
 
+    public boolean deleteLoanInByName(String name){
+        boolean result = false;
+        String query = "SELECT * FROM " + LOANIN_TABLE_NAME + " WHERE " + COL_LOANERNAME + " = \"" + name + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        OweMoney oweMoney = new OweMoney();
+        if (cursor.moveToFirst()){
+            oweMoney.setOweMoneyID(Integer.parseInt(cursor.getString(0)));
+            db.delete(LOANIN_TABLE_NAME, COL_LOANINID + " =?",
+                    new String[]{ String.valueOf(oweMoney.getOweMoneyID())});
+            cursor.close();
+            result=true;
+        }
+        db.close();
+        return result;
+    }//delete owe
 }

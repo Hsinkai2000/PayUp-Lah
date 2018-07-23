@@ -1,6 +1,7 @@
 package com.app.teampayup.payuplah;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +24,9 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -32,15 +35,14 @@ import static android.graphics.Color.GRAY;
 
 public class MainActivity extends AppCompatActivity {
     public static ProfileList listOfProfiles = new ProfileList();
+    TextView txtAmtSpent, txtAmtRecieve;
     LinearLayout mDotLayout;
     SliderAdapter sliderAdapter;
-
+    ArrayList<OweMoney> oweMoneyList = new ArrayList<OweMoney>();
+    ArrayList<Product> productList = new ArrayList<Product>();
+    Double totalOwe = 0.00;
+    Double totalSpent = 0.00;
     private static String TAG ="MainActivity";
-
-
-   // private float[] yData={25.3f, 10.6f, 66.76f, 44.43f, 46.01f, 16.89f, 23.9f};
-   // private String[] xData= {"Mitch", "Jessica","Mohammad","Kelsey","Sam","Robert","Ashley"};
-    PieChart pieChart;
 
     TextView[] mDots;
 
@@ -55,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: starting to create chart");
 
+        //find views
         ViewPager mSlideViewPager = findViewById(R.id.slideViewPager);
-
-        //PieChart pieChart = (PieChart) findViewById(R.id.idPieChart);
-
+        txtAmtRecieve = findViewById(R.id.txtAmtRecieve);
+        txtAmtSpent = findViewById(R.id.txtAmtSpent);
         mDotLayout = findViewById(R.id.dotsLayout);
         sliderAdapter = new SliderAdapter(this);
 
@@ -67,77 +69,79 @@ public class MainActivity extends AppCompatActivity {
 
         addDotsIndicator(0);
         mSlideViewPager.addOnPageChangeListener(viewListener);
-        /*
-        pieChart.setRotationEnabled(true);
-        //pieChart.setDescription("People own me money");
-        pieChart.setHoleRadius(25f);
-        pieChart.setTransparentCircleAlpha(0);
-        pieChart.setCenterText("Own me Money!");
-        pieChart.setCenterTextSize(10);
-        pieChart.setDrawCenterText(true);
-
-        addDataSet(pieChart);
-        */
 
 
-        /*
-        CircleImageView circleView = findViewById(R.id.btnAddProfile);
-        circleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent gotoAddProfile = new Intent(getApplicationContext(),AddProfile.class);
-                startActivity(gotoAddProfile);
+        //get amt spent from database
+        DatabaseHelper db = new DatabaseHelper(this);
+        Cursor res = db.GetProducts();
+        int itemID = 0;
+        String itemName = null;
+        String itemDate = null;
+        String itemdesc= null;
+        String itemcat= null;
+        String itemType= null;
+        double itemPrice = 0;
+        while (res.moveToNext()){
+            itemID = res.getInt(0);
+            itemName = res.getString(1);
+            itemPrice = res.getDouble(2);
+            itemDate = res.getString(3);
+            itemdesc = res.getString(4);
+            itemcat = res.getString(5);
+            itemType = res.getString(6);
+            Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
+            productList.add(product);
+        }
+
+        Cursor res2 = db.getAllOweData();
+        int OweMoneyIDout;
+        String placeout;
+        String dateout;
+        String borrowerNameout;
+        String reasonout;
+        double borrowAmountout;
+        while (res2.moveToNext()){
+            OweMoneyIDout = res2.getInt(0);
+            reasonout = res2.getString(1);
+            placeout = res2.getString(2);
+            dateout = res2.getString(3);
+            borrowerNameout = res2.getString(4);
+            borrowAmountout = res2.getDouble(5);
+            OweMoney oweMoney = new OweMoney(OweMoneyIDout, reasonout, placeout, dateout, borrowerNameout, borrowAmountout);
+            oweMoneyList.add(oweMoney);
+        }
+
+        res.close();
+        res2.close();
+        if (productList.size() == 0){
+            Log.d("TESTING123", "onCreate: nothing in spend list");
+        }
+        else {
+            for (Product p : productList
+                    ) {
+                Log.d("TESTING123", (p.getDate()));
+                if (p.getType().equals("Expense")) {
+                    totalSpent += p.getPrice();
+                }
             }
-        });*/
-
-    }
-
-    /*
-    private void addDataSet(PieChart pieChart) {
-
-        Log.d(TAG,"addDataSet started");
-        ArrayList<PieEntry> yEntrys = new ArrayList<>();
-        ArrayList<String> xEntrys = new ArrayList<>();
-
-        for(int i =0; i < yData.length; i ++)
-        {
-            yEntrys.add(new PieEntry(yData[i], i));
         }
-        for(int i =1; i < xData.length; i++)
-        {
-            xEntrys.add((xData[i]));
+        if (oweMoneyList.size() == 0){
+            Log.d("TESTING123", "onCreate: nothing in owe list");
+        }
+        else {
+            for (OweMoney o : oweMoneyList
+                    ) {
+                Log.d("TESTING123", (o.getDate()));
+                    totalOwe += o.getBorrowAmount();
+            }
         }
 
-        //create the data set
-        PieDataSet pieDataSet = new PieDataSet(yEntrys,"People own me");
-        pieDataSet.setSliceSpace(2);
-        pieDataSet.setValueTextSize(12);
+        //res2.close();
+        txtAmtSpent.setText("$" + totalSpent.toString());
+        txtAmtRecieve.setText("$" + totalOwe.toString());
 
-        //add color to dataset
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(Color.GRAY);
-        colors.add(Color.BLUE);
-        colors.add(Color.RED);
-        colors.add(Color.GREEN);
-        colors.add(Color.CYAN);
-        colors.add(Color.YELLOW);
-        colors.add(Color.MAGENTA);
 
-        pieDataSet.setColors(colors);
-
-        //add legend to chart
-
-        Legend legend = pieChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setPosition(Legend.LegendPosition.LEFT_OF_CHART); //here got problem shouldn't have a line
-
-        //create pie data object
-        PieData pieData = new PieData(pieDataSet);
-        pieChart.setData(pieData);
-        pieChart.invalidate();
     }
-    */
-
 
 
     public void addDotsIndicator(int position){

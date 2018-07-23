@@ -5,34 +5,28 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import io.reactivex.Single;
-
-public class SinglePayActivity extends AppCompatActivity {
-    EditText txtDate,txtcontact,txtAmountOwed,txtPlace;
+public class LoanOutActivity extends AppCompatActivity {
+    EditText txtDate,txtcontact,txtAmountOwed,txtPlace, txtreason;
     Button btnDatePicker,btnDoneOwe;
     private int mYear, mMonth, mDay;
     private static final int CONTACT_PICKER_REQUEST = 991;
@@ -41,7 +35,7 @@ public class SinglePayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_pay);
+        setContentView(R.layout.activity_loan_out);
 
         //initialise items
         Button btngocontacts = findViewById(R.id.btngocontacts);
@@ -52,25 +46,58 @@ public class SinglePayActivity extends AppCompatActivity {
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         txtcontact = findViewById(R.id.txtcontact);
         chkSplit = findViewById(R.id.chkSplit);
+        txtreason = findViewById(R.id.txtReason);
 
         //button to select contacts clicked
         btngocontacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ContextCompat.checkSelfPermission(SinglePayActivity.this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-                    new MultiContactPicker.Builder(SinglePayActivity.this) //Activity/fragment context
+                if (ContextCompat.checkSelfPermission(LoanOutActivity.this, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                    new MultiContactPicker.Builder(LoanOutActivity.this) //Activity/fragment context
                             .theme(R.style.MyCustomPickerTheme) //Optional - default: MultiContactPicker.Azure
                             .hideScrollbar(false) //Optional - default: false
                             .showTrack(true) //Optional - default: true
                             .searchIconColor(Color.WHITE) //Optional - default: White
-                            .setChoiceMode(MultiContactPicker.CHOICE_MODE_SINGLE) //Optional - default: CHOICE_MODE_MULTIPLE
-                            .handleColor(ContextCompat.getColor(SinglePayActivity.this, R.color.colorTransparentWhite)) //Optional - default: Azure Blue
-                            .bubbleColor(ContextCompat.getColor(SinglePayActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
+                            .setChoiceMode(MultiContactPicker.CHOICE_MODE_MULTIPLE) //Optional - default: CHOICE_MODE_MULTIPLE
+                            .handleColor(ContextCompat.getColor(LoanOutActivity.this, R.color.colorTransparentWhite)) //Optional - default: Azure Blue
+                            .bubbleColor(ContextCompat.getColor(LoanOutActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
                             .bubbleTextColor(Color.WHITE) //Optional - default: White
                             .showPickerForResult(CONTACT_PICKER_REQUEST);
                 }else{
-                    Toast.makeText(SinglePayActivity.this, "Remember to go into settings and enable the contacts permission.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoanOutActivity.this, "Remember to go into settings and enable the contacts permission.", Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+        btnDoneOwe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //create objects
+                DatabaseHelper dbHelper = new DatabaseHelper(LoanOutActivity.this);
+                String place = txtPlace.getText().toString();
+                String date = txtDate.getText().toString();
+                String reason = txtreason.getText().toString();
+                Double oweAmount = Double.parseDouble(txtAmountOwed.getText().toString());
+                // check if contact has been selected
+                if (results.isEmpty() == false){
+                    //save each name instance into the database
+                    for (int i = 0; i < results.size(); i++){
+                        //check if need to split total amount
+                        if (chkSplit.isChecked()){
+                            oweAmount = oweAmount/results.size();
+                        }
+                        //create new oweMoney object
+                        OweMoney objOweMoney = new OweMoney(reason,place, date, results.get(i).getDisplayName(), oweAmount);
+                        //add each peron instance into database
+                        dbHelper.addOwe(objOweMoney);
+                        Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
+                    }
+                }
+                else{
+                    Toast.makeText(LoanOutActivity.this, "Remember to select the person that has borrowed money from you.", Toast.LENGTH_LONG).show();
+                }
+
+
             }
         });
         //get current date
@@ -90,7 +117,7 @@ public class SinglePayActivity extends AppCompatActivity {
                 mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(SinglePayActivity.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(LoanOutActivity.this,
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -135,34 +162,4 @@ public class SinglePayActivity extends AppCompatActivity {
         }
     }
 
-    //on Done button clicked
-    public void onDoneOweClicked(View view) {
-        //create objects
-        DatabaseHelper dbHelper = new DatabaseHelper(SinglePayActivity.this);
-        String place = txtPlace.getText().toString();
-        String date = txtDate.getText().toString();
-        Double oweAmount = Double.parseDouble(txtAmountOwed.getText().toString());
-        // check if contact has been selected
-        if (results.isEmpty() == false){
-            //save each name instance into the database
-            for (int i = 0; i < results.size(); i++){
-                //check if need to split total amount
-                if (chkSplit.isChecked()){
-                    oweAmount = oweAmount/results.size();
-                }
-                //create new oweMoney object
-                OweMoney objOweMoney = new OweMoney(place, date, results.get(i).getDisplayName(), oweAmount);
-                //add each peron instance into database
-                dbHelper.addOwe(objOweMoney);
-                Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
-            }
-        }
-        else{
-            Toast.makeText(SinglePayActivity.this, "Remember to select the person that has borrowed money from you.", Toast.LENGTH_LONG).show();
-        }
-
-
-
-
-    }
 }

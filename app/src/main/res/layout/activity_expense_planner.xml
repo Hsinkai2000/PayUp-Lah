@@ -20,7 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="60"
-        android:id="@+id/recyclerView"/>
+        android:id="@+id/recyclerView"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
 
 </LinearLayout>

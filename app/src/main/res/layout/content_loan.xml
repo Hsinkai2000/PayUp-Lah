@@ -17,31 +17,33 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10"
-            android:text="Group Loan"
+            android:text="Borrow"
             android:textColor="@color/colorTransparentWhite"
             android:gravity="center_vertical"
             android:background="@drawable/colorsecondarydarkbox"
             android:padding="5dp"
             android:textSize="20dp"/>
-        <android.support.v7.widget.RecyclerView
+        <ListView
+            android:id="@+id/lvLoanIn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="40"
-            android:layout_margin="10dp"></android.support.v7.widget.RecyclerView>
+            android:layout_weight="25"
+            android:layout_margin="10dp"></ListView>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10"
-            android:text="Single Loan"
+            android:text="Loan"
             android:textColor="@color/colorTransparentWhite"
             android:gravity="center_vertical"
             android:background="@drawable/colorsecondarydarkbox"
             android:padding="5dp"
             android:textSize="20dp"/>
-        <android.support.v7.widget.RecyclerView
+        <ListView
+            android:id="@+id/lvLoanOut"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="40"
-            android:layout_margin="10dp"></android.support.v7.widget.RecyclerView>
+            android:layout_weight="55"
+            android:layout_margin="10dp"></ListView>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

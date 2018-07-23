@@ -6,6 +6,15 @@ public class OweMoney {
     String date;
     String borrowerName;
     double borrowAmount;
+    String reason;
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
 
     public int getOweMoneyID() {
         return OweMoneyID;
@@ -50,18 +59,22 @@ public class OweMoney {
     public OweMoney() {
     }
 
-    public OweMoney(String place, String date, String borrowerName, double borrowAmount) {
+    public OweMoney(String reason, String place, String date, String borrowerName, double borrowAmount) {
         this.place = place;
         this.date = date;
         this.borrowerName = borrowerName;
         this.borrowAmount = borrowAmount;
+        this.reason = reason;
     }
 
-    public OweMoney(int oweMoneyID, String place, String date, String borrowerName, double borrowAmount) {
+    public OweMoney(int oweMoneyID, String reason, String place, String date, String borrowerName, double borrowAmount) {
         OweMoneyID = oweMoneyID;
         this.place = place;
         this.date = date;
         this.borrowerName = borrowerName;
         this.borrowAmount = borrowAmount;
+        this.reason = reason;
     }
+
+
 }
