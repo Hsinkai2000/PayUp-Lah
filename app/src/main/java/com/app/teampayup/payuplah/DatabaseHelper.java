@@ -271,7 +271,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\" AND " + COL_DATE + " = \"" + date + "\"", null);
         return res;
     }*/
-    //" = \"Expense\""
+    //" = \"Expense\"
+    public Cursor GetAllProducts(){
+        Log.d(TAG, "Retrieve all Products: date SQL");
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME;
+        Cursor res = db.rawQuery( query, null);
+        return res;
+    }
+
     public Cursor RetrieveProducts(String newDateTime, String endDateTime){
 
         Log.d("DATETIMECHECK", "in database start dateTime : "+ newDateTime);
