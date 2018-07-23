@@ -18,6 +18,7 @@ import android.util.Log;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.regex.Pattern;
 
 import static android.support.constraint.Constraints.TAG;
@@ -271,10 +272,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }*/
     //" = \"Expense\""
-    public Cursor RetrieveProducts(String date){
+    public Cursor RetrieveProducts(String newDateTime, String endDateTime){
+
+        Log.d("DATETIMECHECK", "in database start dateTime : "+ newDateTime);
+        Log.d("DATETIMECHECK", "in database start dateTime : "+ endDateTime);
         Log.d(TAG, "RetrieveProducts: date SQL");
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_DATE + " = \"" + date + "\"";
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_DATE + " BETWEEN '" + newDateTime + "' AND '" + endDateTime + "'";
+        Log.d("QUERYTEST", "RetrieveProducts: date SQL" + query);
         Cursor res = db.rawQuery( query, null);
         return res;
     }
