@@ -183,15 +183,17 @@
             android:layout_height="0dp"
             android:layout_weight="15"
             android:weightSum="100"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:orientation="horizontal">
             <com.dx.dxloadingbutton.lib.LoadingButton
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="50"
-                android:background="@drawable/squareishbutton"
-                android:text="@string/done"
+                android:layout_height="match_parent"
+                android:layout_weight="100"
+                app:lb_btnText="@string/done"
+                app:lb_btnColor="@color/colorSecondary"
+                app:lb_textColor="@color/black"
                 android:id="@+id/btnSave"/>
         </LinearLayout>
 

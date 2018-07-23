@@ -78,29 +78,38 @@ public class LoanInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //create objects
                 btnDoneOwe.startLoading();
-                DatabaseHelper dbHelper = new DatabaseHelper(LoanInActivity.this);
-                String place = txtPlace.getText().toString();
-                String date = txtDate.getText().toString();
-                String reason = txtreason.getText().toString();
-                Double loanAmount = Double.parseDouble(txtAmountOwed.getText().toString());
-                // check if contact has been selected
-                if (results.isEmpty() == false) {
-                    //save each name instance into the database
-                    for (int i = 0; i < results.size(); i++) {
-                        //create new oweMoney object
-                        LoanInMoney loanInMoney = new LoanInMoney(place, date, results.get(i).getDisplayName(), loanAmount, reason);
-                        //add each peron instance into database
-                        dbHelper.addLoanIn(loanInMoney);
-                        Log.d("DEBUG", "onDoneOweClicked: Loan Person Added :D");
+                if (!txtPlace.getText().toString().isEmpty() && results.size() != 0 && !txtreason.getText().toString().isEmpty()) {
+                    DatabaseHelper dbHelper = new DatabaseHelper(LoanInActivity.this);
+                    String place = txtPlace.getText().toString();
+                    String date = txtDate.getText().toString();
+                    String reason = txtreason.getText().toString();
+                    Double loanAmount = Double.parseDouble(txtAmountOwed.getText().toString());
+                    // check if contact has been selected
+                    if (results.isEmpty() == false) {
+                        //save each name instance into the database
+                        for (int i = 0; i < results.size(); i++) {
+                            //create new oweMoney object
+                            LoanInMoney loanInMoney = new LoanInMoney(place, date, results.get(i).getDisplayName(), loanAmount, reason);
+                            //add each peron instance into database
+                            dbHelper.addLoanIn(loanInMoney);
+                            Log.d("DEBUG", "onDoneOweClicked: Loan Person Added :D");
+                        }
+                        btnDoneOwe.loadingSuccessful();
+                        btnDoneOwe.reset();
+                        txtPlace.setText(null);
+                        txtAmountOwed.setText(null);
+                        txtcontact.setText(null);
+                        results.clear();
+                        txtDate.setText(null);
+                        txtreason.setText(null);
                     }
-                    btnDoneOwe.loadingSuccessful();
-                    btnDoneOwe.reset();
-                } else {
-                    Toast.makeText(LoanInActivity.this, "Remember to select the person that you have borrowed money from.", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter all inputs", Toast.LENGTH_SHORT);
+                    toast.show();
                     btnDoneOwe.loadingFailed();
                     btnDoneOwe.isResetAfterFailed();
                 }
-
             }
         });
         //get current date

@@ -190,8 +190,9 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_weight="15"
-                android:background="@drawable/squareishbutton"
-                android:text="@string/done" />
+                app:lb_btnText="@string/done"
+                app:lb_btnColor="@color/colorSecondary"
+                app:lb_textColor="@color/black"/>
         </LinearLayout>
     </LinearLayout>
 

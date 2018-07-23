@@ -85,10 +85,10 @@ public class AddPurchasedItem extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                btnSave.startLoading(); //start loading
                 //get text of all fields
                 if (!txtName.getText().toString().isEmpty() && !txtPrice.getText().toString().isEmpty() && !txtDescription.getText().toString().isEmpty() && spinnerCat.getSelectedItem().toString() != spinnerCat.getItemAtPosition(0).toString()  && spinnerType.getSelectedItem().toString() != spinnerType.getItemAtPosition(0).toString()) {
-                    btnSave.startLoading(); //start loading
+
                     String itemName = txtName.getText().toString();
                     Float itemPrice = Float.parseFloat(txtPrice.getText().toString());
                     String datePurchased = txtDate.getText().toString() + " 00:00:00";
@@ -120,14 +120,21 @@ public class AddPurchasedItem extends AppCompatActivity {
 
                         btnSave.loadingSuccessful();
                         btnSave.reset();
+                        txtName.setText(null);
+                        txtPrice.setText(null);
+                        txtDescription.setText(null);
+                        spinnerCat.setSelection(0);
+                        spinnerType.setSelection(0);
                     } else {
-                        btnSave.loadingSuccessful();
+                        btnSave.loadingFailed();
                         btnSave.isResetAfterFailed();
                     }
                 }
                 else{
-                    Toast toast = Toast.makeText(getApplicationContext(), "Enter inputs", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter all inputs", Toast.LENGTH_SHORT);
                     toast.show();
+                    btnSave.loadingFailed();
+                    btnSave.isResetAfterFailed();
                 }
             }
         });
