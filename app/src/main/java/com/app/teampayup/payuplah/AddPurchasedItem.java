@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.dx.dxloadingbutton.lib.LoadingButton;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,7 +21,8 @@ import java.util.Locale;
 
 
 public class AddPurchasedItem extends AppCompatActivity {
-    Button btnDatePicker, btnSave;
+    Button btnDatePicker;
+    LoadingButton btnSave;
     EditText txtDate, txtName, txtPrice, txtDescription;
     private int mYear, mMonth, mDay;
     Spinner spinnerCat, spinnerType;
@@ -36,7 +39,7 @@ public class AddPurchasedItem extends AppCompatActivity {
         txtPrice=(EditText)findViewById(R.id.txtPrice);
         txtDescription=(EditText)findViewById(R.id.txtDescription);
         spinnerType= (Spinner)findViewById(R.id.spinnerType);
-        btnSave = (Button)findViewById(R.id.btnSave);
+        btnSave = (LoadingButton)findViewById(R.id.btnSave);
 
         //get current date
         Calendar cal = Calendar.getInstance(Locale.ENGLISH);
@@ -79,41 +82,55 @@ public class AddPurchasedItem extends AppCompatActivity {
 
             }
         });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-    }
+                //get text of all fields
+                if (!txtName.getText().toString().isEmpty() && !txtPrice.getText().toString().isEmpty() && !txtDescription.getText().toString().isEmpty() && spinnerCat.getSelectedItem().toString() != spinnerCat.getItemAtPosition(0).toString()  && spinnerType.getSelectedItem().toString() != spinnerType.getItemAtPosition(0).toString()) {
+                    btnSave.startLoading(); //start loading
+                    String itemName = txtName.getText().toString();
+                    Float itemPrice = Float.parseFloat(txtPrice.getText().toString());
+                    String datePurchased = txtDate.getText().toString() + " 00:00:00";
+                    String itemDesc = txtDescription.getText().toString();
+                    String itemCat = spinnerCat.getSelectedItem().toString();
+                    String itemType = spinnerType.getSelectedItem().toString();
 
-    //when save is clicked
-    public void onSaveClick(View view) {
+                    //add all data into a product object
+                    Product product = new Product();
+                    product.setProductName(itemName);
+                    product.setPrice(itemPrice);
+                    product.setDate(datePurchased);
+                    product.setDescription(itemDesc);
+                    product.setCategory(itemCat);
+                    product.setType(itemType);
 
-        //get text of all fields
-        String itemName = txtName.getText().toString();
-        Float itemPrice = Float.parseFloat(txtPrice.getText().toString());
-        String datePurchased = txtDate.getText().toString() + " 00:00:00";
-        String itemDesc = txtDescription.getText().toString();
-        String itemCat = spinnerCat.getSelectedItem().toString();
-        String itemType = spinnerType.getSelectedItem().toString();
+                    txtName.setText(itemName);
+                    txtPrice.setText(itemPrice.toString());
+                    txtDate.setText(datePurchased);
+                    txtDescription.setText(itemDesc);
+                    //insert new data into sqlite Item table
+                    DatabaseHelper dbhelper = new DatabaseHelper(AddPurchasedItem.this);
+                    dbhelper.addItem(product);
 
-        //add all data into a product object
-        Product product = new Product();
-        product.setProductName(itemName);
-        product.setPrice(itemPrice);
-        product.setDate(datePurchased);
-        product.setDescription(itemDesc);
-        product.setCategory(itemCat);
-        product.setType(itemType);
+                    //check if new profile is created
+                    Product product2 = dbhelper.findItem(itemName);
+                    if (product2 != null) {
+                        Log.d("DEBUG", "newItem: created");
 
-        //insert new data into sqlite Item table
-        DatabaseHelper dbhelper = new DatabaseHelper(AddPurchasedItem.this);
-        dbhelper.addItem(product);
-
-        //check if new profile is created
-        Product product2 = dbhelper.findItem(itemName);
-        if (product2 != null){
-            Log.d("DEBUG", "newItem: created");
-            Toast toast = Toast.makeText(getApplicationContext(), "Product is created", Toast.LENGTH_LONG);
-            toast.show();
-        }
-
+                        btnSave.loadingSuccessful();
+                        btnSave.reset();
+                    } else {
+                        btnSave.loadingSuccessful();
+                        btnSave.isResetAfterFailed();
+                    }
+                }
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Enter inputs", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            }
+        });
     }
 
 }

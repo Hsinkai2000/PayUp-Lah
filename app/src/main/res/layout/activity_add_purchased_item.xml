@@ -185,14 +185,13 @@
             android:weightSum="100"
             android:orientation="horizontal"
             android:gravity="center_horizontal">
-            <Button
+            <com.dx.dxloadingbutton.lib.LoadingButton
                 android:layout_marginTop="10dp"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="50"
                 android:background="@drawable/squareishbutton"
                 android:text="@string/done"
-                android:onClick="onSaveClick"
                 android:id="@+id/btnSave"/>
         </LinearLayout>
 

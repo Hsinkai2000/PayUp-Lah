@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
 
@@ -27,7 +28,8 @@ import java.util.Locale;
 
 public class LoanOutActivity extends AppCompatActivity {
     EditText txtDate,txtcontact,txtAmountOwed,txtPlace, txtreason;
-    Button btnDatePicker,btnDoneOwe;
+    Button btnDatePicker;
+    LoadingButton btnDoneOwe;
     private int mYear, mMonth, mDay;
     private static final int CONTACT_PICKER_REQUEST = 991;
     List<ContactResult> results;
@@ -73,6 +75,7 @@ public class LoanOutActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //create objects
+                btnDoneOwe.startLoading();
                 DatabaseHelper dbHelper = new DatabaseHelper(LoanOutActivity.this);
                 String place = txtPlace.getText().toString();
                 String date = txtDate.getText().toString();
@@ -92,9 +95,13 @@ public class LoanOutActivity extends AppCompatActivity {
                         dbHelper.addOwe(objOweMoney);
                         Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
                     }
+                    btnDoneOwe.loadingSuccessful();
+                    btnDoneOwe.reset();
                 }
                 else{
                     Toast.makeText(LoanOutActivity.this, "Remember to select the person that has borrowed money from you.", Toast.LENGTH_LONG).show();
+                    btnDoneOwe.loadingFailed();
+                    btnDoneOwe.isResetAfterFailed();
                 }
 
 
