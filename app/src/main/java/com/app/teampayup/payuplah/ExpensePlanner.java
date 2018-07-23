@@ -45,13 +45,19 @@ public class ExpensePlanner extends AppCompatActivity {
         calendar = (MaterialCalendarView)findViewById(R.id.calendarView);
         recyclerView = findViewById(R.id.recyclerView);
         StringBuffer buffer = new StringBuffer();
-        CheckDate();
+        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                CheckDate();
+            }
+        });
         AdditemList(ProductList);
         initRecyclerView();
     }
 
     private void AdditemList(ArrayList List){
         String date = CheckDate();
+        Log.d(TAG, "AdditemList: " + date);
         DatabaseHelper db = new DatabaseHelper(this);
         Cursor res = db.RetrieveProducts(date);
         int itemID = 0;
@@ -97,8 +103,22 @@ public class ExpensePlanner extends AppCompatActivity {
                 //SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                 String newDate = date.toString().substring(12);
                 newDate = newDate.replaceAll(Pattern.quote("}"), ""); //just the date "
-                g.setDate(newDate);
-                Log.d(TAG, "onDateSelected: " + newDate); //toast is 2018-6-20 which is also a string
+                //g.setDate(newDate); //calendar{2018-7-7}
+                int day = date.getDay();
+                int month = date.getMonth();
+                int year = date.getYear();
+                String strMonth = "";
+                if ((month+1) < 10){
+                    strMonth = "0" + (month+1);
+                }
+                else{
+                    strMonth= String.valueOf(month);
+                }
+                String strYear = String.valueOf(year);
+                String strDay = String.valueOf(day);
+                String queryDate = strYear + "-" + strMonth + "-" + strDay; //+ " 00:00:00" ;
+                g.setDate(queryDate);
+                Log.d(TAG, "onDateSelected: " + queryDate); //toast is 2018-6-20 which is also a string
                 Toast.makeText(ExpensePlanner.this, "" + newDate, Toast.LENGTH_SHORT).show();
             }
 
@@ -113,4 +133,6 @@ public class ExpensePlanner extends AppCompatActivity {
         builder.setMessage(message);
         builder.show();
     }
+
+
 }
