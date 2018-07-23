@@ -30,8 +30,8 @@ public class SliderAdapter extends PagerAdapter {
             R.drawable.addprofile,
             R.drawable.addprofile,
             R.drawable.addprofile,
-            R.drawable.addprofile,
             R.drawable.addprofile
+           // R.drawable.addprofile
     };
     public String[] slide_headings ={
             "Add Profile",
@@ -39,8 +39,8 @@ public class SliderAdapter extends PagerAdapter {
             "Add Profile",
             "Add Profile",
             "Add Profile",
-            "Add Profile",
             "Pie Chart"
+           // "Pie Chart"
     };
 
     @Override
@@ -99,8 +99,8 @@ public class SliderAdapter extends PagerAdapter {
                     context.startActivity(gotoAddProfile);
                 }
                 else if (cPos == 1){
-                    Intent gotoAddProfile = new Intent(context, PieActivity.class);
-                    context.startActivity(gotoAddProfile);
+                    Intent gotoPieProfile = new Intent(context, ExpensePie.class);
+                    context.startActivity(gotoPieProfile);
 
                 }
             }
