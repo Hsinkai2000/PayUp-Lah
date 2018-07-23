@@ -94,14 +94,12 @@ public class ExpensePlanner extends AppCompatActivity {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 Log.d(TAG, "onDateSelected: DateMarked");
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-                SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                //SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
                 String newDate = date.toString().substring(12);
                 newDate = newDate.replaceAll(Pattern.quote("}"), ""); //just the date "
-                newDate = inputFormat.parse(newDate, new ParsePosition(0)).toString();
-                String newFormatDate = outputFormat.format(String.valueOf(newDate));
-                g.setDate(newFormatDate);
-                Log.d(TAG, "onDateSelected: " + newFormatDate); //toast is 2018-6-20 which is also a string
-                Toast.makeText(ExpensePlanner.this, "" + newFormatDate, Toast.LENGTH_SHORT).show();
+                g.setDate(newDate);
+                Log.d(TAG, "onDateSelected: " + newDate); //toast is 2018-6-20 which is also a string
+                Toast.makeText(ExpensePlanner.this, "" + newDate, Toast.LENGTH_SHORT).show();
             }
 
         });
