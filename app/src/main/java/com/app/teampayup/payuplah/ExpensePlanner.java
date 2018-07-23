@@ -2,7 +2,7 @@ package com.app.teampayup.payuplah;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.icu.text.SimpleDateFormat;
+import android.icu.text.DateFormat;
 import android.net.sip.SipAudioCall;
 import android.nfc.Tag;
 import android.provider.ContactsContract;
@@ -20,10 +20,15 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import java.io.Console;
+import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Pattern;
+import java.text.SimpleDateFormat;
 
 public class ExpensePlanner extends AppCompatActivity {
     private static final String TAG = "ExpensePlanner";
@@ -32,7 +37,6 @@ public class ExpensePlanner extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     MaterialCalendarView calendar;
     RecyclerView recyclerView;
-    String date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +51,9 @@ public class ExpensePlanner extends AppCompatActivity {
     }
 
     private void AdditemList(ArrayList List){
+        String date = CheckDate();
         DatabaseHelper db = new DatabaseHelper(this);
-        Cursor res = db.RetrieveProducts();
+        Cursor res = db.RetrieveProducts(date);
         int itemID = 0;
         String itemName = null;
         String itemDate = null;
@@ -67,7 +72,7 @@ public class ExpensePlanner extends AppCompatActivity {
             Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
             List.add(product);
         }
-        StringBuffer sBuffer = new StringBuffer("id: " + itemID + "\nName: " + itemName + "\nPrice: " + itemPrice
+        StringBuffer sBuffer = new StringBuffer("id: " + date + "\nName: " + itemName + "\nPrice: " + itemPrice
                 + "\ndate:  " + String.valueOf(itemDate) + "\ndesc: " +itemdesc+ "\ncat: " + itemcat+ "\ntype: " + itemType );
         showMessage("Details", sBuffer.toString());
     }
@@ -80,19 +85,27 @@ public class ExpensePlanner extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
-    private void CheckDate(){
+    private String CheckDate(){
         Log.d(TAG, "Check date: checking date from calendar");
         Product objProd = new Product();
+        final Global g = (Global)getApplication();
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 Log.d(TAG, "onDateSelected: DateMarked");
-                Toast.makeText(ExpensePlanner.this, "" + date, Toast.LENGTH_SHORT).show();
-                //String selecteddate = String.valueOf(widget.getCurrentDate());
+                SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                String newDate = date.toString().substring(12);
+                newDate = newDate.replaceAll(Pattern.quote("}"), ""); //just the date "
+                newDate = inputFormat.parse(newDate, new ParsePosition(0)).toString();
+                String newFormatDate = outputFormat.format(String.valueOf(newDate));
+                g.setDate(newFormatDate);
+                Log.d(TAG, "onDateSelected: " + newFormatDate); //toast is 2018-6-20 which is also a string
+                Toast.makeText(ExpensePlanner.this, "" + newFormatDate, Toast.LENGTH_SHORT).show();
             }
 
         });
-
+        return g.getDate();
     }
 
     public void showMessage(String title, String message){

@@ -6,11 +6,21 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import android.text.format.DateFormat;
 import android.util.Log;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+
+import static android.support.constraint.Constraints.TAG;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -261,9 +271,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }*/
     //" = \"Expense\""
-    public Cursor RetrieveProducts(){
+    public Cursor RetrieveProducts(String date){
+        Log.d(TAG, "RetrieveProducts: date SQL");
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + ITEM_TABLE_NAME;// + " WHERE " + COL_DATE + " = \"" + date + "\"";
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_DATE + " = \"" + date + "\"";
         Cursor res = db.rawQuery( query, null);
         return res;
     }
