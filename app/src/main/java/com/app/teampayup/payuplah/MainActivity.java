@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     TextView txtAmtSpent, txtAmtRecieve;
     LinearLayout mDotLayout;
     SliderAdapter sliderAdapter;
+    ArrayList<OweMoney> oweMoneyList = new ArrayList<OweMoney>();
     ArrayList<Product> productList = new ArrayList<Product>();
     Double totalOwe = 0.00;
     Double totalSpent = 0.00;
@@ -91,28 +92,53 @@ public class MainActivity extends AppCompatActivity {
             Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
             productList.add(product);
         }
-        
+
+        Cursor res2 = db.getAllOweData();
+        int OweMoneyIDout;
+        String placeout;
+        String dateout;
+        String borrowerNameout;
+        String reasonout;
+        double borrowAmountout;
+        while (res2.moveToNext()){
+            OweMoneyIDout = res2.getInt(0);
+            reasonout = res2.getString(1);
+            placeout = res2.getString(2);
+            dateout = res2.getString(3);
+            borrowerNameout = res2.getString(4);
+            borrowAmountout = res2.getDouble(5);
+            OweMoney oweMoney = new OweMoney(OweMoneyIDout, reasonout, placeout, dateout, borrowerNameout, borrowAmountout);
+            oweMoneyList.add(oweMoney);
+        }
+
         res.close();
+        res2.close();
         if (productList.size() == 0){
-            Log.d("TESTING123", "onCreate: nothing in list");
+            Log.d("TESTING123", "onCreate: nothing in spend list");
         }
         else {
             for (Product p : productList
                     ) {
                 Log.d("TESTING123", (p.getDate()));
                 if (p.getType().equals("Expense")) {
-                    totalOwe += p.getPrice();
+                    totalSpent += p.getPrice();
                 }
             }
         }
-
-        //get Amt to be recieved
-        Cursor resRecieve = db.getAllLoanInData();
-
+        if (oweMoneyList.size() == 0){
+            Log.d("TESTING123", "onCreate: nothing in owe list");
+        }
+        else {
+            for (OweMoney o : oweMoneyList
+                    ) {
+                Log.d("TESTING123", (o.getDate()));
+                    totalOwe += o.getBorrowAmount();
+            }
+        }
 
         //res2.close();
-        txtAmtSpent.setText("$" + totalOwe.toString());
-        //txtAmtSpent.setText("$" + totalSpent.toString());
+        txtAmtSpent.setText("$" + totalSpent.toString());
+        txtAmtRecieve.setText("$" + totalOwe.toString());
 
 
     }
