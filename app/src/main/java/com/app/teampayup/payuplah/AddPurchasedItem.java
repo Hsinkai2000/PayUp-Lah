@@ -90,45 +90,30 @@ public class AddPurchasedItem extends AppCompatActivity {
                 if (!txtName.getText().toString().isEmpty() && !txtPrice.getText().toString().isEmpty() && !txtDescription.getText().toString().isEmpty() && spinnerCat.getSelectedItem().toString() != spinnerCat.getItemAtPosition(0).toString()  && spinnerType.getSelectedItem().toString() != spinnerType.getItemAtPosition(0).toString()) {
 
                     String itemName = txtName.getText().toString();
-                    Float itemPrice = Float.parseFloat(txtPrice.getText().toString());
+                    Double itemPrice = Double.parseDouble(txtPrice.getText().toString());
                     String datePurchased = txtDate.getText().toString() + " 00:00:00";
                     String itemDesc = txtDescription.getText().toString();
                     String itemCat = spinnerCat.getSelectedItem().toString();
                     String itemType = spinnerType.getSelectedItem().toString();
 
-                    //add all data into a product object
-                    Product product = new Product();
-                    product.setProductName(itemName);
-                    product.setPrice(itemPrice);
-                    product.setDate(datePurchased);
-                    product.setDescription(itemDesc);
-                    product.setCategory(itemCat);
-                    product.setType(itemType);
 
-                    txtName.setText(itemName);
-                    txtPrice.setText(itemPrice.toString());
-                    txtDate.setText(datePurchased);
-                    txtDescription.setText(itemDesc);
+                    //add all data into a product object
+                    Product product = new Product(itemPrice, datePurchased, itemDesc, itemCat, itemName, itemType);
+
                     //insert new data into sqlite Item table
                     DatabaseHelper dbhelper = new DatabaseHelper(AddPurchasedItem.this);
                     dbhelper.addItem(product);
 
-                    //check if new profile is created
-                    Product product2 = dbhelper.findItem(itemName);
-                    if (product2 != null) {
-                        Log.d("DEBUG", "newItem: created");
+                    Log.d("DEBUG", "newItem: created");
 
-                        btnSave.loadingSuccessful();
-                        btnSave.reset();
-                        txtName.setText(null);
-                        txtPrice.setText(null);
-                        txtDescription.setText(null);
-                        spinnerCat.setSelection(0);
-                        spinnerType.setSelection(0);
-                    } else {
-                        btnSave.loadingFailed();
-                        btnSave.isResetAfterFailed();
-                    }
+                    btnSave.loadingSuccessful();
+                    btnSave.reset();
+                    txtName.setText(null);
+                    txtPrice.setText(null);
+                    txtDescription.setText(null);
+                    spinnerCat.setSelection(0);
+                    spinnerType.setSelection(0);
+
                 }
                 else{
                     Toast toast = Toast.makeText(getApplicationContext(), "Please enter all inputs", Toast.LENGTH_SHORT);

@@ -27,7 +27,7 @@
             android:id="@+id/slideDesc1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="20"
             android:text="Add Profile"
             android:textSize="16dp"
             android:gravity="center_horizontal"/>
@@ -55,7 +55,7 @@
             android:id="@+id/slideDesc2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="20"
             android:text="Add Profile"
             android:textSize="16dp"
             android:gravity="center_horizontal"/>
@@ -84,7 +84,7 @@
             android:id="@+id/slideDesc3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
+            android:layout_weight="20"
             android:text="Add Profile"
             android:textSize="16dp"
             android:gravity="center_horizontal"/>

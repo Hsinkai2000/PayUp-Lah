@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,8 +28,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class LoanOutActivity extends AppCompatActivity {
-    EditText txtDate,txtcontact,txtAmountOwed,txtPlace, txtreason;
+    EditText txtDate,txtcontact,txtAmountOwed,txtPlace, txtReason;
     Button btnDatePicker;
+    int MY_PERMISSIONS_REQUEST_READ_CONTACTS;
     LoadingButton btnDoneOwe;
     private int mYear, mMonth, mDay;
     private static final int CONTACT_PICKER_REQUEST = 991;
@@ -48,7 +50,7 @@ public class LoanOutActivity extends AppCompatActivity {
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         txtcontact = findViewById(R.id.txtcontact);
         chkSplit = findViewById(R.id.chkSplit);
-        txtreason = findViewById(R.id.txtReason);
+        txtReason = findViewById(R.id.txtReason);
 
         //button to select contacts clicked
         btngocontacts.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +68,9 @@ public class LoanOutActivity extends AppCompatActivity {
                             .bubbleTextColor(Color.WHITE) //Optional - default: White
                             .showPickerForResult(CONTACT_PICKER_REQUEST);
                 }else{
-                    Toast.makeText(LoanOutActivity.this, "Remember to go into settings and enable the contacts permission.", Toast.LENGTH_LONG).show();
+                    ActivityCompat.requestPermissions(LoanOutActivity.this,
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            MY_PERMISSIONS_REQUEST_READ_CONTACTS);
                 }
             }
         });
@@ -76,24 +80,26 @@ public class LoanOutActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //create objects
                 btnDoneOwe.startLoading();
-                if (!txtPlace.getText().toString().isEmpty() && results.size() != 0 && !txtreason.getText().toString().isEmpty()) {
+                if (!txtPlace.getText().toString().isEmpty() && results.size() != 0 && !txtReason.getText().toString().isEmpty()) {
                     DatabaseHelper dbHelper = new DatabaseHelper(LoanOutActivity.this);
                     String place = txtPlace.getText().toString();
                     String date = txtDate.getText().toString();
-                    String reason = txtreason.getText().toString();
+                    String reason = txtReason.getText().toString();
                     Double oweAmount = Double.parseDouble(txtAmountOwed.getText().toString());
                     // check if contact has been selected
                     if (results.isEmpty() == false) {
                         //save each name instance into the database
                         for (int i = 0; i < results.size(); i++) {
+                            Double split = oweAmount;
                             //check if need to split total amount
                             if (chkSplit.isChecked()) {
-                                oweAmount = oweAmount / results.size();
+                                split = split / results.size();
                             }
                             //create new oweMoney object
-                            OweMoney objOweMoney = new OweMoney(reason, place, date, results.get(i).getDisplayName(), oweAmount);
+                            OweMoney objOweMoney = new OweMoney(reason, place, date, results.get(i).getDisplayName(), split);
                             //add each peron instance into database
                             dbHelper.addOwe(objOweMoney);
+                            Log.d("DEBUGREASON", objOweMoney.ToString());
                             Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
                         }
                         btnDoneOwe.loadingSuccessful();
@@ -103,7 +109,7 @@ public class LoanOutActivity extends AppCompatActivity {
                         txtcontact.setText(null);
                         results.clear();
                         txtDate.setText(null);
-                        txtreason.setText(null);
+                        txtReason.setText(null);
                     }
 
                 }

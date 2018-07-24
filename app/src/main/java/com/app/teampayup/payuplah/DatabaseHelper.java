@@ -209,6 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Owe Table
     public void addOwe(OweMoney owemoney){
         ContentValues values = new ContentValues();
+        values.put(COL_REASON, owemoney.getReason());
         values.put(COL_PLACE, owemoney.getPlace());
         values.put(COL_DATE, owemoney.getDate());
         values.put(COL_BORROWERNAME, owemoney.getBorrowerName());

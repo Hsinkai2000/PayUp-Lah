@@ -35,10 +35,10 @@ public class SliderAdapter extends PagerAdapter {
     };
     public String[] slide_headings ={
             "Add Profile",
-            "Add Profile",
-            "Add Profile",
-            "Add Profile",
-            "Add Profile",
+            "Add Expenditure",
+            "Add Loans",
+            "View Expenditure",
+            "Extra Button",
             "Pie Chart"
            // "Pie Chart"
     };
@@ -105,14 +105,24 @@ public class SliderAdapter extends PagerAdapter {
                 }
             }
         });
+        if (cPos == 0){
+            btnAdd.setImageResource(slide_images[0]);
+            btnAdd1.setImageResource(slide_images[1]);
+            btnAdd2.setImageResource(slide_images[2]);
 
-        btnAdd.setImageResource(slide_images[position]);
-        btnAdd1.setImageResource(slide_images[position]);
-        btnAdd2.setImageResource(slide_images[position]);
+            tv1.setText(slide_headings[0]);
+            tv2.setText(slide_headings[1]);
+            tv3.setText(slide_headings[2]);
+        }
+        else{
+            btnAdd.setImageResource(slide_images[3]);
+            btnAdd1.setImageResource(slide_images[4]);
+            btnAdd2.setImageResource(slide_images[5]);
 
-        tv1.setText(slide_headings[position]);
-        tv2.setText(slide_headings[position]);
-        tv3.setText(slide_headings[position]);
+            tv1.setText(slide_headings[3]);
+            tv2.setText(slide_headings[4]);
+            tv3.setText(slide_headings[5]);
+        }
 
         container.addView(view);
         return view;
