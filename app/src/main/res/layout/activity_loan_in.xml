@@ -103,7 +103,7 @@
                             android:layout_marginRight="20dp"
                             android:background="@drawable/textbox_roundedcorners"
                             android:paddingBottom="20dp" />
-                        />
+
 
                         <Button
                             android:layout_width="wrap_content"

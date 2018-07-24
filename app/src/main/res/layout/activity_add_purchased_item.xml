@@ -79,7 +79,8 @@
                     android:layout_marginBottom="20dp"
                     android:background="@drawable/textbox_roundedcorners"
                     android:inputType="numberDecimal"
-                    android:paddingBottom="20dp" /> />
+                    android:paddingBottom="20dp" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -102,7 +103,7 @@
                         android:layout_marginBottom="20dp"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/textbox_roundedcorners"/>
-                        />
+
 
                     <Button
                         android:layout_width="95dp"
@@ -134,7 +135,7 @@
                     android:gravity="top|left"
                     android:inputType="textMultiLine"
                     android:paddingBottom="20dp"
-                    android:scrollbars="vertical" />/>
+                    android:scrollbars="vertical" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

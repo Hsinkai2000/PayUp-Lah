@@ -61,6 +61,8 @@ public class PurchasedActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
     private void initRecyclerView(){
         Log.d(TAG, "initRecyclerView: showing recyclerview");

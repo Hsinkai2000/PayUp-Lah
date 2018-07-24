@@ -81,6 +81,7 @@ public class LoanActivity extends AppCompatActivity {
                 borrowerNameout = res.getString(4);
                 borrowAmountout = res.getDouble(5);
                 OweMoney oweMoney = new OweMoney(OweMoneyIDout, reasonout, placeout, dateout, borrowerNameout, borrowAmountout);
+                Log.d("DEBUGREASON", "onCreate: " + oweMoney.ToString());
                 loanout.add(oweMoney);
             }
             while(resIn.moveToNext()){
@@ -110,6 +111,15 @@ public class LoanActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 StringBuffer sBuffer = new StringBuffer("reason: " + loanout.get(position).getReason() + "\nplace: " + loanout.get(position).getPlace() + "\nDate: " + loanout.get(position).getDate()
                 + "\nBorrower's Name: " + loanout.get(position).getBorrowerName() + "\nBorrowed Amount: $" + loanout.get(position).getBorrowAmount());
+                showMessage("Details", sBuffer.toString());
+            }
+        });
+
+        lvLoanIn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                StringBuffer sBuffer = new StringBuffer("reason: " + loanIn.get(position).getReason() + "\nplace: " + loanIn.get(position).getPlace() + "\nDate: " + loanIn.get(position).getDate()
+                        + "\nBorrower's Name: " + loanIn.get(position).getLoanerName() + "\nBorrowed Amount: $" + loanIn.get(position).getLoanAmount());
                 showMessage("Details", sBuffer.toString());
             }
         });

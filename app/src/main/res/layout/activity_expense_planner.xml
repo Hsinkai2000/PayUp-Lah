@@ -13,13 +13,13 @@
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="60"
+        android:layout_weight="50"
         app:mcv_selectionColor="#00F"></com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="60"
+        android:layout_weight="50"
         android:id="@+id/recyclerView"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 

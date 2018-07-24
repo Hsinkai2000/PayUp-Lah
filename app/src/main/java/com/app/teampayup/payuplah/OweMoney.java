@@ -76,5 +76,7 @@ public class OweMoney {
         this.reason = reason;
     }
 
-
+    public String ToString(){
+        return " '" + reason +" '" + place +" '" + date +" '" + borrowerName +" '" + borrowAmount;
+    }
 }

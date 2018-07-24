@@ -209,6 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //Owe Table
     public void addOwe(OweMoney owemoney){
         ContentValues values = new ContentValues();
+        values.put(COL_REASON, owemoney.getReason());
         values.put(COL_PLACE, owemoney.getPlace());
         values.put(COL_DATE, owemoney.getDate());
         values.put(COL_BORROWERNAME, owemoney.getBorrowerName());
@@ -376,4 +377,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return result;
     }//delete owe
+
+    public Cursor getProductPie(){
+        Log.d(TAG, "getProductPie:  Getting pie products");
+        String query = "SELECT " + COL_ITEMNAME + ", " + COL_PRICE + " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Income" + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        return cursor;
+    }
 }
