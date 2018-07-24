@@ -21,6 +21,13 @@ public class PurchasedActivity extends AppCompatActivity {
     RecyclerView recylcerExpense;
     final String TAG = "PurchasedActivity";
     ArrayList<Product> ProductList = new ArrayList<Product>();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayData();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +37,29 @@ public class PurchasedActivity extends AppCompatActivity {
 
         recylcerExpense = findViewById(R.id.recyclerExpense);
 
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddPurchasedItem);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToAddPurchasedItem = new Intent(getApplicationContext(), AddPurchasedItem.class);
+                startActivity(goToAddPurchasedItem);
+
+            }
+        });
+
+        displayData();
+    }
+    private void initRecyclerView(){
+        Log.d(TAG, "initRecyclerView: showing recyclerview");
+        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, ProductList);
+        recylcerExpense.setAdapter(adapter);
+        recylcerExpense.setLayoutManager(new LinearLayoutManager(this));
+        recylcerExpense.setHasFixedSize(true);
+    }
+
+    public void displayData(){
+        ProductList.clear();
         DatabaseHelper db = new DatabaseHelper(this);
         Cursor res = db.GetAllProducts();
         int itemID = 0;
@@ -52,24 +82,5 @@ public class PurchasedActivity extends AppCompatActivity {
         }
 
         initRecyclerView();
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddPurchasedItem);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent goToAddPurchasedItem = new Intent(getApplicationContext(), AddPurchasedItem.class);
-                startActivity(goToAddPurchasedItem);
-
-            }
-        });
-
-
     }
-    private void initRecyclerView(){
-        Log.d(TAG, "initRecyclerView: showing recyclerview");
-        RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, ProductList);
-        recylcerExpense.setAdapter(adapter);
-        recylcerExpense.setLayoutManager(new LinearLayoutManager(this));
-        recylcerExpense.setHasFixedSize(true);
-    }
-
 }

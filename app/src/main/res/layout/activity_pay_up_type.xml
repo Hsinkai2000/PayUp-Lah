@@ -14,11 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="40"
-        android:src="@drawable/addprofile"
+        android:src="@drawable/borrow"
         app:civ_border_width="2dp"
         app:civ_border_color="#FF000000"
         android:onClick="onClickGroupPay"
-        android:paddingTop="10dp"/>
+        android:paddingTop="10dp"
+        app:civ_circle_background_color="@color/iconBackground"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -37,11 +39,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="40"
-        android:src="@drawable/picwords"
+        android:src="@drawable/loanmoney"
         app:civ_border_width="2dp"
         app:civ_border_color="#FF000000"
         android:onClick="onClickSinglePay"
-        android:paddingTop="10dp"/>
+        android:paddingTop="10dp"
+        app:civ_circle_background_color="@color/iconBackground"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"

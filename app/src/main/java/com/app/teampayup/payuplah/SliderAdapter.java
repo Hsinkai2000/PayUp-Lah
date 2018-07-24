@@ -25,21 +25,19 @@ public class SliderAdapter extends PagerAdapter {
 
     //Arrays
     public int[] slide_images ={
-            R.drawable.addprofile,
-            R.drawable.addprofile,
-            R.drawable.addprofile,
-            R.drawable.addprofile,
-            R.drawable.addprofile,
+            R.drawable.expenses,
+            R.drawable.loan,
+            R.drawable.history,
+            R.drawable.piechart,
             R.drawable.addprofile
            // R.drawable.addprofile
     };
     public String[] slide_headings ={
-            "Add Profile",
             "Add Expenditure",
             "Add Loans",
             "View Expenditure",
-            "Extra Button",
-            "Pie Chart"
+            "Pie Chart",
+            "Add Profile"
            // "Pie Chart"
     };
 
@@ -69,12 +67,12 @@ public class SliderAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if (cPos == 0){
-                    Intent gotoAddProfile = new Intent(context, AddProfile.class);
-                    context.startActivity(gotoAddProfile);
+                    Intent gotoExpenditure = new Intent(context, PurchasedActivity.class);
+                    context.startActivity(gotoExpenditure);
                 }
                 else if (cPos == 1){
-                    Intent gotoAddProfile = new Intent(context, ExpensePlanner.class);
-                    context.startActivity(gotoAddProfile);
+                    Intent goToPieChart = new Intent(context, ExpensePie.class);
+                    context.startActivity(goToPieChart);
                 }
             }
         });
@@ -82,12 +80,12 @@ public class SliderAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if (cPos == 0){
-                    Intent gotoPurchased = new Intent(context, PurchasedActivity.class);
-                    context.startActivity(gotoPurchased);
+                    Intent goToLoan = new Intent(context, LoanActivity.class);
+                    context.startActivity(goToLoan);
                 }
                 else if (cPos == 1){
-                Intent gotoPurchased = new Intent(context, PurchasedActivity.class);
-                    context.startActivity(gotoPurchased);
+                Intent goToAddProfile = new Intent(context, AddProfile.class);
+                    context.startActivity(goToAddProfile);
                 }
             }
         });
@@ -95,13 +93,8 @@ public class SliderAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if (cPos == 0){
-                    Intent gotoAddProfile = new Intent(context, LoanActivity.class);
-                    context.startActivity(gotoAddProfile);
-                }
-                else if (cPos == 1){
-                    Intent gotoPieProfile = new Intent(context, ExpensePie.class);
-                    context.startActivity(gotoPieProfile);
-
+                    Intent goToViewExpense = new Intent(context, ExpensePlanner.class);
+                    context.startActivity(goToViewExpense);
                 }
             }
         });
@@ -117,11 +110,11 @@ public class SliderAdapter extends PagerAdapter {
         else{
             btnAdd.setImageResource(slide_images[3]);
             btnAdd1.setImageResource(slide_images[4]);
-            btnAdd2.setImageResource(slide_images[5]);
+            btnAdd2.setImageResource(android.R.color.transparent);
 
             tv1.setText(slide_headings[3]);
             tv2.setText(slide_headings[4]);
-            tv3.setText(slide_headings[5]);
+            tv3.setText(null);
         }
 
         container.addView(view);

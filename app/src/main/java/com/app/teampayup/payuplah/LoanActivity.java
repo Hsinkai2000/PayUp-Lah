@@ -25,6 +25,13 @@ public class LoanActivity extends AppCompatActivity {
     List<OweMoney> loanout = new ArrayList<OweMoney>();
     List<LoanInMoney> loanIn = new ArrayList<LoanInMoney>();
     DatabaseHelper db;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        displayGrids();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,19 @@ public class LoanActivity extends AppCompatActivity {
             }
         });
 
+        displayGrids();
+    }
+
+    public void showMessage(String title, String message){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }
+    public void displayGrids(){
+        loanout.clear();
+        loanIn.clear();
         //get loan data
         Cursor res = db.getAllOweData();
         int OweMoneyIDout;
@@ -110,7 +130,7 @@ public class LoanActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 StringBuffer sBuffer = new StringBuffer("reason: " + loanout.get(position).getReason() + "\nplace: " + loanout.get(position).getPlace() + "\nDate: " + loanout.get(position).getDate()
-                + "\nBorrower's Name: " + loanout.get(position).getBorrowerName() + "\nBorrowed Amount: $" + loanout.get(position).getBorrowAmount());
+                        + "\nBorrower's Name: " + loanout.get(position).getBorrowerName() + "\nBorrowed Amount: $" + loanout.get(position).getBorrowAmount());
                 showMessage("Details", sBuffer.toString());
             }
         });
@@ -124,14 +144,5 @@ public class LoanActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void showMessage(String title, String message){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.show();
-    }
-
 
 }

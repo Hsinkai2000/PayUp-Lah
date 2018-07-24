@@ -11,4 +11,5 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="colorTransparentWhite">#cccccc</color>
     <color name="black">#000</color>
+    <color name="iconBackground">#80a0d2</color>
 </resources>
