@@ -58,8 +58,9 @@ public class ExpensePie extends AppCompatActivity {
         description.setText("Expense");
         description.setTextSize(11);
         pieChart.setDescription(description);
+        pieChart.setEntryLabelColor(BLACK);// this is to change font color black
 
-        //baka
+
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic);
 
         PieDataSet dataSet = new PieDataSet(yValues,"Item");

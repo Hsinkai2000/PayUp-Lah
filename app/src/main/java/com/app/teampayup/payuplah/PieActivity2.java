@@ -59,7 +59,7 @@ public class PieActivity2 extends AppCompatActivity {
         dataSet.setSelectionShift(5f);
         dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
 
-
+        //piedata
         PieData data = new PieData((dataSet));
         data.setValueTextSize(10f);
         data.setValueTextColor(Color.YELLOW);
