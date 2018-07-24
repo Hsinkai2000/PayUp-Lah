@@ -183,15 +183,16 @@
                 </LinearLayout>
             </ScrollView>
 
-            <Button
+            <com.dx.dxloadingbutton.lib.LoadingButton
                 android:id="@+id/btnDoneOwe"
                 android:layout_width="200dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:layout_weight="15"
-                android:background="@drawable/squareishbutton"
-                android:text="@string/done" />
+                app:lb_btnText="@string/done"
+                app:lb_btnColor="@color/colorSecondary"
+                app:lb_textColor="@color/black"/>
         </LinearLayout>
     </LinearLayout>
 

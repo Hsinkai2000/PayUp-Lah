@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="10dp" android:id="@+id/parent_layout">
-<de.hdodenhof.circleimageview.CircleImageView
-    android:layout_width="40dp"
-    android:layout_height="40dp"
-    android:id="@+id/ImageView"
-    android:layout_marginTop="10dp"
-    android:src="@mipmap/ic_launcher_round"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ImageView"
+        android:layout_width="51dp"
+        android:layout_height="46dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/ic_launcher_round" />
 
     <TextView
         android:id="@+id/txtitemName"
         android:layout_width="171dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="13dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        android:textAllCaps="true"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/txtdesc"
-        android:layout_width="164dp"
+        android:layout_width="191dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ImageView"
+        android:layout_below="@+id/txtitemName"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-13dp"
-        android:layout_marginTop="40dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="17sp" />
 
@@ -36,6 +38,23 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:text="TextView" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="181dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtdesc"
+        android:layout_centerHorizontal="true"
+        android:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="374dp"
+        android:layout_height="wrap_content"
+        android:paddingBottom="1dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/txtDate"
+        android:orientation="horizontal"
+        android:background="@color/black"></LinearLayout>
 
 
 </RelativeLayout>

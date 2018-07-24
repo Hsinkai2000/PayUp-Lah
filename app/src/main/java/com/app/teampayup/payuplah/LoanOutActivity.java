@@ -16,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
 
@@ -27,7 +28,8 @@ import java.util.Locale;
 
 public class LoanOutActivity extends AppCompatActivity {
     EditText txtDate,txtcontact,txtAmountOwed,txtPlace, txtreason;
-    Button btnDatePicker,btnDoneOwe;
+    Button btnDatePicker;
+    LoadingButton btnDoneOwe;
     private int mYear, mMonth, mDay;
     private static final int CONTACT_PICKER_REQUEST = 991;
     List<ContactResult> results;
@@ -73,31 +75,44 @@ public class LoanOutActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //create objects
-                DatabaseHelper dbHelper = new DatabaseHelper(LoanOutActivity.this);
-                String place = txtPlace.getText().toString();
-                String date = txtDate.getText().toString();
-                String reason = txtreason.getText().toString();
-                Double oweAmount = Double.parseDouble(txtAmountOwed.getText().toString());
-                // check if contact has been selected
-                if (results.isEmpty() == false){
-                    //save each name instance into the database
-                    for (int i = 0; i < results.size(); i++){
-                        //check if need to split total amount
-                        if (chkSplit.isChecked()){
-                            oweAmount = oweAmount/results.size();
+                btnDoneOwe.startLoading();
+                if (!txtPlace.getText().toString().isEmpty() && results.size() != 0 && !txtreason.getText().toString().isEmpty()) {
+                    DatabaseHelper dbHelper = new DatabaseHelper(LoanOutActivity.this);
+                    String place = txtPlace.getText().toString();
+                    String date = txtDate.getText().toString();
+                    String reason = txtreason.getText().toString();
+                    Double oweAmount = Double.parseDouble(txtAmountOwed.getText().toString());
+                    // check if contact has been selected
+                    if (results.isEmpty() == false) {
+                        //save each name instance into the database
+                        for (int i = 0; i < results.size(); i++) {
+                            //check if need to split total amount
+                            if (chkSplit.isChecked()) {
+                                oweAmount = oweAmount / results.size();
+                            }
+                            //create new oweMoney object
+                            OweMoney objOweMoney = new OweMoney(reason, place, date, results.get(i).getDisplayName(), oweAmount);
+                            //add each peron instance into database
+                            dbHelper.addOwe(objOweMoney);
+                            Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
                         }
-                        //create new oweMoney object
-                        OweMoney objOweMoney = new OweMoney(reason,place, date, results.get(i).getDisplayName(), oweAmount);
-                        //add each peron instance into database
-                        dbHelper.addOwe(objOweMoney);
-                        Log.d("DEBUG", "onDoneOweClicked: Owe Person Added :D");
+                        btnDoneOwe.loadingSuccessful();
+                        btnDoneOwe.reset();
+                        txtPlace.setText(null);
+                        txtAmountOwed.setText(null);
+                        txtcontact.setText(null);
+                        results.clear();
+                        txtDate.setText(null);
+                        txtreason.setText(null);
                     }
-                }
-                else{
-                    Toast.makeText(LoanOutActivity.this, "Remember to select the person that has borrowed money from you.", Toast.LENGTH_LONG).show();
-                }
 
-
+                }
+                else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter all inputs", Toast.LENGTH_SHORT);
+                    toast.show();
+                    btnDoneOwe.loadingFailed();
+                    btnDoneOwe.isResetAfterFailed();
+                }
             }
         });
         //get current date

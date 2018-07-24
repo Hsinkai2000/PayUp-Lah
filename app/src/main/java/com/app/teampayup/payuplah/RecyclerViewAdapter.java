@@ -24,7 +24,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private Context mContext;
 
     CircleImageView image;
-    TextView itemdesc, itemName, txtPrice;
+    TextView itemdesc, itemName, txtPrice, txtDate;
     RelativeLayout parentLayout;
 
     public RecyclerViewAdapter(Context mContext, ArrayList<Product> ProductList) {
@@ -44,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         txtPrice = view.findViewById(R.id.txtPrice);
         itemdesc = view.findViewById(R.id.txtdesc);
         itemName = view.findViewById(R.id.txtitemName);
+        txtDate = view.findViewById(R.id.txtDate);
         parentLayout = view.findViewById(R.id.parent_layout);
         return holder;
     }
@@ -57,8 +58,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             image.setImageResource(android.R.color.transparent);
             itemName.setText(ProductList.get(position).productName);
             itemdesc.setText(ProductList.get(position).description);
-            txtPrice.setText(String.valueOf(ProductList.get(position).price));
+            txtPrice.setText("$"+String.valueOf(ProductList.get(position).price));
             image.setImageResource(R.drawable.minus);
+            txtDate.setText(ProductList.get(position).date.substring(0, ProductList.get(position).date.length()-9));
         }
         else{
             //all goes through here thou some are expense
@@ -66,8 +68,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             image.setImageResource(android.R.color.transparent);
             itemName.setText(ProductList.get(position).productName);
             itemdesc.setText(ProductList.get(position).description);
-            txtPrice.setText(String.valueOf(ProductList.get(position).price));
+            txtPrice.setText("$"+String.valueOf(ProductList.get(position).price));
             image.setImageResource(R.drawable.plus);
+            txtDate.setText(ProductList.get(position).date.substring(0, ProductList.get(position).date.length()-9));
         }
 
     }
