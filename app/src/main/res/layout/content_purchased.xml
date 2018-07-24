@@ -10,17 +10,8 @@
     android:orientation="vertical"
     android:weightSum="100">
 
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="50"
-        app:mcv_selectionColor="#00F"></com.prolificinteractive.materialcalendarview.MaterialCalendarView>
-
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerExpense"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="50"
-        android:id="@+id/recyclerView"/>
-
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 </LinearLayout>

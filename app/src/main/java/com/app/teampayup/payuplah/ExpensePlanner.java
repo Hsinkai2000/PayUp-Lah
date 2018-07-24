@@ -37,6 +37,8 @@ public class ExpensePlanner extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     MaterialCalendarView calendar;
     RecyclerView recyclerView;
+    String newDateTime;
+    String endDateTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,15 +47,50 @@ public class ExpensePlanner extends AppCompatActivity {
         calendar = (MaterialCalendarView)findViewById(R.id.calendarView);
         recyclerView = findViewById(R.id.recyclerView);
         StringBuffer buffer = new StringBuffer();
+
+        //get current datetime
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        String strMonth = "";
+        String strDay = "";
+        String strDay2 = "";
+        if (month+1 < 10){
+            strMonth = "0" + (month+1);
+        }
+        else{
+            strMonth= String.valueOf(month+1);
+        }
+        if (day<10){
+            strDay = "0" + (day-1);
+            strDay2 = "0"+day;
+        }
+        else{
+            strDay = String.valueOf(day-1);
+            strDay2 = String.valueOf(day);
+        }
+        String strYear = String.valueOf(cal.get(Calendar.YEAR));
+        String currentstartDate = strYear + "-" + strMonth + "-" + strDay + " 23:59:59";
+        String currentendDate = strYear + "-" + strMonth + "-" + strDay2 + " 23:59:59";
+
+        //set selected current date
+        calendar.setSelectedDate(Calendar.getInstance());
+
+        newDateTime = currentstartDate;
+        endDateTime = currentendDate;
         CheckDate();
         AdditemList(ProductList);
         initRecyclerView();
     }
 
     private void AdditemList(ArrayList List){
-        String date = CheckDate();
         DatabaseHelper db = new DatabaseHelper(this);
-        Cursor res = db.RetrieveProducts(date);
+        Log.d("DATETIMECHECK", "before database start dateTime : "+ newDateTime);
+        Log.d("DATETIMECHECK", "before database start dateTime : "+ endDateTime);
+        Cursor res = db.RetrieveProducts(newDateTime, endDateTime);
+        Log.d("DATETIMECHECK", "database.count: "+ res.getCount());
         int itemID = 0;
         String itemName = null;
         String itemDate = null;
@@ -61,6 +98,7 @@ public class ExpensePlanner extends AppCompatActivity {
         String itemcat= null;
         String itemType= null;
         double itemPrice = 0;
+
         while (res.moveToNext()){
             itemID = res.getInt(0);
             itemName = res.getString(1);
@@ -72,9 +110,9 @@ public class ExpensePlanner extends AppCompatActivity {
             Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
             List.add(product);
         }
-        StringBuffer sBuffer = new StringBuffer("id: " + date + "\nName: " + itemName + "\nPrice: " + itemPrice
+        /*StringBuffer sBuffer = new StringBuffer("id: " + newDateTime + "\nName: " + itemName + "\nPrice: " + itemPrice
                 + "\ndate:  " + String.valueOf(itemDate) + "\ndesc: " +itemdesc+ "\ncat: " + itemcat+ "\ntype: " + itemType );
-        showMessage("Details", sBuffer.toString());
+        showMessage("Details", sBuffer.toString());*/
     }
 
     private void initRecyclerView(){
@@ -85,25 +123,53 @@ public class ExpensePlanner extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
     }
 
-    private String CheckDate(){
+    private void CheckDate(){
         Log.d(TAG, "Check date: checking date from calendar");
         Product objProd = new Product();
         final Global g = (Global)getApplication();
         calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                //clear list
+                ProductList.clear();
                 Log.d(TAG, "onDateSelected: DateMarked");
                 SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
                 //SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-                String newDate = date.toString().substring(12);
-                newDate = newDate.replaceAll(Pattern.quote("}"), ""); //just the date "
-                g.setDate(newDate);
-                Log.d(TAG, "onDateSelected: " + newDate); //toast is 2018-6-20 which is also a string
-                Toast.makeText(ExpensePlanner.this, "" + newDate, Toast.LENGTH_SHORT).show();
+                String strMonth;
+                String strDay;
+                String strDay2;
+                //get year
+                int year = date.getYear();
+                //get month and check for leading 0
+                int month = date.getMonth();
+                if ((month+1) < 10){
+                    strMonth = "0" + (month+1);
+                }
+                else{
+                    strMonth = String.valueOf(month+1);
+                }
+
+                //get day and check for leading 0
+                int day = date.getDay();
+                if (day < 10){
+                    strDay = "0" + (day-1);
+                    strDay2 = "0" + day;
+                }
+                else{
+                    strDay = String.valueOf(day-1);
+                    strDay2 = String.valueOf(day);
+                }
+
+                newDateTime = year + "-" + strMonth + "-" + strDay + " 23:59:59";
+                endDateTime = year + "-" + strMonth + "-" + strDay2 + " 23:59:59";
+                Log.d("DATETIMECHECK", "onDateSelected start dateTime : "+ newDateTime);
+                Log.d("DATETIMECHECK", "onDateSelected end dateTime : "+ endDateTime);
+                Log.d("DATETIMECHECK", "onDateSelected old dateTime : "+ date.toString());
+                AdditemList(ProductList);
+                initRecyclerView();
             }
 
         });
-        return g.getDate();
     }
 
     public void showMessage(String title, String message){

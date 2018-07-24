@@ -18,6 +18,7 @@ import android.util.Log;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Queue;
 import java.util.regex.Pattern;
 
 import static android.support.constraint.Constraints.TAG;
@@ -270,11 +271,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery("SELECT " + COL_DESCRIPTION+ " FROM " + ITEM_TABLE_NAME + " WHERE " + COL_TYPE + " = \"" + "Expense" + "\" AND " + COL_DATE + " = \"" + date + "\"", null);
         return res;
     }*/
-    //" = \"Expense\""
-    public Cursor RetrieveProducts(String date){
+    //" = \"Expense\"
+    public Cursor GetAllProducts(){
+        Log.d(TAG, "Retrieve all Products: date SQL");
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME;
+        Cursor res = db.rawQuery( query, null);
+        return res;
+    }
+
+    public Cursor RetrieveProducts(String newDateTime, String endDateTime){
+
+        Log.d("DATETIMECHECK", "in database start dateTime : "+ newDateTime);
+        Log.d("DATETIMECHECK", "in database start dateTime : "+ endDateTime);
         Log.d(TAG, "RetrieveProducts: date SQL");
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_DATE + " = \"" + date + "\"";
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_DATE + " BETWEEN '" + newDateTime + "' AND '" + endDateTime + "'";
+        Log.d("QUERYTEST", "RetrieveProducts: date SQL" + query);
         Cursor res = db.rawQuery( query, null);
         return res;
     }

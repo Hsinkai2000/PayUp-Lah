@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
 
@@ -28,7 +29,8 @@ import java.util.Locale;
 
 public class LoanInActivity extends AppCompatActivity {
     EditText txtDate, txtcontact, txtAmountOwed, txtPlace, txtreason;
-    Button btnDatePicker, btnDoneOwe;
+    Button btnDatePicker;
+    LoadingButton btnDoneOwe;
     private int mYear, mMonth, mDay;
     private static final int CONTACT_PICKER_REQUEST = 991;
     List<ContactResult> results;
@@ -75,25 +77,39 @@ public class LoanInActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //create objects
-                DatabaseHelper dbHelper = new DatabaseHelper(LoanInActivity.this);
-                String place = txtPlace.getText().toString();
-                String date = txtDate.getText().toString();
-                String reason = txtreason.getText().toString();
-                Double loanAmount = Double.parseDouble(txtAmountOwed.getText().toString());
-                // check if contact has been selected
-                if (results.isEmpty() == false) {
-                    //save each name instance into the database
-                    for (int i = 0; i < results.size(); i++) {
-                        //create new oweMoney object
-                        LoanInMoney loanInMoney = new LoanInMoney(place, date, results.get(i).getDisplayName(), loanAmount, reason);
-                        //add each peron instance into database
-                        dbHelper.addLoanIn(loanInMoney);
-                        Log.d("DEBUG", "onDoneOweClicked: Loan Person Added :D");
+                btnDoneOwe.startLoading();
+                if (!txtPlace.getText().toString().isEmpty() && results.size() != 0 && !txtreason.getText().toString().isEmpty()) {
+                    DatabaseHelper dbHelper = new DatabaseHelper(LoanInActivity.this);
+                    String place = txtPlace.getText().toString();
+                    String date = txtDate.getText().toString();
+                    String reason = txtreason.getText().toString();
+                    Double loanAmount = Double.parseDouble(txtAmountOwed.getText().toString());
+                    // check if contact has been selected
+                    if (results.isEmpty() == false) {
+                        //save each name instance into the database
+                        for (int i = 0; i < results.size(); i++) {
+                            //create new oweMoney object
+                            LoanInMoney loanInMoney = new LoanInMoney(place, date, results.get(i).getDisplayName(), loanAmount, reason);
+                            //add each peron instance into database
+                            dbHelper.addLoanIn(loanInMoney);
+                            Log.d("DEBUG", "onDoneOweClicked: Loan Person Added :D");
+                        }
+                        btnDoneOwe.loadingSuccessful();
+                        btnDoneOwe.reset();
+                        txtPlace.setText(null);
+                        txtAmountOwed.setText(null);
+                        txtcontact.setText(null);
+                        results.clear();
+                        txtDate.setText(null);
+                        txtreason.setText(null);
                     }
-                } else {
-                    Toast.makeText(LoanInActivity.this, "Remember to select the person that you have borrowed money from.", Toast.LENGTH_LONG).show();
                 }
-
+                else{
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please enter all inputs", Toast.LENGTH_SHORT);
+                    toast.show();
+                    btnDoneOwe.loadingFailed();
+                    btnDoneOwe.isResetAfterFailed();
+                }
             }
         });
         //get current date
