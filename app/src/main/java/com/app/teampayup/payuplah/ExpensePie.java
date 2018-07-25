@@ -49,6 +49,7 @@ public class ExpensePie extends AppCompatActivity {
         pieChart.setCenterText("Expense");
         pieChart.setCenterTextSize(20);
 
+
         Cursor res = PieData.GetProducts();
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
@@ -70,13 +71,13 @@ public class ExpensePie extends AppCompatActivity {
         yValues.add(new PieEntry(23, "StarBucks"));
         */
 
-        /*
+
         Description description = new Description();
-        description.setText("Expense");
-        description.setTextSize(11);
+        description.setText("");
+        description.setTextSize(0);
         pieChart.setDescription(description);
         pieChart.setEntryLabelColor(BLACK);// this is to change font color black
-        */
+
 
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic);
 
@@ -88,7 +89,7 @@ public class ExpensePie extends AppCompatActivity {
 
         PieData data = new PieData((dataSet));
         data.setValueTextSize(10f);
-        data.setValueTextColor(Color.YELLOW);
+        data.setValueTextColor(Color.BLACK);
 
         pieChart.setData(data);
 
