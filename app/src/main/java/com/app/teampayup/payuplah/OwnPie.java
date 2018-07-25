@@ -34,24 +34,32 @@ public class OwnPie extends AppCompatActivity {
         //pieChart.getDescription().setEnabled(false);
         DatabaseHelper PieData = new DatabaseHelper(this);
         Integer counter = 1;
+
+
         ownPie.setExtraOffsets(5, 10, 5 ,5);
 
         ownPie.setDragDecelerationFrictionCoef(0.99f);
 
-        ownPie.setDrawHoleEnabled(false);
+        ownPie.setDrawHoleEnabled(true);
         ownPie.setHoleColor(Color.WHITE);
         ownPie.setTransparentCircleRadius(61f);
+        ownPie.setCenterText("Owned");
+        ownPie.setCenterTextSize(20);
+
         Cursor res = PieData.getAllOweData();// here can change to own table
-
-
 
         ArrayList<PieEntry> xValues = new ArrayList<>();
 
         while(res.moveToNext()){
+            xValues.add(new PieEntry(res.getInt(5), res.getString(4)));
+            //Log.d("onCreatePie", "onCreate: " + res.getInt(0));
+            counter += 1;
+        }
+        /*while(res.moveToNext()){
             xValues.add(new PieEntry(res.getInt(1), res.getString(0)));
             Log.d("onCreatePie", "onCreate: " + res.getInt(1));
             counter += 1;
-        }
+        }*/
 
         /*
         while(res.moveToNext()){
