@@ -13,32 +13,89 @@
         android:orientation="vertical"
         android:weightSum="100"
         android:padding="20dp">
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10"
-            android:text="Borrow"
-            android:textColor="@color/colorTransparentWhite"
-            android:gravity="center_vertical"
+            android:weightSum="100"
+            android:orientation="horizontal"
             android:background="@drawable/colorsecondarydarkbox"
-            android:padding="5dp"
-            android:textSize="20dp"/>
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="60"
+                android:text="Borrow"
+                android:textColor="@color/colorTransparentWhite"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:text="Total: "
+                android:textColor="@color/colorTransparentWhite"
+                android:gravity="center_vertical"
+
+                android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/txtLoanInTotal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:text=""
+                android:textColor="@color/colorTransparentWhite"
+                android:gravity="center_vertical"
+
+                android:textSize="20dp"/>
+        </LinearLayout>
         <ListView
             android:id="@+id/lvLoanIn"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="25"
             android:layout_margin="10dp"></ListView>
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="10"
-            android:text="Loan"
-            android:textColor="@color/colorTransparentWhite"
-            android:gravity="center_vertical"
+            android:weightSum="100"
+            android:orientation="horizontal"
             android:background="@drawable/colorsecondarydarkbox"
-            android:padding="5dp"
-            android:textSize="20dp"/>
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="60"
+                android:text="Loan"
+                android:textColor="@color/colorTransparentWhite"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:textSize="20dp"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:text="Total: "
+                android:textColor="@color/colorTransparentWhite"
+                android:gravity="center_vertical"
+
+                android:textSize="20dp"/>
+            <TextView
+                android:id="@+id/txtLoanOutTotal"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:text=""
+                android:textColor="@color/colorTransparentWhite"
+                android:gravity="center_vertical"
+
+                android:textSize="20dp"/>
+        </LinearLayout>
+
         <ListView
             android:id="@+id/lvLoanOut"
             android:layout_width="match_parent"

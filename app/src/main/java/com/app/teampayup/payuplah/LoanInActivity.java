@@ -66,7 +66,7 @@ public class LoanInActivity extends AppCompatActivity {
                             .hideScrollbar(false) //Optional - default: false
                             .showTrack(true) //Optional - default: true
                             .searchIconColor(Color.WHITE) //Optional - default: White
-                            .setChoiceMode(MultiContactPicker.CHOICE_MODE_MULTIPLE) //Optional - default: CHOICE_MODE_MULTIPLE
+                            .setChoiceMode(MultiContactPicker.CHOICE_MODE_SINGLE) //Optional - default: CHOICE_MODE_MULTIPLE
                             .handleColor(ContextCompat.getColor(LoanInActivity.this, R.color.colorTransparentWhite)) //Optional - default: Azure Blue
                             .bubbleColor(ContextCompat.getColor(LoanInActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
                             .bubbleTextColor(Color.WHITE) //Optional - default: White

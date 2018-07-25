@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.List;
 
 public class LoanActivity extends AppCompatActivity {
     ListView lvLoanOut, lvLoanIn;
+    TextView txtLoanOutTotal, txtLoanInTotal;
     String TAG = "LoanActivity";
     List<OweMoney> loanout = new ArrayList<OweMoney>();
     List<LoanInMoney> loanIn = new ArrayList<LoanInMoney>();
@@ -45,7 +47,8 @@ public class LoanActivity extends AppCompatActivity {
         db = new DatabaseHelper(getApplicationContext());
         lvLoanOut = findViewById(R.id.lvLoanOut);
         lvLoanIn = findViewById(R.id.lvLoanIn);
-
+        txtLoanOutTotal = findViewById(R.id.txtLoanOutTotal);
+        txtLoanInTotal = findViewById(R.id.txtLoanInTotal);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +83,7 @@ public class LoanActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 DatabaseHelper db = new DatabaseHelper(getApplicationContext());
                 db.deleteOweByID(itemID);
+                getgrids();
             }
         });
         builder.setCancelable(true);
@@ -101,6 +105,7 @@ public class LoanActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 DatabaseHelper db = new DatabaseHelper(getApplicationContext());
                 db.deleteLoanInByID(itemID);
+                getgrids();
             }
         });
         builder.setCancelable(true);
@@ -109,7 +114,7 @@ public class LoanActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void displayGrids(){
+    public void getgrids(){
         loanout.clear();
         loanIn.clear();
         //get loan data
@@ -132,8 +137,6 @@ public class LoanActivity extends AppCompatActivity {
 
         //if data count == 0
         if (res.getCount() == 0 && resIn.getCount() == 0){
-            //show message
-            showMessage("Error!", "No Loan Found");
             return;
         }
         else{
@@ -163,20 +166,33 @@ public class LoanActivity extends AppCompatActivity {
             }
             //showMessage("Data", loan.get(0).toString());
             //create and set adapter for loanout
-            LoanOutListViewAdapter loanOutListViewAdapter = new LoanOutListViewAdapter(this, loanout);
+            LoanOutListViewAdapter loanOutListViewAdapter = new LoanOutListViewAdapter(getApplicationContext(), loanout);
             lvLoanOut.setAdapter(loanOutListViewAdapter);
             //create and set adapter for borrow
-            LoanInListViewAdapter loanInListViewAdapter = new LoanInListViewAdapter(this,loanIn);
+            LoanInListViewAdapter loanInListViewAdapter = new LoanInListViewAdapter(getApplicationContext(),loanIn);
             lvLoanIn.setAdapter(loanInListViewAdapter);
-
-
-            //final ArrayAdapter<OweMoney>oweArray = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_list_item_1);
+            Double totalPriceLoanIn = 0.00;
+            Double totalPriceLoanOut = 0.00;
+            for (LoanInMoney lim: loanIn
+                 ) {
+                totalPriceLoanIn += Double.parseDouble(lim.loanAmount.toString());
+            }
+            for (OweMoney om: loanout
+                 ) {
+                totalPriceLoanOut += Double.parseDouble(om.borrowAmount.toString());
+            }
+            txtLoanInTotal.setText("$" + totalPriceLoanIn.toString());
+            txtLoanOutTotal.setText("$" + totalPriceLoanOut.toString());
         }
+    }
+
+    public void displayGrids(){
+        getgrids();
 
         lvLoanOut.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                StringBuffer sBuffer = new StringBuffer("reason: " + loanout.get(position).getReason() + "\nplace: " + loanout.get(position).getPlace() + "\nDate: " + loanout.get(position).getDate()
+                StringBuffer sBuffer = new StringBuffer("Reason: " + loanout.get(position).getReason() + "\nPlace: " + loanout.get(position).getPlace() + "\nDate: " + loanout.get(position).getDate()
                         + "\nBorrower's Name: " + loanout.get(position).getBorrowerName() + "\nBorrowed Amount: $" + loanout.get(position).getBorrowAmount());
                 showMessage("Details", sBuffer.toString());
             }
@@ -185,7 +201,7 @@ public class LoanActivity extends AppCompatActivity {
         lvLoanIn.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                StringBuffer sBuffer = new StringBuffer("reason: " + loanIn.get(position).getReason() + "\nplace: " + loanIn.get(position).getPlace() + "\nDate: " + loanIn.get(position).getDate()
+                StringBuffer sBuffer = new StringBuffer("Reason: " + loanIn.get(position).getReason() + "\nPlace: " + loanIn.get(position).getPlace() + "\nDate: " + loanIn.get(position).getDate()
                         + "\nBorrower's Name: " + loanIn.get(position).getLoanerName() + "\nBorrowed Amount: $" + loanIn.get(position).getLoanAmount());
                 showMessage("Details", sBuffer.toString());
             }
