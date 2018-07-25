@@ -21,6 +21,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.io.Console;
+import java.math.BigDecimal;
 import java.text.ParsePosition;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -97,7 +98,7 @@ public class ExpensePlanner extends AppCompatActivity {
         String itemdesc= null;
         String itemcat= null;
         String itemType= null;
-        double itemPrice = 0;
+        Double itemPrice;
 
         while (res.moveToNext()){
             itemID = res.getInt(0);
@@ -107,7 +108,8 @@ public class ExpensePlanner extends AppCompatActivity {
             itemdesc = res.getString(4);
             itemcat = res.getString(5);
             itemType = res.getString(6);
-            Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
+            BigDecimal itemPriceBD = BigDecimal.valueOf(itemPrice);
+            Product product = new Product(itemID, itemPriceBD, itemDate, itemdesc, itemcat, itemName, itemType);
             List.add(product);
         }
         /*StringBuffer sBuffer = new StringBuffer("id: " + newDateTime + "\nName: " + itemName + "\nPrice: " + itemPrice

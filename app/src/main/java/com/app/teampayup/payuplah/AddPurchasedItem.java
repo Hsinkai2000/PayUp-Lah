@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.dx.dxloadingbutton.lib.LoadingButton;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -90,7 +91,7 @@ public class AddPurchasedItem extends AppCompatActivity {
                 if (!txtName.getText().toString().isEmpty() && !txtPrice.getText().toString().isEmpty() && !txtDescription.getText().toString().isEmpty() && spinnerCat.getSelectedItem().toString() != spinnerCat.getItemAtPosition(0).toString()  && spinnerType.getSelectedItem().toString() != spinnerType.getItemAtPosition(0).toString()) {
 
                     String itemName = txtName.getText().toString();
-                    Double itemPrice = Double.parseDouble(txtPrice.getText().toString());
+                    BigDecimal itemPrice = BigDecimal.valueOf(Double.parseDouble(txtPrice.getText().toString()));
                     String datePurchased = txtDate.getText().toString() + " 00:00:00";
                     String itemDesc = txtDescription.getText().toString();
                     String itemCat = spinnerCat.getSelectedItem().toString();

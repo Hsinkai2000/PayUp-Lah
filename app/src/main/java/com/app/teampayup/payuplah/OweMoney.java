@@ -1,11 +1,15 @@
 package com.app.teampayup.payuplah;
 
+import android.widget.BaseAdapter;
+
+import java.math.BigDecimal;
+
 public class OweMoney {
     int OweMoneyID;
     String place;
     String date;
     String borrowerName;
-    double borrowAmount;
+    BigDecimal borrowAmount;
     String reason;
 
     public String getReason() {
@@ -48,18 +52,18 @@ public class OweMoney {
         this.borrowerName = borrowerName;
     }
 
-    public double getBorrowAmount() {
+    public BigDecimal getBorrowAmount() {
         return borrowAmount;
     }
 
-    public void setBorrowAmount(double borrowAmount) {
+    public void setBorrowAmount(BigDecimal borrowAmount) {
         this.borrowAmount = borrowAmount;
     }
 
     public OweMoney() {
     }
 
-    public OweMoney(String reason, String place, String date, String borrowerName, double borrowAmount) {
+    public OweMoney(String reason, String place, String date, String borrowerName, BigDecimal borrowAmount) {
         this.place = place;
         this.date = date;
         this.borrowerName = borrowerName;
@@ -67,7 +71,7 @@ public class OweMoney {
         this.reason = reason;
     }
 
-    public OweMoney(int oweMoneyID, String reason, String place, String date, String borrowerName, double borrowAmount) {
+    public OweMoney(int oweMoneyID, String reason, String place, String date, String borrowerName, BigDecimal borrowAmount) {
         OweMoneyID = oweMoneyID;
         this.place = place;
         this.date = date;
