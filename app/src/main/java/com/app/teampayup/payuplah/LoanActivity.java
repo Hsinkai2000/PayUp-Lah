@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +101,8 @@ public class LoanActivity extends AppCompatActivity {
                 dateout = res.getString(3);
                 borrowerNameout = res.getString(4);
                 borrowAmountout = res.getDouble(5);
-                OweMoney oweMoney = new OweMoney(OweMoneyIDout, reasonout, placeout, dateout, borrowerNameout, borrowAmountout);
+                BigDecimal borrowAmountoutBD = BigDecimal.valueOf(borrowAmountout);
+                OweMoney oweMoney = new OweMoney(OweMoneyIDout, reasonout, placeout, dateout, borrowerNameout, borrowAmountoutBD);
                 Log.d("DEBUGREASON", "onCreate: " + oweMoney.ToString());
                 loanout.add(oweMoney);
             }
@@ -111,7 +113,8 @@ public class LoanActivity extends AppCompatActivity {
                 datein = resIn.getString(3);
                 loanNamein = resIn.getString(4);
                 loanAmountin = resIn.getDouble(5);
-                LoanInMoney loanInMoney = new LoanInMoney(LoanInMoneyID, placein, datein, loanNamein, loanAmountin, reasonin);
+                BigDecimal loanAmountInBD = BigDecimal.valueOf(loanAmountin);
+                LoanInMoney loanInMoney = new LoanInMoney(LoanInMoneyID, placein, datein, loanNamein, loanAmountInBD, reasonin);
                 loanIn.add(loanInMoney);
             }
             //showMessage("Data", loan.get(0).toString());

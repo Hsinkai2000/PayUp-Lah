@@ -16,6 +16,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import android.text.format.DateFormat;
 import android.util.Log;
 
+import java.math.BigDecimal;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.Queue;
@@ -154,7 +155,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addItem(Product product){
         ContentValues values = new ContentValues();
         values.put(COL_ITEMNAME,product.getProductName());
-        values.put(COL_PRICE, product.getPrice());
+        values.put(COL_PRICE, product.getPrice().doubleValue());
         values.put(COL_DATE, product.getDate());
         values.put(COL_DESCRIPTION, product.getDescription());
         values.put(COL_CATEGORY, product.getCategory());
@@ -175,7 +176,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
             product.setItemID(Integer.parseInt(cursor.getString(0)));
             product.setProductName(cursor.getString(1));
-            product.setPrice(Integer.parseInt(cursor.getString(2)));
+            product.setPrice(BigDecimal.valueOf(cursor.getDouble(2)));
             product.setDate(cursor.getString(3));
             product.setDescription(cursor.getString(4));
             product.setCategory(cursor.getString(5));
@@ -213,7 +214,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_PLACE, owemoney.getPlace());
         values.put(COL_DATE, owemoney.getDate());
         values.put(COL_BORROWERNAME, owemoney.getBorrowerName());
-        values.put(COL_BORROWAMOUNT, owemoney.getBorrowAmount());
+        values.put(COL_BORROWAMOUNT, owemoney.getBorrowAmount().doubleValue());
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.insert(OWE_TABLE_NAME, null, values);
@@ -232,7 +233,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             oweMoney.setPlace(cursor.getString(1));
             oweMoney.setDate(cursor.getString(2));
             oweMoney.setBorrowerName(cursor.getString(3));
-            oweMoney.setBorrowAmount(Double.parseDouble(cursor.getString(4)));
+            oweMoney.setBorrowAmount(BigDecimal.valueOf(Double.parseDouble(cursor.getString(4))));
             cursor.close();
         }else{
             oweMoney = null;
@@ -325,7 +326,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COL_PLACE, loanInMoney.getPlace());
         values.put(COL_DATE, loanInMoney.getDate());
         values.put(COL_LOANERNAME, loanInMoney.getLoanerName());
-        values.put(COL_LOANAMOUNT, loanInMoney.getLoanAmount());
+        values.put(COL_LOANAMOUNT, loanInMoney.getLoanAmount().doubleValue());
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.insert(LOANIN_TABLE_NAME, null, values);
@@ -345,7 +346,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             loanInMoney.setPlace(cursor.getString(2));
             loanInMoney.setDate(cursor.getString(3));
             loanInMoney.setLoanerName(cursor.getString(4));
-            loanInMoney.setLoanAmount(Double.parseDouble(cursor.getString(5)));
+            loanInMoney.setLoanAmount(BigDecimal.valueOf(Double.parseDouble(cursor.getString(5))));
             cursor.close();
         }else{
             loanInMoney = null;

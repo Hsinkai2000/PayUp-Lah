@@ -24,6 +24,7 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -100,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
             itemdesc = res.getString(4);
             itemcat = res.getString(5);
             itemType = res.getString(6);
-            Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
+            BigDecimal itemPriceBD = BigDecimal.valueOf(itemPrice);
+            Product product = new Product(itemID, itemPriceBD, itemDate, itemdesc, itemcat, itemName, itemType);
             productList.add(product);
         }
 
@@ -118,7 +120,8 @@ public class MainActivity extends AppCompatActivity {
             dateout = res2.getString(3);
             borrowerNameout = res2.getString(4);
             borrowAmountout = res2.getDouble(5);
-            OweMoney oweMoney = new OweMoney(OweMoneyIDout, reasonout, placeout, dateout, borrowerNameout, borrowAmountout);
+            BigDecimal borrowerAmountoutBD = BigDecimal.valueOf(borrowAmountout);
+            OweMoney oweMoney = new OweMoney(OweMoneyIDout, reasonout, placeout, dateout, borrowerNameout, borrowerAmountoutBD);
             oweMoneyList.add(oweMoney);
         }
 
@@ -132,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                     ) {
                 Log.d("TESTING123", (p.getDate()));
                 if (p.getType().equals("Expense")) {
-                    totalSpent += p.getPrice();
+                    totalSpent += p.getPrice().doubleValue();
                 }
             }
         }
@@ -143,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             for (OweMoney o : oweMoneyList
                     ) {
                 Log.d("TESTING123", (o.getDate()));
-                totalOwe += o.getBorrowAmount();
+                totalOwe += o.getBorrowAmount().doubleValue();
             }
         }
 

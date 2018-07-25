@@ -21,6 +21,7 @@ import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -95,8 +96,9 @@ public class LoanOutActivity extends AppCompatActivity {
                             if (chkSplit.isChecked()) {
                                 split = split / results.size();
                             }
+                            BigDecimal dplitBD = BigDecimal.valueOf(split);
                             //create new oweMoney object
-                            OweMoney objOweMoney = new OweMoney(reason, place, date, results.get(i).getDisplayName(), split);
+                            OweMoney objOweMoney = new OweMoney(reason, place, date, results.get(i).getDisplayName(), dplitBD);
                             //add each peron instance into database
                             dbHelper.addOwe(objOweMoney);
                             Log.d("DEBUGREASON", objOweMoney.ToString());

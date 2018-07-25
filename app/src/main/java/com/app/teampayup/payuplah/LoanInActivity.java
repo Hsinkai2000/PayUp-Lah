@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.dx.dxloadingbutton.lib.LoadingButton;
 import com.wafflecopter.multicontactpicker.ContactResult;
 import com.wafflecopter.multicontactpicker.MultiContactPicker;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,6 +37,7 @@ public class LoanInActivity extends AppCompatActivity {
     private static final int CONTACT_PICKER_REQUEST = 991;
     List<ContactResult> results;
     CheckBox chkSplit;
+    int MY_PERMISSIONS_REQUEST_READ_CONTACTS;
 
 
     @Override
@@ -68,7 +71,11 @@ public class LoanInActivity extends AppCompatActivity {
                             .bubbleColor(ContextCompat.getColor(LoanInActivity.this, R.color.colorPrimary)) //Optional - default: Azure Blue
                             .bubbleTextColor(Color.WHITE) //Optional - default: White
                             .showPickerForResult(CONTACT_PICKER_REQUEST);
-                } else {
+                }
+                else{
+                    ActivityCompat.requestPermissions(LoanInActivity.this,
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            MY_PERMISSIONS_REQUEST_READ_CONTACTS);
                     Toast.makeText(LoanInActivity.this, "Remember to go into settings and enable the contacts permission.", Toast.LENGTH_LONG).show();
                 }
             }
@@ -88,8 +95,9 @@ public class LoanInActivity extends AppCompatActivity {
                     if (results.isEmpty() == false) {
                         //save each name instance into the database
                         for (int i = 0; i < results.size(); i++) {
+                            BigDecimal loanAmountBD =  BigDecimal.valueOf(loanAmount);
                             //create new oweMoney object
-                            LoanInMoney loanInMoney = new LoanInMoney(place, date, results.get(i).getDisplayName(), loanAmount, reason);
+                            LoanInMoney loanInMoney = new LoanInMoney(place, date, results.get(i).getDisplayName(), loanAmountBD, reason);
                             //add each peron instance into database
                             dbHelper.addLoanIn(loanInMoney);
                             Log.d("DEBUG", "onDoneOweClicked: Loan Person Added :D");

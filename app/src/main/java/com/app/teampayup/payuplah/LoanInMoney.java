@@ -1,11 +1,13 @@
 package com.app.teampayup.payuplah;
 
+import java.math.BigDecimal;
+
 public class LoanInMoney {
     int LoanInMoneyID;
     String place;
     String date;
     String loanerName;
-    double loanAmount;
+    BigDecimal loanAmount;
     String reason;
 
     public int getLoanInMoneyID() {
@@ -40,11 +42,11 @@ public class LoanInMoney {
         this.loanerName = loanerName;
     }
 
-    public double getLoanAmount() {
+    public BigDecimal getLoanAmount() {
         return loanAmount;
     }
 
-    public void setLoanAmount(double loanAmount) {
+    public void setLoanAmount(BigDecimal loanAmount) {
         this.loanAmount = loanAmount;
     }
 
@@ -59,7 +61,7 @@ public class LoanInMoney {
     public LoanInMoney() {
     }
 
-    public LoanInMoney(String place, String date, String loanerName, double loanAmount, String reason) {
+    public LoanInMoney(String place, String date, String loanerName, BigDecimal loanAmount, String reason) {
         this.place = place;
         this.date = date;
         this.loanerName = loanerName;
@@ -67,7 +69,7 @@ public class LoanInMoney {
         this.reason = reason;
     }
 
-    public LoanInMoney(int loanInMoneyID, String place, String date, String loanerName, double loanAmount, String reason) {
+    public LoanInMoney(int loanInMoneyID, String place, String date, String loanerName, BigDecimal loanAmount, String reason) {
         LoanInMoneyID = loanInMoneyID;
         this.place = place;
         this.date = date;

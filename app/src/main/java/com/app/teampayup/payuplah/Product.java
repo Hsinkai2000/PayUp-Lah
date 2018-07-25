@@ -1,10 +1,11 @@
 package com.app.teampayup.payuplah;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class Product {
     int itemID;
-    double price;
+    BigDecimal price;
     String date;
     String description;
     String category;
@@ -27,11 +28,11 @@ public class Product {
         this.itemID = itemID;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -66,7 +67,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(double price, String date, String description, String category,String ProductName, String type) {
+    public Product(BigDecimal price, String date, String description, String category,String ProductName, String type) {
         this.price = price;
         this.date = date;
         this.description = description;
@@ -76,7 +77,7 @@ public class Product {
     }
 
 
-    public Product(int itemID, double price, String date, String description, String category,String ProductName, String type) {
+    public Product(int itemID, BigDecimal price, String date, String description, String category,String ProductName, String type) {
         this.itemID = itemID;
         this.price = price;
         this.date = date;

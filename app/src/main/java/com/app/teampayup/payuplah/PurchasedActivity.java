@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.ArrayAdapter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +78,8 @@ public class PurchasedActivity extends AppCompatActivity {
             itemdesc = res.getString(4);
             itemcat = res.getString(5);
             itemType = res.getString(6);
-            Product product = new Product(itemID, itemPrice, itemDate, itemdesc, itemcat, itemName, itemType);
+            BigDecimal itemPriceBD = BigDecimal.valueOf(itemPrice);
+            Product product = new Product(itemID, itemPriceBD, itemDate, itemdesc, itemcat, itemName, itemType);
             ProductList.add(product);
         }
 
