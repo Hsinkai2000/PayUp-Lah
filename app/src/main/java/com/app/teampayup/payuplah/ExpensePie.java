@@ -46,13 +46,16 @@ public class ExpensePie extends AppCompatActivity {
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setTransparentCircleRadius(61f);
+        pieChart.setCenterText("Expense");
+        pieChart.setCenterTextSize(20);
+
         Cursor res = PieData.GetProducts();
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
 
 
         while(res.moveToNext()){
-            yValues.add(new PieEntry(res.getInt(1), res.getString(0)));
+            yValues.add(new PieEntry(res.getInt(2), res.getString(1)));
             Log.d("onCreatePie", "onCreate: " + res.getInt(1));
             counter += 1;
         }
@@ -67,12 +70,13 @@ public class ExpensePie extends AppCompatActivity {
         yValues.add(new PieEntry(23, "StarBucks"));
         */
 
+        /*
         Description description = new Description();
         description.setText("Expense");
         description.setTextSize(11);
         pieChart.setDescription(description);
         pieChart.setEntryLabelColor(BLACK);// this is to change font color black
-
+        */
 
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic);
 

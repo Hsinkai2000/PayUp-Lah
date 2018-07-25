@@ -274,6 +274,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }*/
     //" = \"Expense\"
+
     public Cursor GetAllProducts(){
         Log.d(TAG, "Retrieve all Products: date SQL");
         SQLiteDatabase db = this.getWritableDatabase();

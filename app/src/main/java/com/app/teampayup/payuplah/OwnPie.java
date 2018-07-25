@@ -41,9 +41,17 @@ public class OwnPie extends AppCompatActivity {
         ownPie.setDrawHoleEnabled(false);
         ownPie.setHoleColor(Color.WHITE);
         ownPie.setTransparentCircleRadius(61f);
-        Cursor res = PieData.getProductPie();
+        Cursor res = PieData.GetProducts();// here can change to own table
+
+
 
         ArrayList<PieEntry> xValues = new ArrayList<>();
+
+        while(res.moveToNext()){
+            xValues.add(new PieEntry(res.getInt(1), res.getString(0)));
+            Log.d("onCreatePie", "onCreate: " + res.getInt(1));
+            counter += 1;
+        }
 
         /*
         while(res.moveToNext()){
@@ -53,6 +61,7 @@ public class OwnPie extends AppCompatActivity {
         }
         */
 
+        /*
         xValues.add(new PieEntry(34f, "James"));
         xValues.add(new PieEntry(23f, "Ruby"));
         xValues.add(new PieEntry(14f, "Jane"));
@@ -60,6 +69,7 @@ public class OwnPie extends AppCompatActivity {
         xValues.add(new PieEntry(40, "Kirin"));
         xValues.add(new PieEntry(50, "Illu"));
 
+        */
        /* Description description = new Description();
         description.setText("This is the fist apple pie");
         description.setTextSize(11);
