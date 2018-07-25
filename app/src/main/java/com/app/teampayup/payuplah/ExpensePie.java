@@ -55,10 +55,12 @@ public class ExpensePie extends AppCompatActivity {
         ArrayList<PieEntry> yValues = new ArrayList<>();
 
 
-        while(res.moveToNext()){
-            yValues.add(new PieEntry(res.getInt(2), res.getString(1)));
+        while(res.moveToNext()) {
+            if (res.getString(5).equals("Expense")){
+                yValues.add(new PieEntry(res.getInt(2), res.getString(1)));
             Log.d("onCreatePie", "onCreate: " + res.getInt(1));
             counter += 1;
+            }
         }
 
 
