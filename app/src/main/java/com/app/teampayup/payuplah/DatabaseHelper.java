@@ -249,9 +249,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public boolean deleteOweByName(String name){
+    public boolean deleteOweByID(int id){
         boolean result = false;
-        String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_BORROWERNAME + " = \"" + name + "\"";
+        String query = "SELECT * FROM " + OWE_TABLE_NAME + " WHERE " + COL_OWEMONEYID + " = \"" + id + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         OweMoney oweMoney = new OweMoney();
@@ -362,9 +362,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }//get all loan IN data
 
-    public boolean deleteLoanInByName(String name){
+    public boolean deleteLoanInByID(int id){
         boolean result = false;
-        String query = "SELECT * FROM " + LOANIN_TABLE_NAME + " WHERE " + COL_LOANERNAME + " = \"" + name + "\"";
+        String query = "SELECT * FROM " + LOANIN_TABLE_NAME + " WHERE " + COL_LOANINID + " = \"" + id + "\"";
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query,null);
         OweMoney oweMoney = new OweMoney();

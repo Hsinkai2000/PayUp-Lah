@@ -1,5 +1,6 @@
 package com.app.teampayup.payuplah;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -65,6 +66,49 @@ public class LoanActivity extends AppCompatActivity {
         builder.setMessage(message);
         builder.show();
     }
+    public void showDeleteMessageOwe(String title, String message, final int id){
+        final int itemID = id;
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+                db.deleteOweByID(itemID);
+            }
+        });
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }
+    public void showDeleteMessage(String title, String message, final int id){
+        final int itemID = id;
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                DatabaseHelper db = new DatabaseHelper(getApplicationContext());
+                db.deleteLoanInByID(itemID);
+            }
+        });
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
+    }
+
     public void displayGrids(){
         loanout.clear();
         loanIn.clear();
@@ -144,6 +188,23 @@ public class LoanActivity extends AppCompatActivity {
                 StringBuffer sBuffer = new StringBuffer("reason: " + loanIn.get(position).getReason() + "\nplace: " + loanIn.get(position).getPlace() + "\nDate: " + loanIn.get(position).getDate()
                         + "\nBorrower's Name: " + loanIn.get(position).getLoanerName() + "\nBorrowed Amount: $" + loanIn.get(position).getLoanAmount());
                 showMessage("Details", sBuffer.toString());
+            }
+        });
+
+        lvLoanIn.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int itemID = loanIn.get(i).LoanInMoneyID;
+                showDeleteMessage("Confirm", "Are you sure you want to delete?",itemID);
+                return true;
+            }
+        });
+        lvLoanOut.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int itemID = loanout.get(i).OweMoneyID;
+                showDeleteMessageOwe("Confirm", "Are you sure you want to delete?", itemID);
+                return true;
             }
         });
     }
