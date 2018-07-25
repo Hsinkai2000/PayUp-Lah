@@ -41,7 +41,7 @@ public class OwnPie extends AppCompatActivity {
         ownPie.setDrawHoleEnabled(false);
         ownPie.setHoleColor(Color.WHITE);
         ownPie.setTransparentCircleRadius(61f);
-        Cursor res = PieData.GetProducts();// here can change to own table
+        Cursor res = PieData.getAllOweData();// here can change to own table
 
 
 
