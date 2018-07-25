@@ -66,13 +66,7 @@ public class PieActivity2 extends AppCompatActivity {
 
         pieChart2.setData(data);
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent in = new Intent(PieActivity2.this, PieActivity2.class);
-                startActivity(in);
-            }
-        });
+
 
     }
 }

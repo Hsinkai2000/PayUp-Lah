@@ -46,22 +46,26 @@ public class ExpensePie extends AppCompatActivity {
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setTransparentCircleRadius(61f);
-        Cursor res = PieData.getProductPie();
+        Cursor res = PieData.GetProducts();
 
         ArrayList<PieEntry> yValues = new ArrayList<>();
+
 
         while(res.moveToNext()){
             yValues.add(new PieEntry(res.getInt(1), res.getString(0)));
             Log.d("onCreatePie", "onCreate: " + res.getInt(1));
             counter += 1;
         }
-        /*yValues.add(new PieEntry(34f, "PS4"));
+
+
+        /*
+        yValues.add(new PieEntry(34f, "PS4"));
         yValues.add(new PieEntry(23f, "IPhone X"));
         yValues.add(new PieEntry(14f, "Snacks"));
         yValues.add(new PieEntry(35, "Water"));
         yValues.add(new PieEntry(40, "Chicken Rice"));
-        yValues.add(new PieEntry(23, "StarBucks"));*/
-
+        yValues.add(new PieEntry(23, "StarBucks"));
+        */
 
         Description description = new Description();
         description.setText("Expense");

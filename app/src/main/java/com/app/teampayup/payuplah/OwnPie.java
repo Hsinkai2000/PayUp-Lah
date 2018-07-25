@@ -1,9 +1,11 @@
 package com.app.teampayup.payuplah;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,8 +30,10 @@ public class OwnPie extends AppCompatActivity {
 
         ownPie = (PieChart) findViewById(R.id.ownPie);
         btnNext = (Button) findViewById(R.id.btnNext);
-        ownPie.setUsePercentValues(true);
+        ownPie.setUsePercentValues(false);
         //pieChart.getDescription().setEnabled(false);
+        DatabaseHelper PieData = new DatabaseHelper(this);
+        Integer counter = 1;
         ownPie.setExtraOffsets(5, 10, 5 ,5);
 
         ownPie.setDragDecelerationFrictionCoef(0.99f);
@@ -37,8 +41,17 @@ public class OwnPie extends AppCompatActivity {
         ownPie.setDrawHoleEnabled(false);
         ownPie.setHoleColor(Color.WHITE);
         ownPie.setTransparentCircleRadius(61f);
+        Cursor res = PieData.getProductPie();
 
         ArrayList<PieEntry> xValues = new ArrayList<>();
+
+        /*
+        while(res.moveToNext()){
+            xValues.add(new PieEntry(res.getInt(1), res.getString(0)));
+            Log.d("onCreatePie", "onCreate: " + res.getInt(1));
+            counter += 1;
+        }
+        */
 
         xValues.add(new PieEntry(34f, "James"));
         xValues.add(new PieEntry(23f, "Ruby"));
