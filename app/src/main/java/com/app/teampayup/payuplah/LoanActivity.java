@@ -105,7 +105,7 @@ public class LoanActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 DatabaseHelper db = new DatabaseHelper(getApplicationContext());
                 db.deleteLoanInByID(itemID);
-                getgrids();
+                displayGrids();
             }
         });
         builder.setCancelable(true);

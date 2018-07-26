@@ -206,6 +206,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }//delete profile
 
+    public boolean deleteProductID(int id){
+        boolean result = false;
+        String query = "SELECT * FROM " + ITEM_TABLE_NAME + " WHERE " + COL_ITEMID + " = \"" + id + "\"";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query,null);
+        Product prodobj = new Product();
+        if (cursor.moveToFirst()){
+            prodobj.setItemID(Integer.parseInt(cursor.getString(0)));
+            db.delete(ITEM_TABLE_NAME, COL_ITEMID + " =?",
+                    new String[]{ String.valueOf(prodobj.getItemID())});
+            cursor.close();
+            result=true;
+        }
+        db.close();
+        Log.d(TAG, "deleteProductID: Item Deleted");
+        return result;
+    }//delete owe
+
 
     //Owe Table
     public void addOwe(OweMoney owemoney){

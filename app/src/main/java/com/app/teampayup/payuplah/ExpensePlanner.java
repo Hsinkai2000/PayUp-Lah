@@ -49,6 +49,7 @@ public class ExpensePlanner extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         StringBuffer buffer = new StringBuffer();
 
+
         //get current datetime
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
@@ -112,9 +113,7 @@ public class ExpensePlanner extends AppCompatActivity {
             Product product = new Product(itemID, itemPriceBD, itemDate, itemdesc, itemcat, itemName, itemType);
             List.add(product);
         }
-        /*StringBuffer sBuffer = new StringBuffer("id: " + newDateTime + "\nName: " + itemName + "\nPrice: " + itemPrice
-                + "\ndate:  " + String.valueOf(itemDate) + "\ndesc: " +itemdesc+ "\ncat: " + itemcat+ "\ntype: " + itemType );
-        showMessage("Details", sBuffer.toString());*/
+
     }
 
     private void initRecyclerView(){
@@ -181,4 +180,6 @@ public class ExpensePlanner extends AppCompatActivity {
         builder.setMessage(message);
         builder.show();
     }
+
+
 }
