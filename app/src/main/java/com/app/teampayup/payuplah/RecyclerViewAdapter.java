@@ -74,6 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*ArrayList<Product>newProductList = new ArrayList<Product>();
                 Cursor res = db.GetAllProducts();
                 int ID = 0;
                 String Name = null;
@@ -90,9 +91,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     desc = res.getString(4);
                     cat = res.getString(5);
                     Type = res.getString(6);
-                }
-                StringBuffer sBuffer = new StringBuffer("ID: " + ID + "\nName: " + Name + "\nPrice: " + String.valueOf(Price)
-                        + "\nDate:  " + String.valueOf(Date) + "\nDesc: " +desc+ "\nCat: " + cat+ "\nType: " + Type );
+                    Product product = new Product(ID, BigDecimal.valueOf(Price), Date, desc, cat, Name, Type);
+                    newProductList.add(product);
+                }*/
+                StringBuffer sBuffer = new StringBuffer("ID: " + ProductList.get(position).itemID + "\nName: " + ProductList.get(position).productName + "\nPrice: " + ProductList.get(position).price
+                        + "\nDate:  " + ProductList.get(position).date + "\nDesc: " +ProductList.get(position).description+ "\nCat: " + ProductList.get(position).category+ "\nType: " + ProductList.get(position).type );
                 showMessage("Product Details", sBuffer.toString());
 
 

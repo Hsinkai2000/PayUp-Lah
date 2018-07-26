@@ -43,7 +43,7 @@ public class OwnPie extends AppCompatActivity {
         ownPie.setDrawHoleEnabled(true);
         ownPie.setHoleColor(Color.WHITE);
         ownPie.setTransparentCircleRadius(61f);
-        ownPie.setCenterText("Owned");
+        ownPie.setCenterText("Owed");
         ownPie.setCenterTextSize(20);
 
         Cursor res = PieData.getAllOweData();// here can change to own table
@@ -97,14 +97,6 @@ public class OwnPie extends AppCompatActivity {
 
         ownPie.setData(data);
 
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent in = new Intent(OwnPie.this, PieActivity2.class);//Still havent create pie 3 yet so PieActibity 2 will be there for the time being
-
-                startActivity(in);
-            }
-        });
     }
 
 

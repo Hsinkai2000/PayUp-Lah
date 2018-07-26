@@ -45,8 +45,6 @@
             android:name=".LoanActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".PieActivity2"
-            android:label="@string/app_name"/>
         <activity android:name=".ExpensePie"
             android:label="@string/app_name"/>
         <activity android:name=".OwnPie"
